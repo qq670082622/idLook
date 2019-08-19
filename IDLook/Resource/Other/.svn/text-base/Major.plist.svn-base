@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>公共艺术</string>
+	<string>戏剧影视美术设计</string>
+	<string>影视表演</string>
+	<string>影视动画</string>
+	<string>影视摄影与制作</string>
+	<string>舞蹈表演</string>
+	<string>作曲与作曲技术理论</string>
+	<string>戏剧影视导演</string>
+	<string>播音与主持艺术</string>
+	<string>摄影</string>
+	<string>数字媒体艺术</string>
+	<string>包装工程</string>
+	<string>文化产业管理</string>
+	<string>电影学</string>
+	<string>书法学</string>
+	<string>录音艺术</string>
+	<string>中国画</string>
+	<string>舞蹈编导</string>
+	<string>艺术与科技</string>
+	<string>工艺美术</string>
+	<string>艺术教育</string>
+	<string>音乐与舞蹈学类</string>
+	<string>服装与服饰设计</string>
+	<string>设计学类</string>
+	<string>影视</string>
+	<string>戏剧学</string>
+	<string>表演</string>
+	<string>艺术史论</string>
+	<string>绘画</string>
+	<string>舞蹈学</string>
+	<string>动画</string>
+	<string>工业设计</string>
+	<string>广告学</string>
+	<string>视觉传达设计</string>
+	<string>环境设计</string>
+	<string>产品设计</string>
+	<string>雕塑</string>
+	<string>艺术设计学</string>
+	<string>戏剧影视文学</string>
+	<string>广播电视编导</string>
+	<string>美术学</string>
+	<string>音乐表演</string>
+	<string>建筑学</string>
+</array>
+</plist>

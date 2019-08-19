@@ -1,0 +1,80 @@
+//
+//  MirrorMoreCell.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/14.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "MirrorMoreCell.h"
+
+@interface MirrorMoreCell ()
+@property(nonatomic,strong)UIView *bg;
+@property(nonatomic,strong)UILabel *titleLab;
+@property(nonatomic,strong)UIButton *moreBtn;
+@end
+
+@implementation MirrorMoreCell
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        [self bg];
+        [self titleLab];
+        [self moreBtn];
+    }
+    return self;
+}
+
+
+-(UIView*)bg
+{
+    if (!_bg) {
+        _bg=[[UIView alloc]init];
+        _bg.layer.masksToBounds=YES;
+        _bg.layer.cornerRadius=5.0;
+        _bg.backgroundColor=[UIColor colorWithHexString:@"#F1F1F1"];
+        [self.contentView addSubview:_bg];
+        [_bg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView);
+            make.right.mas_equalTo(self.contentView).offset(-6);
+            make.top.mas_equalTo(self.contentView);
+            make.bottom.mas_equalTo(self.contentView).offset(-32);
+        }];
+    }
+    return _bg;
+}
+
+
+-(UILabel*)titleLab
+{
+    if (!_titleLab) {
+        _titleLab=[[UILabel alloc]init];
+        [self.contentView addSubview:_titleLab];
+        _titleLab.font=[UIFont systemFontOfSize:13];
+        _titleLab.textColor=[UIColor colorWithHexString:@"#CCCCCC"];
+        _titleLab.text=@"更多";
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.bg);
+            make.centerX.mas_equalTo(self.bg).offset(-5);
+        }];
+    }
+    return _titleLab;
+}
+
+-(UIButton*)moreBtn
+{
+    if (!_moreBtn) {
+        _moreBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [self.contentView addSubview:_moreBtn];
+        [_moreBtn setBackgroundImage:[UIImage imageNamed:@"u_m_more"] forState:UIControlStateNormal];
+        [_moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.bg);
+            make.left.mas_equalTo(self.titleLab.mas_right).offset(6);
+        }];
+    }
+    return _moreBtn;
+}
+
+
+@end

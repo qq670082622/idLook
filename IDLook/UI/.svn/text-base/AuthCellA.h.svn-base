@@ -1,0 +1,36 @@
+//
+//  AuthCellA.h
+//  IDLook
+//
+//  Created by HYH on 2018/5/14.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSInteger,AuthBasicType)
+{
+    AuthBasicTypeRealName,          //真实姓名
+    AuthBasicTypeNick,              //艺名
+    AuthBasicTypeBirth,             //出生日期
+    AuthBasicTypeSex,               //性别
+    AuthBasicTypeNationality,       //国籍
+    AuthBasicTypeLanguage,          //语言
+    AuthBasicTypeCertificateNo,     //证件号
+    
+    
+    //企业特有
+    AuthBasicTypeCompany,         //公司名称
+    AuthBasicTypeIndustry,        //所属行业
+    AuthBasicTypeOccupation,      //所属职业
+    AuthBasicTypeLicensenumber,   //营业执照号
+    AuthBasicTypeManageName,       //管理员姓名
+    AuthBasicTypeBuyer        //购买方
+};
+
+@interface AuthCellA : UITableViewCell
+@property(nonatomic,copy)void(^textFielChangeBlock)(NSString *text);
+@property(nonatomic,copy)void(^BeginEdit)(void);  //开始编辑
+
+-(void)reloadUIWithDic:(NSDictionary*)dic;
+@end

@@ -1,0 +1,713 @@
+//
+//  ShotStep1.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/19.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "ShotStep1.h"
+#import "PlaceOrderModel.h"
+#import "PlaceAuditCellA.h"
+#import "PlaceOrderCustomCell.h"
+#import "PlaceOrderHeadV.h"
+#import "PlaceOrderFootV.h"
+#import "AddArtistVC.h"
+#import "ShotStep2.h"
+#import "OrderCategoryPopV.h"
+#import "OrderPickerPopV.h"
+#import "OrderSelectPopV.h"
+#import "CitySelectStep1.h"
+#import "BirthSelectV.h"
+#import "ShotStepCellA.h"
+#import "PriceModel.h"
+#import "AddPriceModel.h"
+#import "OrderDetialCellM.h"
+#import "PublicWebVC.h"
+
+@interface ShotStep1 ()<UITableViewDelegate,UITableViewDataSource,TableVTouchDelegate,PlaceAuditCellADelegate>
+@property(nonatomic,strong)TouchTableV *tableV;
+@property(nonatomic,strong)NSMutableArray *dataSource;
+@property(nonatomic,assign)NSInteger advSubType;  //广告子类别
+@property(nonatomic,assign)NSInteger advType;  //广告类别
+@property(nonatomic,strong)NSArray *priceList;
+
+@end
+
+@implementation ShotStep1
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor=Public_Background_Color;
+    
+    [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"拍摄下单"]];
+    
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
+    
+    
+    [self getData];
+    
+    [self tableV];
+}
+
+-(void)onGoback
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)getData
+{
+    self.dataSource =[[NSMutableArray alloc]initWithCapacity:0];
+    
+    [self.dataSource addObject:@[self.info]];
+    [self.dataSource addObject:[PlaceOrderModel getBrandIntroduction]];
+    [self.dataSource addObject: [PlaceOrderModel getShotTypes]];
+//    [self.dataSource addObject: [PlaceOrderModel getShotPrice]];
+    
+    
+    NSDictionary *dicArg = @{@"userid":[UserInfoManager getUserUID],
+                             @"artistid":self.info.UID};
+    [AFWebAPI getUserInfoWithArg:dicArg callBack:^(BOOL success, id object) {
+        if (success) {
+            self.info = [[UserInfoM alloc]initWithDic:[object objectForKey:JSON_data]];
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+        }
+        [self getPriceData];
+    }];
+    
+    //有内容传人
+    if (self.model==nil) {
+        return;
+    }
+    
+    OrderStructM *model1 = self.dataSource[1][0];  //项目名称
+    OrderStructM *model2 = self.dataSource[1][1];  //品牌
+    OrderStructM *model3 = self.dataSource[1][2];  //产品
+    
+    OrderStructM *model4 = self.dataSource[2][1];   //拍摄天数
+    OrderStructM *model5 = self.dataSource[2][2];   //拍摄城市
+    OrderStructM *model6 = self.dataSource[2][3];    //拍摄时间
+
+    model1.content=self.model.projectName;
+    model2.content=self.model.brand;
+    model3.content=self.model.product;
+    
+    model5.content=self.model.shootplace;
+    model6.content=self.model.shoottime;
+    
+    NSArray *dayArr=[PublicManager getOrderCellType:OrderCheckTypeDays];
+    for (int i=0; i<dayArr.count; i++) {
+        NSString *str= dayArr[i];
+        if (str.length==2) {
+            NSString *strss=[str substringToIndex:1];
+            if (self.model.shootdays==[strss integerValue]) {
+                model4.content=str;
+            }
+        }
+        else
+        {
+            if (self.model.shootdays==6) {
+                model4.content=str;
+            }
+        }
+    }
+    
+}
+
+-(void)getPriceData
+{
+    NSMutableArray *existArr = [NSMutableArray new];  //用户存在的报价id
+    for (int i=0; i<self.info.priceList.count; i++) {
+        PriceModel *model = [[PriceModel alloc]initWithDic:self.info.priceList[i]];
+        [existArr addObject:@(model.subType)];
+    }
+    
+    NSArray *arrays=[PublicManager getOrderCellType:OrderCheckTypeShotType];
+    NSMutableArray *result = [NSMutableArray new];  //所以报价的id
+    
+    for (int i=0; i<arrays.count; i++) {
+        NSArray *arr = [arrays[i] objectForKey:@"data"];
+        for (int j=0; j<arr.count; j++) {
+            NSDictionary *dicA = arr[j];
+            [result addObject:@([dicA[@"attrid"] integerValue])];
+        }
+    }
+    for (int i=0; i<existArr.count; i++) {  //除去存在的报价id，得到不可点击的报价id
+        if ([result containsObject:existArr[i]]) {
+            [result removeObject:existArr[i]];
+        }
+    }
+    self.priceList = [NSArray arrayWithArray:result];
+}
+
+-(TouchTableV*)tableV
+{
+    if (!_tableV) {
+        _tableV = [[TouchTableV alloc] initWithFrame:CGRectMake(0,0,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-SafeAreaTabBarHeight_IphoneX) style:UITableViewStyleGrouped];
+        _tableV.delegate = self;
+        _tableV.dataSource = self;
+        _tableV.touchDelegate=self;
+        _tableV.showsVerticalScrollIndicator=NO;
+        _tableV.showsHorizontalScrollIndicator=NO;
+        _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+        _tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:_tableV];
+        _tableV.estimatedRowHeight = 0;
+        _tableV.estimatedSectionHeaderHeight = 0;
+        _tableV.estimatedSectionFooterHeight = 0;
+        _tableV.backgroundColor=[UIColor clearColor];
+    }
+    return _tableV;
+}
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section==self.dataSource.count-1) {
+        return 120;
+    }
+    return .1f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section==0) {
+        return 40.f;
+    }
+    else if (section==3)
+    {
+        return 10.f;
+    }
+    return 50.f;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.dataSource.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section==0) {
+        return 1;
+    }
+    return [self.dataSource[section]count];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0) {
+        return 115;
+    }
+    return 48;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0) {
+        static NSString *identifer = @"PlaceAuditCellA";
+        PlaceAuditCellA *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+        if(!cell)
+        {
+            cell = [[PlaceAuditCellA alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor=[UIColor whiteColor];
+            cell.delegate=self;
+        }
+        [cell reloadUIWithArray:self.dataSource[indexPath.section]];
+        return cell;
+    }
+    else if(indexPath.section==1 || indexPath.section==2)
+    {
+        if (indexPath.section==2 && indexPath.row==7) {
+            static NSString *identifer = @"OrderDetialCellM";
+            OrderDetialCellM *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+            if(!cell)
+            {
+                cell = [[OrderDetialCellM alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.backgroundColor=[UIColor whiteColor];
+            }
+            [cell reloadUI];
+            return cell;
+        }
+        else
+        {
+            static NSString *identifer = @"PlaceOrderCustomCell";
+            PlaceOrderCustomCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+            if(!cell)
+            {
+                cell = [[PlaceOrderCustomCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.backgroundColor=[UIColor whiteColor];
+            }
+            [cell reloadUIWithModel:self.dataSource[indexPath.section][indexPath.row]];
+            WeakSelf(self);
+            cell.BeginEdit = ^{
+            };
+            return cell;
+        }
+    }
+    else if(indexPath.section==3)
+    {
+        static NSString *identifer = @"ShotStepCellA";
+        ShotStepCellA *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+        if(!cell)
+        {
+            cell = [[ShotStepCellA alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor=[UIColor whiteColor];
+        }
+        [cell reloadUIWithModel:self.dataSource[indexPath.section][indexPath.row] withRow:indexPath.row];
+        return cell;
+    }
+    return nil;
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section<3) {
+        static NSString *identifer = @"PlaceOrderHeadV";
+        PlaceOrderHeadV *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifer];
+        if(!headerView)
+        {
+            headerView = [[PlaceOrderHeadV alloc] initWithReuseIdentifier:identifer];
+            [headerView.backgroundView setBackgroundColor:[UIColor clearColor]];
+        }
+        NSString *title=@"";
+        if (section==0) {
+            title = @"拍摄艺人";
+        }
+        else if (section==1)
+        {
+            title = @"任务及要求";
+        }
+        else if (section==2)
+        {
+            title = @"拍摄类别";
+        }
+        [headerView reloadUIWithTitle:title];
+        return headerView;
+    }
+    return nil;
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section==self.dataSource.count-1) {
+        static NSString *identifer = @"PlaceOrderFootV";
+        PlaceOrderFootV *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifer];
+        if(!footerView)
+        {
+            footerView = [[PlaceOrderFootV alloc] initWithReuseIdentifier:identifer];
+            [footerView.backgroundView setBackgroundColor:[UIColor clearColor]];
+            WeakSelf(self);
+            footerView.nextStep = ^{
+                [weakself getDayPrice];
+            };
+        }
+        [footerView reloadUIWithTitle:@"下一步"];
+        return footerView;
+    }
+    return nil;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section==2) {
+
+        OrderStructM *model = self.dataSource[indexPath.section][indexPath.row] ;
+        
+        if (indexPath.row==0) {   //类别
+            OrderCategoryPopV *popV= [[OrderCategoryPopV alloc]init];
+            WeakSelf(self);
+            popV.typeSelectAction = ^(NSString *content,NSInteger advType,NSInteger advSubType) {
+                model.content=content;
+                weakself.advSubType=advSubType;
+                weakself.advType=advType;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            };
+            NSArray  *array = [NSArray array];  //选中的传人
+            if (model.content.length) {
+                array=[NSArray arrayWithObject:@(self.advSubType)];
+            }
+            [popV showWithType:OrderCheckTypeShotType withSelect:array withMultiSel:NO withEnableArray:self.priceList];
+        }
+        else if (indexPath.row==1||indexPath.row==4 ||indexPath.row==5)    //拍摄天数，肖像周期，肖像范围
+        {
+            OrderPickerPopV *pickerV = [[OrderPickerPopV alloc] init];
+            pickerV.title=model.title;
+            pickerV.didSelectBlock = ^(NSString *select,NSInteger type) {
+                model.content=select;
+                model.type=type;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            };
+            
+            OrderCheckType type=0;
+            if (indexPath.row==1)
+            {
+                type=OrderCheckTypeDays;
+            }
+            else if(indexPath.row==4)
+            {
+                type=OrderCheckTypePortraitCycle;
+            }
+            else if (indexPath.row==5)
+            {
+                type=OrderCheckTypePortraitRange;
+            }
+            
+            [pickerV showWithPickerType:type withDesc:model.content];
+        }
+        else if (indexPath.row==2)      //拍摄地点
+        {
+            NSArray  *array = [NSArray array];  //选中的传人
+            if (model.content.length) {
+                array=[model.content componentsSeparatedByString:@"、"];
+            }
+            
+            CitySelectStep1 *step1 = [[CitySelectStep1 alloc]init];
+            step1.artistRegin=self.info.region;
+            step1.selectedArr=array;
+            step1.selectCity = ^(NSString *city) {
+                model.content=city;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            };
+            [self.navigationController pushViewController:step1 animated:YES];
+        }
+        else if (indexPath.row==3) //拍摄时间
+        {
+            BirthSelectV *birthV = [[BirthSelectV alloc] init];
+            birthV.didSelectDate = ^(NSString *dateStr){
+                model.content=dateStr;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            };
+            [birthV showWithString:model.content withType:DateTypeDay];
+        }
+        else if (indexPath.row==6) //预约试镜时间
+        {
+            BirthSelectV *birthV = [[BirthSelectV alloc] init];
+            birthV.didSelectDate = ^(NSString *dateStr){
+                model.content=dateStr;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+                
+//                NSIndexPath *indexP = [NSIndexPath indexPathForRow:0 inSection:3];
+//                OrderStructM *model = self.dataSource[indexP.section][indexP.row];
+//                model.isChoose=YES;
+//                [self.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+                
+            };
+            [birthV showWithString:model.content withType:DateTypeDay];
+        }
+        else if (indexPath.row==7)
+        {
+            //http://www.idlook.com/public/protocol/html/index.html?num_id=   正式
+            //http://www.pre.idlook.com/public/protocol/html/index.html?num_id=  测试
+            PublicWebVC * webVC = [[PublicWebVC alloc] initWithTitle:@"保单详情" url:[NSString stringWithFormat:@"http://www.idlook.com/public/protocol/html/index.html?num_id=%@",self.model.policynum]];
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
+        
+    }
+    else if (indexPath.section==3)
+    {
+//        if (indexPath.row<2) {
+//            OrderStructM *model = self.dataSource[indexPath.section][indexPath.row];
+//            model.isChoose=!model.isChoose;
+//            
+//            [self.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        }
+    }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.view endEditing:YES];
+}
+
+#pragma mark -
+#pragma mark - TableVTouchDelegate
+- (void)tableView:(UITableView *)tableView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+#pragma mark---
+#pragma mark---PlaceAuditCellADelegate
+//添加艺人
+-(void)addArtist
+{
+    AddArtistVC *addVC=[[AddArtistVC alloc]init];
+    addVC.checkedArray = [self.dataSource firstObject];
+    WeakSelf(self);
+    addVC.addArtistWithArray = ^(NSArray *array) {
+        NSMutableArray *dataS = [[NSMutableArray alloc]initWithCapacity:0];
+        for (int i = 0 ; i<array.count; i++) {
+            UserInfoM *info = array[i];
+            [dataS addObject:info];
+        }
+        [weakself.dataSource replaceObjectAtIndex:0 withObject:dataS];
+        [weakself.tableV reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    };
+    [self.navigationController pushViewController:addVC animated:YES];
+}
+
+//删除艺人
+-(void)delectArtistWithIndex:(NSInteger)index
+{
+    NSMutableArray *dataS = [[NSMutableArray alloc]initWithArray:[self.dataSource firstObject]];
+    if (index<dataS.count) {
+        [dataS removeObjectAtIndex:index];
+        [self.dataSource replaceObjectAtIndex:0 withObject:dataS];
+        [self.tableV reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
+#pragma mark---
+#pragma 下一步
+
+//下一步，先获取天数报价
+-(void)getDayPrice
+{
+    for (int i=1; i<self.dataSource.count; i++) {
+        NSArray *array = self.dataSource[i];
+        for (int j=0; j<array.count; j++)
+        {
+            OrderStructM *model =  self.dataSource[i][j];
+            if (model.content.length==0 && j<6)
+            {
+                [SVProgressHUD showErrorWithStatus:@"请将订单信息填写完整！"];
+                return;
+            }
+        }
+    }
+
+    NSDictionary *dicArg =@{@"userid":self.info.UID,
+                            @"adtype":@(self.advType),
+                            @"addetailstype":@(self.advSubType)};
+    [AFWebAPI getQuotaDetailWithArg:dicArg callBack:^(BOOL success, id object) {
+        if (success) {
+            [SVProgressHUD dismiss];
+            NSDictionary *dic =[object objectForKey:JSON_data];
+            NSArray *array = [dic objectForKey:@"day"];
+            
+            OrderStructM *model5 = self.dataSource[2][1];
+            
+            CGFloat dayPrice=0.0 ;
+            for (int i=0; i<array.count; i++) {
+                NSDictionary *dic = array[i];
+                if ([model5.content isEqualToString:dic[@"name"]]) {
+                    dayPrice = [dic[@"price"]floatValue];
+                }
+            }
+            
+            [self nextStepWithDayPrice:dayPrice];
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+        }
+    }];
+}
+
+-(void)nextStepWithDayPrice:(CGFloat)dayPrice
+{
+    OrderStructM *model1 = self.dataSource[1][0];
+    OrderStructM *model2 = self.dataSource[1][1];
+    OrderStructM *model3 = self.dataSource[1][2];
+    OrderStructM *model4 = self.dataSource[2][0];
+    OrderStructM *model5 = self.dataSource[2][1];
+    OrderStructM *model6 = self.dataSource[2][2];
+    OrderStructM *model7 = self.dataSource[2][3];
+    OrderStructM *model8 = self.dataSource[2][4];
+    OrderStructM *model9 = self.dataSource[2][5];
+    OrderStructM *model10 = self.dataSource[2][6];
+    
+//    OrderStructM *model11 = self.dataSource[3][0];   //定装费
+//    OrderStructM *model12 = self.dataSource[3][1];   //跟片员费
+//    OrderStructM *model13 = self.dataSource[3][2];  //保险费
+    
+    NSMutableArray *array = [NSMutableArray new];
+    for (int i=0;i<[self.dataSource[0]count]; i++) {
+        UserInfoM *info =self.dataSource[0][i];
+        [array addObject:info.UID];
+    }
+    
+    NSInteger shotDay=0;
+    if (model5.content.length==2) {
+        NSString *strss=[model5.content substringToIndex:1];
+        shotDay=[strss integerValue];
+    }
+    else
+    {
+        shotDay=6;
+    }
+    
+    CGFloat fixedprice = roundf([self getfixedPriceWithDayPrice:dayPrice]*[self getRatio]);
+    CGFloat fixedprofit= roundf([self getfixedPriceWithDayPrice:dayPrice]*0.94);
+//    CGFloat makeupprice = [model11.isChoose?model11.price:@"0.00" floatValue];
+//    CGFloat manageprice = [model12.isChoose?model12.price:@"0.00" floatValue];
+    
+    CGFloat totalprice = 0.0;
+    CGFloat totalprofit = 0.0;
+    if (fixedprice>0) {
+        totalprice = fixedprice ;
+        totalprofit = fixedprofit  ;
+    }
+    else
+    {
+        totalprice=-1;
+        totalprofit=-1;
+    }
+
+    NSString *tempString = [array componentsJoinedByString:@","];//分隔符逗号
+    NSDictionary *dic = @{@"userid":[UserInfoManager getUserUID],
+                          @"artistid":tempString,
+                          @"entryname":model1.content,
+                          @"brand":model2.content,
+                          @"product":model3.content,
+                          @"shottype":model4.content,
+                          @"shootdays":@(shotDay),
+                          @"shootplace":model6.content,
+                          @"reservationdate":model7.content,
+                          @"shotcycle":model8.content,
+                          @"shotregion":model9.content,
+                          @"makeupdate":[NSString stringWithFormat:@"%@",model10.content],
+                          @"fixedprice":[NSString stringWithFormat:@"%.2f",fixedprice],           //定角费
+                          @"fixedprofit":[NSString stringWithFormat:@"%.2f",fixedprofit],        //资源方收到的定角费
+                          @"makeupprice":@"0.00",                //定装费
+                          @"manageprice":@"0.00",                //管理费
+                          @"insuranceprice":@"0.00",                                      //保险费
+                          @"totalprice":[NSString stringWithFormat:@"%.2f",totalprice],         //总价格
+                          @"totalprofit":[NSString stringWithFormat:@"%.2f",totalprofit]        //资源方收到的总价格
+                          };
+    
+    ShotStep2 *step2=[[ShotStep2 alloc]init];
+    step2.dic=dic;
+    step2.model=self.model;
+    [self.navigationController pushViewController:step2 animated:YES];
+}
+
+//计算定角价格,天数价格
+-(CGFloat)getfixedPriceWithDayPrice:(CGFloat)dayPrice
+{
+
+    CGFloat fixedprice=0;  //定角费
+    
+    CGFloat singleprice=0;
+    for (int i=0; i<self.info.priceList.count; i++) {  //单项报价
+        PriceModel *model = [[PriceModel alloc]initWithDic:self.info.priceList[i]];
+        if (model.subType==self.advSubType) {
+            singleprice= model.price;
+        }
+    }
+    
+    CGFloat cityPrice=0;
+    CGFloat cyclePrice=0;
+    CGFloat regionPrice=0;
+    
+    OrderStructM *model1 = self.dataSource[2][1];  //天数
+    OrderStructM *model2 = self.dataSource[2][2];  //地点
+    OrderStructM *model3 = self.dataSource[2][4];  //周期
+    OrderStructM *model4 = self.dataSource[2][5];  //范围
+
+    NSDictionary *dic = [UserInfoManager getPublicConfig];
+    
+//    NSArray *array1 = dic[@"shootdays"];
+    NSArray *array2 = dic[@"shootplace"];
+    NSArray *array3 = dic[@"shotcycle"];
+    NSArray *array4 = dic[@"shotregion"];
+    
+//    CGFloat ratio =1.00;
+//    for (int i=0; i<array1.count; i++) {
+//        NSDictionary *dicA = array1[i];
+//        AddPriceModel *model = [[AddPriceModel alloc]initWithDic:dicA];
+//        if (i<=model1.type) {
+//            ratio+=model.ratio;
+//        }
+//    }
+//    dayPrice = roundf(singleprice*ratio);
+
+    
+    NSArray  *cityArray = [NSArray array];  //城市
+    if (model2.content.length) {
+        cityArray=[model2.content componentsSeparatedByString:@"、"];
+    }
+    
+    for (int i =0; i<cityArray.count; i++) {
+        NSString *city = cityArray[i];
+        if ([city isEqualToString:self.info.region]) {
+            AddPriceModel *model = [[AddPriceModel alloc]initWithDic:array2[0]];
+            cityPrice += roundf(singleprice*model.ratio);
+        }
+        else if ([city isEqualToString:@"香港"] || [city isEqualToString:@"澳门"] || [city isEqualToString:@"台湾"])
+        {
+            AddPriceModel *model = [[AddPriceModel alloc]initWithDic:array2[2]];
+            cityPrice += roundf(singleprice*model.ratio);
+        }
+        else if ([city isEqualToString:@"海外其他"])
+        {
+            AddPriceModel *model = [[AddPriceModel alloc]initWithDic:array2[3]];
+            cityPrice += roundf(singleprice*model.ratio);
+        }
+        else
+        {
+            AddPriceModel *model = [[AddPriceModel alloc]initWithDic:array2[1]];
+            cityPrice += roundf(singleprice*model.ratio);
+        }
+    }
+    
+    CGFloat ratio1 =0.00;
+    for (int i=0; i<array3.count; i++) {
+        NSDictionary *dicA = array3[i];
+        AddPriceModel *model = [[AddPriceModel alloc]initWithDic:dicA];
+        if (i<=model3.type) {
+            ratio1+=model.ratio;
+        }
+    }
+    cyclePrice = roundf(singleprice*ratio1);
+    
+    for (int i=0; i<array4.count; i++) {
+        if (model4.type==i) {
+            NSDictionary *dicA = array4[i];
+            AddPriceModel *model = [[AddPriceModel alloc]initWithDic:dicA];
+            regionPrice=(roundf)(singleprice*model.ratio);
+        }
+    }
+    
+    fixedprice = dayPrice + cityPrice + cyclePrice + regionPrice;
+    
+    if (model1.type==5  || model3.type==5 || model4.type==3) {
+        fixedprice=-1;
+    }
+    return fixedprice;
+}
+
+//计算定角系数
+-(CGFloat)getRatio
+{
+    CGFloat singleprice=0;
+    for (int i=0; i<self.info.priceList.count; i++) {  //单项报价
+        PriceModel *model = [[PriceModel alloc]initWithDic:self.info.priceList[i]];
+        if (model.subType==self.advSubType) {
+            singleprice= model.price;
+        }
+    }
+    
+    return [PlaceOrderModel getRatioWithSinglePrice:singleprice];
+}
+
+@end

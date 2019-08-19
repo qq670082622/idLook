@@ -1,0 +1,608 @@
+//
+//  OrderDetialVCViewController.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/27.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "OrderDetialVC.h"
+#import "OrderDBottomV.h"
+#import "OrderDetialVCM.h"
+#import "OrderDetialCellA.h"
+#import "OrderDetialCellB.h"
+#import "OrderDetialCellC.h"
+#import "OrderDetialCellD.h"
+#import "OrderDetialCellE.h"
+#import "OrderDetialCellF.h"
+#import "OrderDetialCellG.h"
+#import "OrderDetialCellH.h"
+#import "OrderDetialCellM.h"
+#import "OrderDetialCellN.h"
+#import "OrderProgressVC.h"
+#import "PlayVideoPopV.h"
+#import "AcceptOrderPopV.h"
+#import "RejectOrderPopV.h"
+#import "PayWaysVC.h"
+#import "OfferPopV.h"
+#import "DownLoadmanager.h"
+#import "PriceModel.h"
+#import "PublicWebVC.h"
+#import "AuditionStep1.h"
+#import "PlaceShotOrderVC.h"
+#import "AuthPopV.h"
+#import "IdentityAuthVC.h"
+#import "MyAuthStateVC.h"
+#import "VideoPlayer.h"
+
+@interface OrderDetialVC ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,OrderDBottomDelegate>
+{
+    VideoPlayer *_player;
+}
+@property(nonatomic,strong)UITableView *tableV;
+@property(nonatomic,strong)OrderDBottomV *bottomV;
+@property(nonatomic,strong)OrderDetialVCM *dsm;
+@end
+
+@implementation OrderDetialVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor=Public_Background_Color;
+    [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"订单详情"]];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
+    
+    [self.dsm refreshOrderInfoWithOrderModel:self.model];
+    
+//    [self.bottomV reloadUIWithModel:self.model];
+    
+    [self tableV];
+
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [_player destroyPlayer];
+    _player = nil;
+}
+
+-(void)onGoback
+{
+    if (self.isRefreshData) {
+        self.isRefreshData();
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(OrderDetialVCM*)dsm
+{
+    if (!_dsm) {
+        _dsm=[[OrderDetialVCM alloc]init];
+        WeakSelf(self);
+        _dsm.newDataNeedRefreshed = ^{
+            [weakself.tableV reloadData];
+            [weakself.bottomV reloadUIWithModel:weakself.dsm.model];
+            [weakself.tableV headerEndRefreshing];
+        };
+    }
+    return _dsm;
+}
+
+-(UITableView*)tableV
+{
+    if (!_tableV) {
+        _tableV = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableV.delegate = self;
+        _tableV.dataSource = self;
+        _tableV.showsVerticalScrollIndicator=YES;
+        _tableV.showsHorizontalScrollIndicator=YES;
+        _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+        _tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:_tableV];
+        
+        _tableV.estimatedRowHeight = 0;
+        _tableV.estimatedSectionHeaderHeight = 0;
+        _tableV.estimatedSectionFooterHeight = 0;
+        _tableV.backgroundColor=Public_Background_Color;
+        [_tableV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.view);
+            make.right.mas_equalTo(self.view);
+            make.bottom.mas_equalTo(self.bottomV.mas_top).offset(0);
+            make.top.mas_equalTo(self.view);
+        }];
+        [_tableV addHeaderWithTarget:self action:@selector(pullDownToRefresh:)];
+    }
+    return _tableV;
+}
+
+
+-(OrderDBottomV*)bottomV
+{
+    if (!_bottomV) {
+        _bottomV=[[OrderDBottomV alloc]init];
+        [self.view addSubview:_bottomV];
+        _bottomV.delegate=self;
+        [_bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.view);
+            make.right.mas_equalTo(self.view);
+            make.bottom.mas_equalTo(self.view).offset(0);
+            make.height.mas_equalTo(55+SafeAreaTabBarHeight_IphoneX);
+        }];
+    }
+    return _bottomV;
+}
+
+
+-(void)pullDownToRefresh:(id)sender
+{
+    [self.dsm refreshOrderInfoWithOrderModel:self.model];
+}
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10.f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return .1f;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.dsm.ds.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.dsm.ds[section]count];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[(NSDictionary *)self.dsm.ds[indexPath.section][indexPath.row] objectForKey:kOrderDetialVCMCellHeight] floatValue];
+    
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger sec = indexPath.section;
+    NSInteger row = indexPath.row;
+    
+    NSString *classStr = [(NSDictionary *)self.dsm.ds[sec][row] objectForKey:kOrderDetialVCMCellClass];
+    
+    id obj = [tableView dequeueReusableCellWithIdentifier:classStr];
+    if(!obj)
+    {
+        obj = [[NSClassFromString(classStr) alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:classStr];
+    }
+    
+    if ([classStr isEqualToString:@"OrderDetialCellA"]) {
+        OrderDetialCellA *cell = (OrderDetialCellA *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell reloadUIWithTitle:[self.dsm.model getOrderStateWihtOrderInfo:self.dsm.model withUserType:[UserInfoManager getUserType]]];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellB"])
+    {
+        OrderDetialCellB *cell = (OrderDetialCellB *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell reloadUIWithModel:self.dsm.model];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellC"])
+    {
+        OrderDetialCellC *cell = (OrderDetialCellC *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        NSArray *array = [(NSDictionary *)self.dsm.ds[sec][row] objectForKey:kOrderDetialVCMCellData];
+        [cell reloadUIWithArray:array];
+        WeakSelf(self);
+        cell.LookScreenmirror = ^{
+            [weakself LookScreenmirrors];
+        };
+        
+        cell.downScreenmirrorBlock = ^{
+            SourceType type = [PublicManager getSourceTypeWithUrl:weakself.model.creativeurl];
+            DownLoadmanager *manager = [[DownLoadmanager alloc]init];
+            if (type==SourceTypePhoto) {
+                [manager downloadWithUrl:weakself.dsm.model.creativeurl withType:DownloadTypePhoto];
+            }
+            else
+            {
+                [manager downloadWithUrl:weakself.dsm.model.creativeurl withType:DownloadTypeVideo];
+            }
+        };
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellD"])
+    {
+        OrderDetialCellD *cell = (OrderDetialCellD *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        NSString *price = [(NSDictionary *)self.dsm.ds[sec][row] objectForKey:kOrderDetialVCMCellData];
+        [cell reloadUIWithPrice:price];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellE"])
+    {
+        OrderDetialCellE *cell = (OrderDetialCellE *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        NSArray *array = [(NSDictionary *)self.dsm.ds[sec][row] objectForKey:kOrderDetialVCMCellData];
+        [cell reloadUIWithArray:array];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellF"])
+    {
+        OrderDetialCellF *cell = (OrderDetialCellF *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell reloadUI];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellG"])
+    {
+        OrderDetialCellG *cell = (OrderDetialCellG *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell reloadUIWithReason:self.dsm.model.ordermsg];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellH"])
+    {
+        OrderDetialCellH *cell = (OrderDetialCellH *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell reloadUIWithType:self.model.ordertype];
+        WeakSelf(self);
+        cell.LookAuditionVideo = ^{
+            if (self.model.ordertype==OrderTypeAudition) {
+                [_player destroyPlayer];
+                _player = nil;
+                _player = [[VideoPlayer alloc] init];
+                _player.videoUrl =weakself.dsm.model.ordermsg;
+                _player.onlyFullScreen=YES;
+                
+                _player.completedPlayingBlock = ^(VideoPlayer *player) {
+                    [player destroyPlayer];
+                    _player = nil;
+                };
+            }
+            else
+            {
+                NSArray *array = @[self.dsm.model.ordermsg];
+                LookBigImageVC *lookImage=[[LookBigImageVC alloc]init];
+                lookImage.isShowDown=YES;
+                [lookImage showWithImageArray:array curImgIndex:0 AbsRect:CGRectMake(15, 25,UI_SCREEN_WIDTH-30, (UI_SCREEN_WIDTH-30)*(486.0/690.0))];
+                [self.navigationController pushViewController:lookImage animated:YES];
+            }
+        };
+        
+        cell.downVideo = ^{
+            DownLoadmanager *manager = [[DownLoadmanager alloc]init];
+
+            if (self.model.ordertype==OrderTypeAudition) {
+                 [manager downloadWithUrl:weakself.dsm.model.ordermsg withType:DownloadTypeVideo];
+            }
+            else
+            {
+                [manager downloadWithUrl:weakself.dsm.model.ordermsg withType:DownloadTypeVideo];
+            }
+        };
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellM"])
+    {
+        OrderDetialCellM *cell = (OrderDetialCellM *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell reloadUI];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellN"])
+    {
+        OrderDetialCellN *cell = (OrderDetialCellN *)obj;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell reloadUI];
+    }
+    return obj;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSInteger sec = indexPath.section;
+    NSInteger row = indexPath.row;
+    
+    NSString *classStr = [(NSDictionary *)self.dsm.ds[sec][row] objectForKey:kOrderDetialVCMCellClass];
+    if ([classStr isEqualToString:@"OrderDetialCellA"])
+    {
+//        OrderProgressVC *progVC=[[OrderProgressVC alloc]init];
+//        progVC.model=self.dsm.model;
+//        [self.navigationController pushViewController:progVC animated:YES];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellM"])
+    {
+        //http://www.idlook.com/public/protocol/html/index.html?num_id=   正式
+        //http://www.pre.idlook.com/public/protocol/html/index.html?num_id=  测试
+        PublicWebVC * webVC = [[PublicWebVC alloc] initWithTitle:@"保单详情" url:[NSString stringWithFormat:@"http://www.idlook.com/public/protocol/html/index.html?num_id=%@",self.dsm.model.policynum]];
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
+    else if ([classStr isEqualToString:@"OrderDetialCellN"])
+    {
+        NSString *creatUrl =[(NSDictionary *)self.dsm.ds[sec][row] objectForKey:kOrderDetialVCMCellData];
+        NSArray *array = [creatUrl componentsSeparatedByString:@"|"];
+        LookBigImageVC *lookImage=[[LookBigImageVC alloc]init];
+        lookImage.isShowDown=YES;
+        [lookImage showWithImageArray:array curImgIndex:0 AbsRect:CGRectMake(15, 25,UI_SCREEN_WIDTH-30, (UI_SCREEN_WIDTH-30)*(486.0/690.0))];
+        [self.navigationController pushViewController:lookImage animated:YES];
+    }
+}
+
+//查看画面分镜
+-(void)LookScreenmirrors
+{
+    
+    SourceType type = [PublicManager getSourceTypeWithUrl:self.model.creativeurl];
+    
+    if (type==SourceTypePhoto) {
+        NSArray *array = @[self.dsm.model.creativeurl];
+        LookBigImageVC *lookImage=[[LookBigImageVC alloc]init];
+        lookImage.isShowDown=YES;
+        [lookImage showWithImageArray:array curImgIndex:0 AbsRect:CGRectMake(15, 25,UI_SCREEN_WIDTH-30, (UI_SCREEN_WIDTH-30)*(486.0/690.0))];
+        [self.navigationController pushViewController:lookImage animated:YES];
+    }
+    else if (type==SourceTypeVideo)
+    {
+//        PlayVideoPopV *playVC=[[PlayVideoPopV alloc]init];
+//        playVC.videoUrl=self.dsm.model.creativeurl;
+//        [playVC show];
+        
+
+    }
+}
+
+#pragma mark--
+#pragma mark-----OrderDBottomDelegate
+-(void)rejectOrder  //拒单，拒绝报价
+{
+    if ([self.dsm.model.orderstate isEqualToString:@"paied"] || [self.dsm.model.orderstate isEqualToString:@"paiedone"]) {
+        RejectOrderPopV *popV=[[RejectOrderPopV alloc]init];
+        [popV show];
+        WeakSelf(self);
+        popV.rejectWithReason = ^(NSString *reason) {
+            [weakself rejectWithReason:reason];
+        };
+    }
+    else if ([self.dsm.model.orderstate isEqualToString:@"finished"])  //重新下试镜订单
+    {
+        UserInfoM *info = [[UserInfoM alloc]init];
+        info.UID=self.model.actorid;
+        info.nick=self.model.actorNick;
+        info.head=self.model.actorHead;
+        AuditionStep1 *auditVC = [[AuditionStep1 alloc]init];
+        auditVC.info=info;
+        auditVC.model=self.model;
+        [self.navigationController pushViewController:auditVC animated:YES];
+    }
+}
+
+-(void)rejectWithReason:(NSString*)reason
+{
+     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    
+    NSDictionary *dicArg=@{@"orderid":self.model.orderId,
+                           @"msg":reason,
+                           @"userid":[UserInfoManager getUserUID]};
+    
+    [AFWebAPI getRejectOrder:dicArg callBack:^(BOOL success, id object) {
+        if (success) {
+            [SVProgressHUD showSuccessWithStatus:@"订单已拒绝"];
+            [self.dsm refreshOrderInfoWithOrderModel:self.dsm.model];
+//            [self.bottomV reloadUIWithModel:self.dsm.model];
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+        }
+    }];
+}
+
+-(void)acceptOrderWithType:(OrderBottomActionType)type
+{
+    if (type==OrderBottomActionTypeAccept) {     //接单
+        [self acceltOrderAction];
+    }
+    else if (type==OrderBottomActionTypePayment)   //付款
+    {
+        PayWaysVC *payVC=[[PayWaysVC alloc]init];
+        payVC.orderModel=self.dsm.model;
+        WeakSelf(self);
+        payVC.refreshData = ^{
+            [weakself.dsm refreshOrderInfoWithOrderModel:weakself.dsm.model];
+//            [weakself.bottomV reloadUIWithModel:weakself.dsm.model];
+        };
+        [self.navigationController pushViewController:payVC animated:YES];
+    }
+    else if (type==OrderBottomActionTypeUploadVide)    //上传视频
+    {
+        [self uploadVideoWithType:0];
+    }
+    else if (type==OrderBottomActionTypeReorder)     //重新下单
+    {
+        
+    }
+    else if (type==OrderBottomActionTypeFinish)    //完成订单
+    {
+         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+        
+        NSDictionary *dicArg=@{@"orderid":self.model.orderId,
+                               @"userid":[UserInfoManager getUserUID]};
+        [AFWebAPI finishOrder:dicArg callBack:^(BOOL success, id object) {
+            if (success) {
+                [SVProgressHUD showSuccessWithStatus:@"订单已完成"];
+                [self.dsm refreshOrderInfoWithOrderModel:self.dsm.model];
+//                [self.bottomV reloadUIWithModel:self.dsm.model];
+            }
+            else
+            {
+                AF_SHOW_RESULT_ERROR
+            }
+        }];
+    }
+    else if (type==OrderBottomActionTypePayOne)  //付首款
+    {
+        PayWaysVC *payVC=[[PayWaysVC alloc]init];
+        payVC.orderModel=self.dsm.model;
+        WeakSelf(self);
+        payVC.refreshData = ^{
+            [weakself.dsm refreshOrderInfoWithOrderModel:weakself.dsm.model];
+//            [weakself.bottomV reloadUIWithModel:weakself.dsm.model];
+        };
+        [self.navigationController pushViewController:payVC animated:YES];
+    }
+    
+    else if (type==OrderBottomActionTypeUploadCerti)  //上传授权书
+    {
+        [self uploadVideoWithType:1];
+
+    }
+    else if (type==OrderBottomActionTypePayTwo)  //付尾款
+    {
+        PayWaysVC *payVC=[[PayWaysVC alloc]init];
+        payVC.orderModel=self.dsm.model;
+        WeakSelf(self);
+        payVC.refreshData = ^{
+            [weakself.dsm refreshOrderInfoWithOrderModel:weakself.dsm.model];
+//            [weakself.bottomV reloadUIWithModel:weakself.dsm.model];
+        };
+        [self.navigationController pushViewController:payVC animated:YES];
+    }
+    else if (type==OrderBottomActionTypeReAudition)  //下拍摄订单
+    {
+        UserInfoM *info = [[UserInfoM alloc]init];
+        info.UID=self.model.actorid;
+        info.nick=self.model.actorNick;
+        info.head=self.model.actorHead;
+        PlaceShotOrderVC *shotVC=[[PlaceShotOrderVC alloc]init];
+        shotVC.info=info;
+        shotVC.model=self.model;
+        [self.navigationController pushViewController:shotVC animated:YES];
+    }
+    
+}
+
+//上传视频/图片
+- (void)uploadVideoWithType:(NSInteger)type
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+    picker.allowsEditing = NO;
+    NSArray *availableMedia = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];//Camera所支持的Media格式都有哪些,共有两个分别是@"public.image",@"public.movie"
+    
+    //手机试镜视频
+    if (type==0) {
+        picker.mediaTypes = [NSArray arrayWithObject:availableMedia[1]]; //设置媒体类型为public.image
+    }
+    else   //拍摄上传授权书
+    {
+        picker.mediaTypes = [NSArray arrayWithObject:availableMedia[0]];//设置媒体类型为public.movie
+    }
+    
+    [self presentViewController:picker animated:YES completion:^{}];
+}
+
+#pragma mark -
+#pragma mark - UIImagePickerControllerDelegate
+-(void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([type isEqualToString:@"public.movie"]) {
+        NSURL *url = [info objectForKey:UIImagePickerControllerMediaURL];
+        NSData *file = [NSData dataWithContentsOfURL:url];
+        [SVProgressHUD showWithStatus:@"正在上传视频" maskType:SVProgressHUDMaskTypeClear];
+        NSDictionary *dicArg=@{@"orderid":self.dsm.model.orderId,
+                               @"userid":self.dsm.model.actorid};
+        [AFWebAPI uploadVideoAuditionOrder:dicArg data:file callBack:^(BOOL success, id object) {
+            if (success) {
+                [SVProgressHUD showSuccessWithStatus:@"视频已上传！"];
+                [self.dsm refreshOrderInfoWithOrderModel:self.dsm.model];
+//                [self.bottomV reloadUIWithModel:self.dsm.model];
+            }
+            else
+            {
+                AF_SHOW_RESULT_ERROR
+            }
+        }];
+    }
+    else if ([type isEqualToString:@"public.image"]) {
+        UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        
+        [SVProgressHUD showWithStatus:@"正在上传授权书" maskType:SVProgressHUDMaskTypeClear];
+        NSDictionary *dicArg=@{@"orderid":self.dsm.model.orderId,
+                               @"userid":self.dsm.model.actorid};
+        [AFWebAPI uploadShotOrderCertificationWithArg:dicArg data:UIImageJPEGRepresentation(image, 1.0) callBack:^(BOOL success, id object) {
+            if (success) {
+                [SVProgressHUD showSuccessWithStatus:@"授权书已上传"];
+                [self.dsm refreshOrderInfoWithOrderModel:self.dsm.model];
+//                [self.bottomV reloadUIWithModel:self.dsm.model];
+            }
+            else
+            {
+                AF_SHOW_RESULT_ERROR
+            }
+        }];
+    }
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+}
+
+//接单
+-(void)acceltOrderAction
+{
+    if ([UserInfoManager getUserAuthState]!=1) {
+        AuthPopV *popV = [[AuthPopV alloc]init];
+        [popV show];
+        popV.goAuthBlock = ^{
+            if ([UserInfoManager getUserAuthState]==0) {
+                IdentityAuthVC *authVC=[[IdentityAuthVC alloc]init];
+                [self.navigationController pushViewController:authVC animated:YES];
+            }
+            else if ([UserInfoManager getUserAuthState]==2 || [UserInfoManager getUserAuthState]==3)
+            {
+                MyAuthStateVC *stateVC=[[MyAuthStateVC alloc]init];
+                stateVC.authState=[UserInfoManager getUserAuthState];
+                [self.navigationController pushViewController:stateVC animated:YES];
+            }
+        };
+        return;
+    }
+    
+    UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"接单" message:@"确定要接单吗?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"接单"
+                                                      style:UIAlertActionStyleDestructive
+                                                    handler:^(UIAlertAction * _Nonnull action) {
+                                                         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+                                                        
+                                                        NSDictionary *dicArg=@{@"orderid":self.model.orderId,
+                                                                               @"userid":[UserInfoManager getUserUID]};
+                                                        
+                                                        [AFWebAPI getAcceptOrder:dicArg callBack:^(BOOL success, id object) {
+                                                            if (success) {
+                                                                [SVProgressHUD dismiss];
+                                                                [self.dsm refreshOrderInfoWithOrderModel:self.dsm.model];
+                                                            }
+                                                            else
+                                                            {
+                                                                AF_SHOW_RESULT_ERROR
+                                                            }
+                                                        }];
+                                                    }];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:^(UIAlertAction * _Nonnull action) {
+                                                    }];
+    [alert addAction:action0];
+    [alert addAction:action1];
+    [self presentViewController:alert animated:YES completion:^{}];
+}
+
+@end

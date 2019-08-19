@@ -1,0 +1,19 @@
+//
+//  HomeHeadView.h
+//  IDLook
+//
+//  Created by HYH on 2018/5/4.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@protocol HomeHeadViewDelegate <NSObject>
+-(void)clickWithType:(NSInteger)type;
+@end
+
+@interface HomeHeadView : UITableViewHeaderFooterView
+@property(nonatomic,weak)id<HomeHeadViewDelegate>delegate;
+-(void)reloadUI;
+
+@end

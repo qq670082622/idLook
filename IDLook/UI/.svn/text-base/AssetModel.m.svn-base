@@ -1,0 +1,128 @@
+//
+//  AssetModel.m
+//  IDLook
+//
+//  Created by HYH on 2018/7/24.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "AssetModel.h"
+
+@implementation AssetModel
+
+-(id)initWithDic:(NSDictionary *)dic
+{
+    if (self=[super init]) {
+        self.userid    = [NSString stringWithFormat:@"%ld",(long)[(NSNumber *)safeObjectForKey(dic, @"id") integerValue]];
+        
+        self.orderid = (NSString *)safeObjectForKey(dic, @"orderid");
+        
+        self.tradingDate = (NSString *)safeObjectForKey(dic, @"date");
+        self.sortkey =[(NSNumber *)safeObjectForKey(dic, @"sortkey") integerValue];
+        self.tradingtype =[(NSNumber *)safeObjectForKey(dic, @"ordertype") integerValue];
+        self.money = (NSString *)safeObjectForKey(dic, @"money");
+
+        self.month = [PublicManager getMonthWithDate:[self dateFromString2:self.tradingDate]];
+        
+        self.tradingName = [self getOrderNameWithType:self.tradingtype withPrice:[self.money floatValue]];
+    }
+    return self;
+}
+
+-(id)initDrawDic:(NSDictionary *)dic
+{
+    if (self=[super init]) {
+        self.userid    = [NSString stringWithFormat:@"%ld",(long)[(NSNumber *)safeObjectForKey(dic, @"id") integerValue]];
+        self.orderid = (NSString *)safeObjectForKey(dic, @"drawid");
+        NSString *price = (NSString *)safeObjectForKey(dic, @"drawprice");
+        self.money = [NSString stringWithFormat:@"-%@",price];
+        self.tradingDate = (NSString *)safeObjectForKey(dic, @"date");
+        self.tradingtype =200;
+        
+        self.month = [PublicManager getMonthWithDate:[self dateFromString2:self.tradingDate]];
+        self.tradingName = [self getOrderNameWithType:self.tradingtype withPrice:[self.money floatValue]];
+    }
+    return self;
+}
+
+
+- (NSDate *)dateFromString2:(NSString *)string
+{
+    NSDateFormatter *format=[[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *date=[format dateFromString:string];
+    return date;
+}
+
+-(NSString*)getOrderNameWithType:(NSInteger)type withPrice:(CGFloat)price
+{
+    NSString *str;
+    if (type==1) {
+        if (price>0) {
+            str=@"微出镜收入";
+        }
+        else
+        {
+            str=@"微出镜支出";
+        }
+    }
+    else if (type==2)
+    {
+        if (price>0) {
+            str=@"试葩间收入";
+        }
+        else
+        {
+            str=@"试葩间支出";
+        }
+    }
+    else if (type==3)
+    {
+        if (price>0) {
+            str=@"试镜收入";
+        }
+        else
+        {
+            str=@"试镜支出";
+        }
+    }
+    else if (type==4)
+    {
+        if (price>0) {
+            str=@"拍摄收入";
+        }
+        else
+        {
+            str=@"拍摄支出";
+        }
+    }
+    else if (type==5)
+    {
+        if (price>0) {
+            str=@"肖像续约收入";
+        }
+        else
+        {
+            str=@"肖像续约支出";
+        }
+    }
+    else if (type==100)
+    {
+        str=@"余额提现";
+    }
+    else if (type==6)
+    {
+        
+    }
+    else if (type==200)
+    {
+        str=@"余额提现";
+    }
+    else
+    {
+        
+    }
+    return str;
+}
+
+@end

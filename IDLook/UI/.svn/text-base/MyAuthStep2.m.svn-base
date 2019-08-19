@@ -1,0 +1,194 @@
+//
+//  MyAuthStep2.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/4.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "MyAuthStep2.h"
+#import "AuthHeadV.h"
+#import "AuthCellA.h"
+#import "AuthCellB.h"
+#import "AuthFootV.h"
+#import "MyAuthStep3.h"
+
+@interface MyAuthStep2 ()<UITableViewDelegate,UITableViewDataSource,TableVTouchDelegate>
+@property(nonatomic,strong)NSMutableArray *dataS;
+@property (nonatomic,strong)TouchTableV *tableV;
+@property (nonatomic,strong)AuthHeadV *headV;
+@end
+
+@implementation MyAuthStep2
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor=Public_Background_Color;
+    [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"我的认证"]];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
+    self.dataS=[[NSMutableArray alloc]initWithArray:@[@{@"title":@"开户姓名",@"content":@"",@"placeholder":@"请填写银行卡开户姓名",@"isEdit":@(YES)},
+                                                      @{@"title":@"开户银行",@"content":@"",@"placeholder":@"请填写开户银行名称",@"isEdit":@(YES)},
+                                                      @{@"title":@"银行账号",@"content":@"",@"placeholder":@"请填写开户银行账号/银行卡账号",@"isEdit":@(YES)},
+                                                      @{@"title":@"支付宝账号",@"content":@"",@"placeholder":@"请填写本人支付宝账号",@"isEdit":@(YES)}]];
+    
+    [self headV];
+    [self tableV];
+    [self footV];
+}
+
+-(void)onGoback
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(AuthHeadV*)headV
+{
+    if (!_headV) {
+        _headV=[[AuthHeadV alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, 48)];
+        [_headV reloadWithStep:1];
+        [self.view addSubview:_headV];
+    }
+    return _headV;
+}
+
+- (TouchTableV *)tableV
+{
+    if(!_tableV)
+    {
+        _tableV = [[TouchTableV alloc] initWithFrame:CGRectMake(0,48,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-48) style:UITableViewStyleGrouped];
+        _tableV.delegate = self;
+        _tableV.dataSource = self;
+        _tableV.bounces=NO;
+        _tableV.touchDelegate=self;
+        _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+        _tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:_tableV];
+        _tableV.estimatedRowHeight = 0;
+        _tableV.estimatedSectionHeaderHeight = 0;
+        _tableV.estimatedSectionFooterHeight = 0;
+        _tableV.backgroundColor=[UIColor clearColor];
+    }
+    return _tableV;
+}
+
+-(void)footV
+{
+    AuthFootV *footV = [[AuthFootV alloc] initWithFrame:CGRectMake(0,UI_SCREEN_HEIGHT-SafeAreaTopHeight-48-100, UI_SCREEN_WIDTH, 100)];
+    [footV reloadUIWithType:1];
+    [self.tableV addSubview:footV];
+    WeakSelf(self);
+    footV.clickNextStep = ^{
+        [weakself didClickNextWithStep:0];
+    };
+    footV.clickLastStep = ^{
+        [weakself didClickLastWithStep:0];
+    };
+}
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+
+    return .1f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10.f;
+
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.dataS.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 48;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifer = @"AuthCellA";
+    AuthCellA *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    if(!cell)
+    {
+        cell = [[AuthCellA alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor=[UIColor whiteColor];
+        
+    }
+    [cell reloadUIWithDic:self.dataS[indexPath.row]];
+
+    WeakSelf(self);
+    cell.BeginEdit = ^{
+    };
+    cell.textFielChangeBlock = ^(NSString *text) {
+        NSDictionary *dic = self.dataS[indexPath.row];
+        NSDictionary *newDic = @{@"title":dic[@"title"],@"content":text,@"placeholder":dic[@"placeholder"],@"isEdit":dic[@"isEdit"]};
+        [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:newDic];
+    };
+    return cell;
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+
+#pragma mark----Action
+//上一步
+-(void)didClickLastWithStep:(NSInteger)step
+{
+    [self.navigationController popViewControllerAnimated:NO];
+}
+
+//下一步
+-(void)didClickNextWithStep:(NSInteger)step
+{
+    for (int i =0; i<self.dataS.count; i++) {
+        NSDictionary *dic = self.dataS[i];
+        if ([dic[@"content"]length]<=0) {
+            [SVProgressHUD showErrorWithStatus:@"请将信息填写完整～"];
+            return;
+        }
+    }
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithDictionary:self.infoDic];
+    
+    [dic setObject:self.dataS[0][@"content"] forKey:@"accountname"];
+    [dic setObject:self.dataS[1][@"content"] forKey:@"bankaccount"];
+    [dic setObject:self.dataS[2][@"content"] forKey:@"bankcardid"];
+    [dic setObject:self.dataS[3][@"content"] forKey:@"zhifubaoid"];
+
+    
+    MyAuthStep3 *step3 = [[MyAuthStep3 alloc]init];
+    step3.infoDic=dic;
+    [self.navigationController pushViewController:step3 animated:NO];
+}
+
+#pragma mark -
+#pragma mark - TableVTouchDelegate
+- (void)tableView:(UITableView *)tableView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+
+
+@end

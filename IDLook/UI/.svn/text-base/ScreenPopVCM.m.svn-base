@@ -1,0 +1,106 @@
+//
+//  ScreenPopVCM.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/12.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "ScreenPopVCM.h"
+
+NSString * const kScreenPopVCMCellHeight = @"kScreenPopVCMCellHeight";
+NSString * const kScreenPopVCMCellType =   @"kScreenPopVCMCellType";
+NSString * const kScreenPopVCMCellData =   @"kScreenPopVCMCellData";
+NSString * const kScreenPopVCMCellTitle =   @"kScreenPopVCMCellTitle";
+
+@interface ScreenPopVCM ()
+
+@end
+
+@implementation ScreenPopVCM
+
+-(id)init
+{
+    if (self=[super init]) {
+        
+    }
+    return self;
+}
+
+- (NSMutableArray *)ds
+{
+    if(!_ds)
+    {
+        _ds = [NSMutableArray new];
+    }
+    return _ds;
+}
+
+
+-(void)refreshData
+{
+    [self.ds removeAllObjects];
+    
+    NSDictionary *dic=[UserInfoManager getPublicConfig];
+
+    
+    if (self.type>0)   //选中除全部其他的时，可以选择年龄段
+    {
+        
+        NSArray *array =dic [@"categoryType"];
+        NSDictionary *dicA ;
+        for (int i=0; i<array.count; i++) {
+            NSDictionary *dicB = array[i];
+            if (self.type==[dicB[@"cateid"]integerValue]) {
+                dicA = dicB[@"attribute"];
+            }
+        }
+        NSDictionary *dicC= dicA[@"ageGroupType"];
+        NSArray *array2 = dicC[@"ageRange"];
+        
+        CGFloat height2 = 50  + ((array2.count-1)/3 + 1)*42;
+
+        [self.ds addObject:@{kScreenPopVCMCellData:array2,
+                          kScreenPopVCMCellHeight:[NSNumber numberWithFloat:height2],
+                          kScreenPopVCMCellType:[NSNumber numberWithInteger:ScreenCellTypeAge],
+                          kScreenPopVCMCellTitle:@"年龄（可多选）"}];
+
+    }
+    
+    NSArray *priceArr =dic [@"priceGroup"];
+
+    CGFloat priceH = 50  + ((priceArr.count-1)/2 + 1)*42;
+
+    [self.ds addObject:@{kScreenPopVCMCellData:priceArr,
+                      kScreenPopVCMCellHeight:[NSNumber numberWithFloat:priceH],
+                      kScreenPopVCMCellType:[NSNumber numberWithInteger:ScreenCellTypePrice],
+                      kScreenPopVCMCellTitle:@"价格（可多选）"}];
+    
+    
+#if 0
+    NSArray *cityArr = @[@"北京",@"上海",@"天津",@"重庆",@"苏州",@"杭州",@"南京"];
+    
+    NSMutableArray *cityList = [NSMutableArray new];
+    for (int i =0; i<cityArr.count; i++) {
+        NSDictionary *dic = @{@"attrid":@(i+1),@"attrname":cityArr[i]};
+        [cityList addObject:dic];
+    }
+    
+    CGFloat cityH = 50  + ((cityList.count-1)/3 + 1)*42;
+
+    [self.ds addObject:@{kScreenPopVCMCellData:cityList,
+                      kScreenPopVCMCellHeight:[NSNumber numberWithFloat:cityH],
+                      kScreenPopVCMCellType:[NSNumber numberWithInteger:ScreenCellTypeCity],
+                      kScreenPopVCMCellTitle:@"城市（单选）"}];
+#endif
+    
+    NSArray *typeList=[PublicManager getOrderCellType:OrderCheckTypeShotType];
+    NSArray *videoList= [NSArray arrayWithObjects:typeList[0],typeList[1], nil];
+    [self.ds addObject:@{kScreenPopVCMCellData:videoList,
+                      kScreenPopVCMCellHeight:[NSNumber numberWithFloat:250],
+                      kScreenPopVCMCellType:[NSNumber numberWithInteger:ScreenCellTypeAdv],
+                      kScreenPopVCMCellTitle:@"广告类型（可多选）"}];
+    
+}
+
+@end

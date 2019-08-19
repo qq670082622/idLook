@@ -1,0 +1,67 @@
+//
+//  PlaceOrderModel.h
+//  IDLook
+//
+//  Created by HYH on 2018/6/20.
+//  Copyright © 2018年 HYH. All rights reserved.
+//  试镜方式
+
+#import <Foundation/Foundation.h>
+
+@class OrderStructM;
+
+@interface PlaceOrderModel : NSObject
+
+//试镜方式
++(NSArray*)getAuditionWay;
+
+//试镜任务要求
++(NSArray*)getAuditionRequirement;
+
+//品牌方介绍
++(NSArray*)getBrandIntroduction;
+
+//品牌方介绍2
++(NSArray*)getBrandIntroduction2;
+
+//定妆方式
++(NSArray*)getShotWay;
+
+//拍摄类别
++(NSArray*)getShotTypes;
+
+//拍摄定装费用
++(NSArray*)getShotPrice;
+
+//微出镜任务要求
++(NSArray*)getMirrorRequirement;
+
+//试葩间任务要求
++(NSArray*)getTrialRequirement;
+
+//续约内容
++(NSArray*)getRenewalContent;
+
+//获取报价系数
++(CGFloat)getRatioWithSinglePrice:(CGFloat)price;
+
+@end
+
+@interface OrderStructM : NSObject
+
+@property (nonatomic,copy) NSString *title;  //标题
+@property (nonatomic,copy) NSString *desc;  //描述
+@property (nonatomic,copy) NSString *price;  //价格
+
+@property (nonatomic,assign) BOOL isChoose;  //是否选中
+@property (nonatomic,assign) BOOL isEdit;  //是否选中
+
+@property (nonatomic,copy) NSString *content;  //内容
+
+@property(nonatomic,copy)NSString *placeholder;
+
+@property(nonatomic,assign)NSInteger type;
+
+-(id)initWithDic:(NSDictionary*)dic;
+
+@end

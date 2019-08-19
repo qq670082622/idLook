@@ -1,0 +1,121 @@
+//
+//  ForwardCellA.m
+//  IDLook
+//
+//  Created by Mr Hu on 2018/9/18.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "ForwardCellA.h"
+
+@interface ForwardCellA ()
+@property(nonatomic,strong)UILabel *cashLab;
+@property(nonatomic,strong)UILabel *rmbLab;
+@property(nonatomic,strong)UIButton *allforwardBtn;
+
+@property(nonatomic,assign)CGFloat total;
+
+@end
+
+@implementation ForwardCellA
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        
+        UIView *lineV= [[UIView alloc]init];
+        [self.contentView addSubview:lineV];
+        lineV.backgroundColor=Public_LineGray_Color;
+        [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView);
+            make.right.mas_equalTo(self.contentView);
+            make.bottom.mas_equalTo(self.contentView);
+            make.height.mas_equalTo(0.5);
+        }];
+    }
+    return self;
+}
+
+-(UILabel*)cashLab
+{
+    if (!_cashLab) {
+        _cashLab = [[UILabel alloc]init];
+        _cashLab.textColor=Public_Text_Color;
+        _cashLab.font=[UIFont systemFontOfSize:15.0];
+        [self.contentView addSubview:_cashLab];
+        [_cashLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.contentView).offset(20);
+        }];
+        _cashLab.text=@"提现金额";
+    }
+    return _cashLab;
+}
+
+-(UILabel*)rmbLab
+{
+    if (!_rmbLab) {
+        _rmbLab = [[UILabel alloc]init];
+        _rmbLab.textColor=Public_Text_Color;
+        _rmbLab.font=[UIFont systemFontOfSize:30];
+        [self.contentView addSubview:_rmbLab];
+        [_rmbLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.bottom.mas_equalTo(self.contentView).offset(-10);
+        }];
+        _rmbLab.text=@"¥";
+    }
+    return _rmbLab;
+}
+
+-(UIButton*)allforwardBtn
+{
+    if (!_allforwardBtn) {
+        _allforwardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.contentView addSubview:_allforwardBtn];
+        [_allforwardBtn setTitle:@"全部提现" forState:UIControlStateNormal];
+        [_allforwardBtn setTitleColor:Public_Red_Color forState:UIControlStateNormal];
+        _allforwardBtn.titleLabel.font=[UIFont systemFontOfSize:15.0];
+        [_allforwardBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.rmbLab);
+            make.right.mas_equalTo(self.contentView).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(65, 20));
+        }];
+        [_allforwardBtn addTarget:self action:@selector(allForwardAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _allforwardBtn;
+}
+
+-(CustomTextField*)textField
+{
+    if (!_textField) {
+        _textField=[[CustomTextField alloc]init];
+        _textField.isNumber=YES;
+        _textField.font=[UIFont systemFontOfSize:15.0];
+        _textField.keyboardType=UIKeyboardTypeNumberPad;
+        [self.contentView addSubview:_textField];
+        [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(44);
+            make.centerY.mas_equalTo(self.rmbLab);
+            make.right.mas_equalTo(self.allforwardBtn.mas_left).offset(-10);
+            make.height.mas_equalTo(50);
+        }];
+    }
+    return _textField;
+}
+
+-(void)reloadUIWithTotal:(CGFloat)total
+{
+    self.total=total;
+    [self cashLab];
+    [self rmbLab];
+    [self allforwardBtn];
+    self.textField.placeholder=[NSString stringWithFormat:@"可提现金额%.2f元",total];
+}
+
+-(void)allForwardAction
+{
+    self.textField.text = [NSString stringWithFormat:@"%.2f",self.total];
+}
+
+@end

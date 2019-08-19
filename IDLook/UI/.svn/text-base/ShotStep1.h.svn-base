@@ -1,0 +1,16 @@
+//
+//  ShotStep1.h
+//  IDLook
+//
+//  Created by HYH on 2018/6/19.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "OrderModel.h"
+
+@interface ShotStep1 : UIViewController
+@property(nonatomic,strong)UserInfoM *info;
+@property(nonatomic,strong)OrderModel *model;
+
+@end

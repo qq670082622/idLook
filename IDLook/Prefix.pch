@@ -1,0 +1,177 @@
+//
+//  Prefix.pch
+//  IDLook
+//
+//  Created by HYH on 2018/3/7.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#ifndef Prefix_pch
+#define Prefix_pch
+
+
+#import "AppDelegate.h"
+#import "AppDelegate+UI.h"
+
+#import "CustomNavVC.h"
+#import "CustomTableV.h"
+#import "CustomTextField.h"
+#import "TouchTableV.h"
+#import "CustomCollectV.h"
+#import "UIColor+ColorChange.h"
+#import "PublicManager.h"
+#import "DownLoadmanager.h"
+#import "Public.h"
+#import "AFWebAPI.h"
+#import "AFWebAPI_JAVA.h"
+#import "AFNetworking.h"
+#import "MJRefresh.h"
+#import "MLLabel.h"
+#import "UIImageView+WebCache.h"
+#import "Masonry.h"
+#import "SVProgressHUD.h"
+#import "NetworkNoti.h"
+#import "UserInfoManager.h"
+#import "DeviceSettingManager.h"
+#import "UserInfoM.h"
+#import "UserDetialInfoM.h"
+#import "UserInfoVC.h"
+#import "WorksModel.h"
+#import "LookBigImageVC.h"
+#import "LoginAndRegistVC.h"
+
+#import "UIImage+cate.h"
+#import "UIView+Extension.h"
+#import "TABAnimated.h"
+#import "YYModel.h"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* Prefix_pch */
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ Common Debug
+ */
+//#define DEBUGLOG
+#define WeakSelf(type)  __weak __typeof(type) weak##type = type
+#ifdef DEBUGLOG
+#define DNSLog(...) NSLog(__VA_ARGS__)
+#else
+#define DNSLog(...) {}
+//#define NSLog(...) {}
+#endif
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ UI_SIZE
+ */
+
+#define UI_NAVIGATION_BAR_HEIGHT        44
+#define UI_TAB_BAR_HEIGHT               49
+#define UI_STATUS_BAR_HEIGHT            (UI_SCREEN_HEIGHT == 812.0 ? 44 : 20)   //状态栏高度
+#define UI_SCREEN_WIDTH                 ([[UIScreen mainScreen] bounds].size.width)
+#define UI_SCREEN_HEIGHT                ([[UIScreen mainScreen] bounds].size.height)
+
+#define SafeAreaTopHeight (UI_SCREEN_HEIGHT == 812.0 ? 88 : 64)  //导航安全高度
+
+#define SafeAreaTabBarHeight  (UI_SCREEN_HEIGHT == 812.0 ? 83 : 49)  //tabBar安全高度
+
+#define SafeAreaTabBarHeight_IphoneX  (SafeAreaTabBarHeight-UI_TAB_BAR_HEIGHT)
+
+/**
+ UI_COLOR
+ */
+
+#define Public_Background_Color [UIColor colorWithRed:242.0/255.0 green:242.0/255.0 blue:242.0/255.0 alpha:1.0]    //背景颜色  #F2F2F2
+
+#define Public_Red_Color [UIColor colorWithRed:255.0/255.0 green:74.0/255.0 blue:87.0/255.0 alpha:1.0]      //红色   #FF4A57
+
+#define Public_Text_Color [UIColor colorWithRed:70.0/255.0 green:70.0/255.0 blue:70.0/255.0 alpha:1.0]    //文字颜色   #464646
+
+#define Public_Orange_Color [UIColor colorWithRed:254/255.0 green:88/255.0 blue:88/255.0 alpha:1.0]
+
+#define Public_LineGray_Color [UIColor colorWithRed:231.0/255.0 green:231.0/255.0 blue:231.0/255.0 alpha:1.0]  //线条颜色    #E7E7E7
+
+#define Public_TableviewCell_TextLabelColor [UIColor colorWithRed:38.0/255.0 green:38.0/255.0 blue:38.0/255.0 alpha:1.0]
+#define Public_DetailTextLabelColor [UIColor colorWithRed:166.0/255.0 green:166.0/255.0 blue:166.0/255.0 alpha:1.0]   //文字颜色，灰色    #909090
+
+/**
+ appstore 中的appid
+ */
+#define STORE_APPID     @"1426204249"
+
+
+/**
+ 腾讯崩溃统计 appkeys
+ */
+#define BuglyAppKey     @"05e5de77c4"
+
+/**
+ 友盟 appkeys
+ */
+#define UMAppKey     @"5b6413fcf43e484cb10001e2"
+
+/**
+ 微信 appkeys
+ */
+#define WXAppKey     @"wx72f1a96ac4a2af41"
+#define WXAppSecret  @"d58b986896c9a0d10a2a386f08af69c3"
+//商户号，填写商户对应参数
+#define MCH_ID          @"1510632341"
+
+
+/**
+ QQ appkeys
+ */
+#define QQAppKey     @""
+#define QQAppSecret  @""
+
+/**
+ 新浪微博 appkeys
+ */
+#define SNAppkey     @"694223093"
+#define SNAppSecret  @"2ac89c951ebbcae467df9961123f6e21"
+#define kREDIRECTurl @"http://sns.whalecloud.com/sina2/callback"
+
+//jpush appkey
+#define JPushAppKey    @"f7d93c8e938ac7880cd22138"
+#define JPushAppSecret @"2ee6f7c0d9c65f7bf64c871a"
+
+/**
+ OTHER
+ */
+#define Broken_Version 0
+
+#define LINK_ID @"1000"
+
+#define Current_BundleVersion [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
+#define Platform_ID [NSNumber numberWithInteger:0]
+
+#define APP_NAME [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
+
+#define videoPlayMergin 5
+/**
+ URL
+ */
+#define g_http_url @"http://api.idlook.com:8088/api.php"       //线上服务器
+
+//#define g_http_url @"http://api.castle.idlook.com:8088/api.php"       //线上服务器（测试）
+
+//#define g_http_url @"http://api.test.idlook.com:8088/api.php"      //测试服务器
+
+
+//#define java_url @"http://api.test.idlook.com:8000/api/" //@"http://47.101.191.92:8000/api/"  //java测试服务器
+
+#define java_url @"http://api.idlook.com:8000/api/"  //java正式服务器
+
+//#define java_url @"http://api.castle.idlook.com:8000/api/" //java堡垒
+
+
+
+
+//#define java_url @"http://admin.test.idlook.com:3900/"    //测试：
+//#define java_url @"http://admin.castle.idlook.com:3900/"   //堡垒：
+//#define java_url @"http://admin.idlook.com:3900/"         //生产：

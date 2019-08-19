@@ -1,0 +1,170 @@
+//
+//  AppDelegate.m
+//  IDLook
+//
+//  Created by HYH on 2018/3/7.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "AppDelegate.h"
+#import <UMSocialCore/UMSocialCore.h>
+#import <AlipaySDK/AlipaySDK.h>
+#import <UMCommon/UMCommon.h>
+#import <UMAnalytics/MobClick.h>
+#import <Bugly/Bugly.h>
+#import "WXApi.h"
+#import "WXApiManager.h"
+#import "JPUSHService.h"
+
+
+#import "RootTabbarVC.h"
+
+@interface AppDelegate ()
+
+@end
+
+static NSString *channel = @"Publish channel";
+static BOOL isProduction = FALSE;
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    
+    // 启动图片延时: 3秒
+//    [NSThread sleepForTimeInterval:3];
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+
+    [self initializeUI];
+    [NetworkNoti shareInstance];
+    
+//    //极光远推
+//    [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+//                                                      UIUserNotificationTypeSound |
+//                                                      UIUserNotificationTypeAlert)
+//                                          categories:nil];
+//    
+//    //如不需要使用IDFA，advertisingIdentifier 可为nil0
+//    NSString * advertisingId=nil;
+//    [JPUSHService setupWithOption:launchOptions appKey:JPushAppKey
+//                          channel:channel
+//                 apsForProduction:isProduction
+//            advertisingIdentifier:advertisingId];
+    
+    //bugly 崩溃分析
+     [Bugly startWithAppId:BuglyAppKey];
+    
+    [UMConfigure initWithAppkey:UMAppKey channel:@"App Store"];
+
+    [MobClick setScenarioType:E_UM_NORMAL];
+    
+    //向微信注册
+    [WXApi registerApp:WXAppKey];
+    
+    [self configUSharePlatforms];
+    return YES;
+}
+
+- (void)configUSharePlatforms
+{
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:WXAppKey appSecret:WXAppSecret redirectURL:nil];
+//    [[UMSocialManager defaultManager]setPlaform:UMSocialPlatformType_Sina appKey:SNAppkey appSecret:SNAppSecret redirectURL:nil];
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [JPUSHService registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [JPUSHService handleRemoteNotification:userInfo];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [JPUSHService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+}
+
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+}
+
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    //app进入前台检查更新
+    [self updateApp];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([url.host isEqualToString:@"safepay"]) {
+        // 支付跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"result == %@",resultDic);
+        }];
+    }
+    if ([url.host isEqualToString:@"pay"]) {
+        return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    }
+    return YES;
+}
+
+// NOTE: 9.0以后使用新API接口
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    if ([url.host isEqualToString:@"safepay"]) {
+        // 支付跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"result == %@",resultDic);
+            
+            NSInteger resultStatus = [[resultDic objectForKey:@"resultStatus"] integerValue];   //支付结果
+            if (resultStatus==9000) { //支付成功,通知去筛选页面
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"paySuccess" object:nil];
+            }
+        }];
+    }
+    if ([url.host isEqualToString:@"pay"]) {
+        return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    }
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([url.host isEqualToString:@"pay"]) {
+        return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    }
+    return YES;
+}
+
+-(void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    [[SDImageCache sharedImageCache] setValue:nil forKey:@"memCache"];
+}
+
+-(BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+    NSLog(@"userActivity : %@",userActivity.webpageURL.description);
+    return YES;
+}
+
+
+@end

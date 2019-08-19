@@ -1,0 +1,40 @@
+//
+//  PriceModel.h
+//  IDLook
+//
+//  Created by HYH on 2018/7/18.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface PriceModel : NSObject
+
+/**
+ 标题
+ */
+@property(nonatomic,copy)NSString *title;
+
+/**
+ 广告类型
+ */
+@property(nonatomic,assign)NSInteger type;
+
+/**
+ 广告子类型
+ */
+@property(nonatomic,assign)NSInteger subType;
+
+/**
+ 价格
+ */
+@property(nonatomic,assign)NSInteger price;
+
+/**
+ 报价id
+ */
+@property(nonatomic,assign)NSInteger creativeid;
+
+-(id)initWithDic:(NSDictionary*)dic;
+
+@end

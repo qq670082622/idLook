@@ -1,0 +1,108 @@
+//
+//  AuthSuccCellB.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/6.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "AuthSuccCellB.h"
+
+@implementation AuthSuccCellB
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        
+        UIView *bgV = [[UIView alloc]init];
+        bgV.backgroundColor=[UIColor whiteColor];
+        bgV.layer.masksToBounds=YES;
+        bgV.layer.cornerRadius=5.0;
+        [self.contentView addSubview:bgV];
+        [bgV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView);
+            make.left.mas_equalTo(self.contentView).offset(10);
+            make.centerX.mas_equalTo(self.contentView);
+            make.centerY.mas_equalTo(self.contentView);
+        }];
+        
+        UIView *lineV = [[UIView alloc]init];
+        lineV.backgroundColor=[UIColor colorWithHexString:@"#F7F7F7"];
+        [self.contentView addSubview:lineV];
+        [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).offset(48);
+            make.left.mas_equalTo(self.contentView).offset(25);
+            make.centerX.mas_equalTo(self.contentView);
+            make.height.mas_equalTo(1);
+        }];
+        
+        UILabel *titleLab= [[UILabel alloc]init];
+        titleLab.textColor=Public_Text_Color;
+        titleLab.font=[UIFont boldSystemFontOfSize:15.0];
+        [self.contentView addSubview:titleLab];
+        [titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).offset(17);
+            make.left.mas_equalTo(self.contentView).offset(25);
+        }];
+        titleLab.text=@"证件信息";
+        
+        [self initUI];
+    }
+    return self;
+}
+
+-(void)initUI
+{
+    for (int i = 0; i<4; i++) {
+        
+        UIImageView *imageV = [[UIImageView alloc]init];
+        imageV.layer.masksToBounds=YES;
+        imageV.layer.cornerRadius=11;
+        [self.contentView addSubview:imageV];
+        imageV.tag=100+i;
+        imageV.contentMode=UIViewContentModeScaleAspectFill;
+        [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(35);
+            make.centerX.mas_equalTo(self.contentView);
+            make.top.mas_equalTo(self.contentView).offset(74+235*i);
+            make.height.mas_equalTo(192);
+        }];
+        imageV.userInteractionEnabled=YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+        [imageV addGestureRecognizer:tap];
+        
+        UILabel *titleLab = [[UILabel alloc]init];
+        titleLab.textColor=Public_Text_Color;
+        titleLab.font=[UIFont systemFontOfSize:14.0];
+        [self.contentView addSubview:titleLab];
+        titleLab.tag=1000+i;
+        [titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(imageV.mas_bottom).offset(10);
+            make.centerX.mas_equalTo(self.contentView);
+        }];
+    }
+}
+
+
+-(void)reloadUIWithArray:(NSArray *)array
+{
+    if (array.count==0) {
+        return;
+    }
+    
+    for (int i =0; i<array.count; i++) {
+        NSDictionary *dicA = array[i];
+        UILabel *lab = (UILabel*)[self.contentView viewWithTag:1000+i];
+        lab.text=dicA[@"title"];
+        
+        UIImageView *imageV=(UIImageView*)[self.contentView viewWithTag:100+i];
+        [imageV sd_setImageWithUrlStr:dicA[@"image"] placeholderImage:[UIImage imageNamed:@"default_video"]];
+    }
+}
+
+-(void)tapAction:(UITapGestureRecognizer*)tap
+{
+    self.LookBigPhotoWithIndex(tap.view.tag-100);
+}
+
+@end

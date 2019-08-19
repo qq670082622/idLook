@@ -1,0 +1,248 @@
+//
+//  PriceMainVC.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/14.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "PriceMainVC.h"
+#import "PriceMainCell.h"
+#import "AddPriceVC.h"
+#import "PriceManger.h"
+#import "PriceModel.h"
+
+@interface PriceMainVC ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@property(nonatomic,strong)UIButton *addBtn;
+@property(nonatomic,strong)CustomTableV *tableV;
+@property(nonatomic,strong)PriceManger *dsm;
+@end
+
+@implementation PriceMainVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor=Public_Background_Color;
+    [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"报价管理"]];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
+
+    [self dsm];
+    [self tableV];
+    [self addBtn];
+}
+
+-(void)onGoback
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+//新增报价
+-(void)addPrice
+{
+    NSMutableArray *existArr = [NSMutableArray new];
+    for (int i=0; i<self.dsm.ds.count; i++) {
+        NSArray *array = [self.dsm.ds[i] objectForKey:@"data"];
+        for (int j=0; j<array.count; j++) {
+            PriceModel *model = array[j];
+            [existArr addObject:@(model.subType)];
+        }
+    }
+    
+    PriceModel *model = [[PriceModel alloc]init];
+    AddPriceVC *priceVC=[[AddPriceVC alloc]init];
+    priceVC.type=AddPriceTypeAdd;
+    priceVC.model=model;
+    priceVC.existArray =existArr;
+    WeakSelf(self);
+    priceVC.addPriceBlock = ^{
+        [weakself.dsm refreshPriceInfo];
+    };
+    [self.navigationController pushViewController:priceVC animated:YES];
+}
+
+-(UIButton*)addBtn
+{
+    if (!_addBtn) {
+        _addBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [_addBtn setImage:[UIImage imageNamed:@"price_add"] forState:UIControlStateNormal];
+        [_addBtn setTitle:@"新增报价" forState:UIControlStateNormal];
+        _addBtn.titleLabel.font=[UIFont systemFontOfSize:15.0];
+        _addBtn.titleEdgeInsets=UIEdgeInsetsMake(0, 6, 0, -6);
+        _addBtn.backgroundColor=Public_Red_Color;
+        [self.view addSubview:_addBtn];
+        [_addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(self.view);
+            make.bottom.mas_equalTo(self.view);
+            make.left.mas_equalTo(self.view);
+            make.height.mas_equalTo(50);
+        }];
+        [_addBtn addTarget:self action:@selector(addPrice) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _addBtn;
+}
+
+-(PriceManger*)dsm
+{
+    if (!_dsm) {
+        _dsm=[[PriceManger alloc]init];
+        WeakSelf(self);
+        _dsm.newDataNeedRefreshed = ^{
+            [weakself.tableV reloadData];
+            [weakself.tableV hideNoDataScene];
+            if (weakself.dsm.ds.count==0) {
+                [weakself.tableV showWithNoDataType:NoDataTypePrice];
+            }
+        };
+    }
+    return _dsm;
+}
+
+-(CustomTableV*)tableV
+{
+    if (!_tableV) {
+        _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,0,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-50) style:UITableViewStyleGrouped];
+        _tableV.delegate = self;
+        _tableV.dataSource = self;
+        _tableV.showsVerticalScrollIndicator=NO;
+        _tableV.showsHorizontalScrollIndicator=NO;
+        _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+        _tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:_tableV];
+        
+        _tableV.estimatedRowHeight = 0;
+        _tableV.estimatedSectionHeaderHeight = 0;
+        _tableV.estimatedSectionFooterHeight = 0;
+        _tableV.backgroundColor=[UIColor clearColor];
+    }
+    return _tableV;
+}
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return .1f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 46.f;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.dsm.ds.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSDictionary *dic =self.dsm.ds[section];
+
+    return [[dic objectForKey:@"data"] count];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 90;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifer = @"PriceMainCell";
+    PriceMainCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    if(!cell)
+    {
+        cell = [[PriceMainCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor=[UIColor clearColor];
+    }
+    NSDictionary *dic =self.dsm.ds[indexPath.section];
+    NSArray *array = [dic objectForKey:@"data"];
+    PriceModel *model = array[indexPath.row];
+    [cell reloadUIWithModel:model];
+    return cell;
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    static NSString *identifer = @"UITableViewHeaderFooterView";
+    UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifer];
+    if(!headerView)
+    {
+        headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:identifer];
+        [headerView.backgroundView setBackgroundColor:[UIColor clearColor]];
+        
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.textColor =  Public_Text_Color;
+        titleLabel.tag=100;
+        titleLabel.font=[UIFont boldSystemFontOfSize:15];
+        [headerView addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(headerView).offset(25);
+            make.left.mas_equalTo(headerView).offset(15);
+        }];
+    }
+    NSDictionary *dic =self.dsm.ds[section];
+    UILabel *lab = (UILabel*)[headerView viewWithTag:100];
+    lab.text = dic[@"title"];
+
+    return headerView;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSDictionary *dic =self.dsm.ds[indexPath.section];
+    NSArray *array = [dic objectForKey:@"data"];
+    PriceModel *model = array[indexPath.row];
+    
+    
+    AddPriceVC *priceVC=[[AddPriceVC alloc]init];
+    priceVC.type=AddPriceTypeModify;
+    priceVC.model=model;
+    WeakSelf(self);
+    priceVC.addPriceBlock = ^{
+        [weakself.dsm refreshPriceInfo];
+    };
+    [self.navigationController pushViewController:priceVC animated:YES];
+}
+
+- (NSArray*)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    // delete action
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
+                                          {
+                                              [tableView setEditing:NO animated:YES];  // 这句很重要，退出编辑模式，隐藏左滑菜单
+                                        
+                                              [self delectPriceWithIndexPath:indexPath];
+                                          }];
+    return @[deleteAction];
+}
+
+//删除报价
+-(void)delectPriceWithIndexPath:(NSIndexPath*)indexPath
+{
+    NSDictionary *dic =self.dsm.ds[indexPath.section];
+    NSArray *array = [dic objectForKey:@"data"];
+    PriceModel *model = array[indexPath.row];
+    
+     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    NSDictionary *dicArg =@{@"userid":[UserInfoManager getUserUID],
+                            @"creativeid":@(model.creativeid)};
+    [AFWebAPI delectQuotaWithArg:dicArg callBack:^(BOOL success, id object) {
+        if (success) {
+            [SVProgressHUD showSuccessWithStatus:@"删除成功"];
+            [self.dsm refreshPriceInfo];
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+        }
+    }];
+}
+
+@end

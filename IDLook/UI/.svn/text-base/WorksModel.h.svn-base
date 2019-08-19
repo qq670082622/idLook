@@ -1,0 +1,52 @@
+//
+//  WorksModel.h
+//  IDLook
+//
+//  Created by HYH on 2018/5/30.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface WorksModel : NSObject
+@property(nonatomic,copy)NSString *url;        //图片或视频url
+@property(nonatomic,copy)NSString *title;
+@property(nonatomic,assign)BOOL isEdit;        //是否能编辑
+@property(nonatomic,assign)BOOL isSelect;      //是否选中
+
+@property(nonatomic,copy)NSString *cutvideo;    //视频格式时，第一帧图片
+
+@property(nonatomic,copy)NSString *creativeid;   //作品id
+
+@property(nonatomic,copy)NSString *type;   //作品类型
+
+@property(nonatomic,copy)NSString *timevideo;  //视频时长
+
+/************才艺作品************/
+@property(nonatomic,copy)NSString *keyword;   //作品关键词
+
+/*************微出镜，试葩间************/
+@property(nonatomic,assign)NSInteger microtype;     //-1:表演类型  1:过往作品图片 2:过往作品视频  3:才艺展示
+
+@property(nonatomic,assign)CGFloat bitrate;       //比特率
+
+@property(nonatomic,assign)CGFloat widthpx;       //像素宽
+
+@property(nonatomic,assign)CGFloat heightpx;       //像素高
+
+@property(nonatomic,assign)CGFloat size;       //大小
+
+@property(nonatomic,copy)NSString *format;   //格式
+@property(nonatomic,assign)NSInteger status; //审核状态
+
+//作品数据解析
+-(id)initWithWorksDic:(NSDictionary*)dic;
+
+
+//微出境，试葩间数据解析
+-(id)initWithMirrDic:(NSDictionary*)dic;
+
+//过往作品
+-(id)initWithPastWorkDic:(NSDictionary*)dic;
+
+@end

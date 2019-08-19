@@ -1,0 +1,93 @@
+//
+//  CenterHeadView.m
+//  IDLook
+//
+//  Created by Mr Hu on 2018/9/15.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "CenterHeadView.h"
+
+@interface CenterHeadView ()
+@property(nonatomic,strong)UIView *bgV;
+@property(nonatomic,strong)UIView *lineV;
+@property(nonatomic,strong)UILabel *titleLab;
+@end
+
+@implementation CenterHeadView
+
+-(instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithReuseIdentifier:reuseIdentifier]) {
+        
+
+    }
+    return self;
+}
+
+-(UIView*)bgV
+{
+    if (!_bgV) {
+        _bgV=[[UIView alloc]init];
+        _bgV.backgroundColor=[UIColor whiteColor];
+        [self.contentView addSubview:_bgV];
+        [_bgV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.mas_equalTo(self.contentView);
+            make.left.mas_equalTo(self.contentView);
+            make.right.mas_equalTo(self.contentView);
+            make.height.mas_equalTo(44);
+        }];
+        
+        UIView *lineV= [[UIView alloc]init];
+        [_bgV addSubview:lineV];
+        lineV.backgroundColor=Public_LineGray_Color;
+        [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView);
+            make.right.mas_equalTo(self.contentView);
+            make.bottom.mas_equalTo(self.contentView);
+            make.height.mas_equalTo(0.5);
+        }];
+    }
+    return _bgV;
+}
+
+-(UIView*)lineV
+{
+    if (!_lineV) {
+        _lineV=[[UIView alloc]init];
+        _lineV.backgroundColor=Public_Red_Color;
+        _lineV.layer.cornerRadius=2.0;
+        _lineV.layer.masksToBounds=YES;
+        [self.contentView addSubview:_lineV];
+        [_lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.bgV);
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.size.mas_equalTo(CGSizeMake(3, 14));
+        }];
+    }
+    return _lineV;
+}
+
+-(UILabel*)titleLab
+{
+    if (!_titleLab) {
+        _titleLab=[[UILabel alloc]init];
+        _titleLab.font=[UIFont boldSystemFontOfSize:15.0];
+        _titleLab.textColor=Public_Text_Color;
+        [self.contentView addSubview:_titleLab];
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(24);
+            make.centerY.mas_equalTo(self.bgV);
+        }];
+    }
+    return _titleLab;
+}
+
+-(void)reloadUIWithTitle:(NSString*)title
+{
+    [self bgV];
+    [self lineV];
+    self.titleLab.text=title;
+}
+
+@end

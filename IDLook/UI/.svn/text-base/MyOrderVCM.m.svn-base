@@ -1,0 +1,178 @@
+//
+//  MyOrderVCM.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/22.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "MyOrderVCM.h"
+
+NSString * const kMyOrderVCMCellClass =  @"kMyOrderVCMCellClass";
+NSString * const kMyOrderVCMCellHeight = @"kMyOrderVCMCellHeight";
+NSString * const kMyOrderVCMCellType =   @"kMyOrderVCMCellType";
+NSString * const kMyOrderVCMCellData =   @"kMyOrderVCMCellData";
+
+@implementation MyOrderVCM
+
+-(id)init
+{
+    if (self=[super init]) {
+
+        [self analyzeOrderListWithArray:nil];
+    }
+    return self;
+}
+
+- (NSMutableArray *)ds
+{
+    if(!_ds)
+    {
+        _ds = [NSMutableArray new];
+    }
+    return _ds;
+}
+
+-(void)refreshOrderListCallBack:(void (^)(BOOL))callBack
+{
+    NSDictionary *dicArg = @{@"userid":[UserInfoManager getUserUID]};
+    [AFWebAPI getAllOrderList:dicArg callBack:^(BOOL success, id object) {
+        if (success) {
+            NSArray *array=[object objectForKey:JSON_data];
+            [self analyzeOrderListWithArray:array];
+            callBack(YES);
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+            callBack(NO);
+        }
+    }];
+}
+
+- (void)analyzeOrderListWithArray:(NSArray*)array
+{
+    [self.ds removeAllObjects];
+    
+    NSMutableArray *sec0 = [NSMutableArray new];
+    NSMutableArray *sec1 = [NSMutableArray new];
+    NSMutableArray *sec2 = [NSMutableArray new];
+    NSMutableArray *sec3 = [NSMutableArray new];
+    NSMutableArray *sec4 = [NSMutableArray new];
+    
+    for (int i =0; i<array.count; i++)
+    {
+        OrderModel *model = [[OrderModel alloc]initWithDic:array[i]];
+        
+        NSString *classStr = [self getCellClassWithOrderType:model.ordertype];
+        CGFloat height = [self getCellHeightWithOrderType:model.ordertype];
+        if ([model.orderstate isEqualToString:@"new"])
+        {   //新订单
+            [sec1 addObject:@{kMyOrderVCMCellData:model,
+                              kMyOrderVCMCellClass:classStr,
+                              kMyOrderVCMCellHeight:[NSNumber numberWithFloat:height],
+                              kMyOrderVCMCellType:[NSNumber numberWithInteger:model.ordertype]}];
+        }
+        else if ([model.orderstate isEqualToString:@"finished"])    //已完成
+        {
+            [sec3 addObject:@{kMyOrderVCMCellData:model,
+                              kMyOrderVCMCellClass:classStr,
+                              kMyOrderVCMCellHeight:[NSNumber numberWithFloat:height],
+                              kMyOrderVCMCellType:[NSNumber numberWithInteger:model.ordertype]}];
+        }
+        else if ([model.orderstate isEqualToString:@"rejected"])   //已拒绝
+        {
+            [sec4 addObject:@{kMyOrderVCMCellData:model,
+                              kMyOrderVCMCellClass:classStr,
+                              kMyOrderVCMCellHeight:[NSNumber numberWithFloat:height],
+                              kMyOrderVCMCellType:[NSNumber numberWithInteger:model.ordertype]}];
+        }
+        else   //进行中
+        {
+            [sec2 addObject:@{kMyOrderVCMCellData:model,
+                              kMyOrderVCMCellClass:classStr,
+                              kMyOrderVCMCellHeight:[NSNumber numberWithFloat:height],
+                              kMyOrderVCMCellType:[NSNumber numberWithInteger:model.ordertype]}];
+        }
+        
+        [sec0 addObject:@{kMyOrderVCMCellData:model,
+                          kMyOrderVCMCellClass:classStr,
+                          kMyOrderVCMCellHeight:[NSNumber numberWithFloat:height],
+                          kMyOrderVCMCellType:[NSNumber numberWithInteger:model.ordertype]}];
+    }
+    
+ 
+    
+    [self.ds addObject:sec0];
+    [self.ds addObject:sec1];
+    [self.ds addObject:sec2];
+    [self.ds addObject:sec3];
+    [self.ds addObject:sec4];
+}
+
+-(NSString*)getCellClassWithOrderType:(OrderType)type
+{
+    switch (type) {
+        case OrderTypeMirror:
+            return @"MyOrderMirrorCell";
+            break;
+        case OrderTypeTrial:
+            return @"MyOrderTrialCell";
+            break;
+        case OrderTypeAudition:
+            if ([UserInfoManager getUserType]==UserTypeResourcer) {
+                return @"MyOrderAudotionCellA";
+            }
+            else
+            {
+                return @"MyOrderAudotionCellB";
+            }
+            break;
+        case OrderTypeShot:
+            if ([UserInfoManager getUserType]==UserTypeResourcer) {
+                return @"MyOrderShotCell";
+            }
+            else
+            {
+                return @"MyOrderShotCell";
+            }
+            break;
+        case OrderTypeRenewal:
+            return @"MyOrderRenewalCell";
+            break;
+        default:
+            return @"";
+            break;
+    }
+}
+
+-(CGFloat)getCellHeightWithOrderType:(OrderType)type
+{
+    switch (type) {
+        case OrderTypeMirror:
+            return 195.0;
+            break;
+        case OrderTypeTrial:
+            return 195.0;
+            break;
+        case OrderTypeAudition:
+            if ([UserInfoManager getUserType]==UserTypeResourcer) {
+                return 180.0;
+            }
+            break;
+        case OrderTypeShot:
+            if ([UserInfoManager getUserType]==UserTypeResourcer) {
+                return 180.0;
+            }
+            break;
+        case OrderTypeRenewal:
+            return 195.0;
+            break;
+        default:
+            return 195;
+            break;
+    }
+    return 195.0;
+}
+
+@end

@@ -1,0 +1,25 @@
+//
+//  MirrorPhotoCell.h
+//  IDLook
+//
+//  Created by HYH on 2018/5/10.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface MirrorPhotoCell : UITableViewCell
+@property(nonatomic,copy)void(^lookmoreMirrorPhotoBlock)(void);     //查看更多微出镜照片
+@property(nonatomic,copy)void(^buyPhotoBlock)(NSInteger index);     //购买微出镜照片
+@property(nonatomic,copy)void(^entryMirrorPhotoDetial)(NSInteger index);  //查看微出镜照片详情
+
+-(void)reloadUIWithArray:(NSArray*)array withTitle:(NSString*)title;
+@end
+
+
+@interface PhotoSubCell : UITableViewCell
+@property(nonatomic,copy)void(^buyActionBlock)(void);
+-(void)reloadUIWithModel:(WorksModel*)model;
+@end
+
+

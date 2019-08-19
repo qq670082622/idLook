@@ -1,0 +1,355 @@
+//
+//  MyAuthVC.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/14.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "AuthUploadBasicVC.h"
+#import "AuthHeadV.h"
+#import "AuthCellA.h"
+#import "AuthFootV.h"
+#import "MyAuthStep2.h"
+#import "MyAuthStep3.h"
+#import "BirthSelectV.h"
+#import "PublicPickerView.h"
+#import "AuthChooseIdentityVC.h"
+
+@interface AuthUploadBasicVC ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,TableVTouchDelegate>
+@property (nonatomic,strong)TouchTableV *tableV;
+@property (nonatomic,strong)AuthHeadV *headV;
+@property (nonatomic,strong)NSMutableArray *dataS;
+@property(nonatomic,strong)NSIndexPath *indexPath;
+
+@end
+
+@implementation AuthUploadBasicVC
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillChangeFrameNotification
+                                                  object:nil];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor=Public_Background_Color;
+    [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"实名认证"]];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
+    
+    //资源方
+    if ([UserInfoManager getUserType]==UserTypeResourcer) {
+        self.dataS= [[NSMutableArray alloc]initWithArray:@[@{@"title":@"真实姓名",@"content":@"",@"placeholder":@"请填写身份证或护照姓名",@"type":@(AuthBasicTypeRealName)},
+                                                           @{@"title":@"出生日期",@"content":@"",@"placeholder":@"请选择出生年月",@"type":@(AuthBasicTypeBirth)},
+                                                           @{@"title":@"性别",@"content":@"",@"placeholder":@"请选择性别",@"type":@(AuthBasicTypeSex)},
+                                                           @{@"title":@"国籍",@"content":@"",@"placeholder":@"请选择国籍",@"type":@(AuthBasicTypeNationality)},
+                                                           @{@"title":@"有效证件号",@"content":@"",@"placeholder":@"请填写身份证/护照号",@"type":@(AuthBasicTypeCertificateNo)}]];
+    }
+    else  //购买方
+    {
+        //购买方个人
+        if ([UserInfoManager getUserSubType]==UserSubTypePurPersonal) {
+            self.dataS= [[NSMutableArray alloc]initWithArray:@[@{@"title":@"真实姓名",@"content":@"",@"placeholder":@"请填写身份证或护照姓名",@"type":@(AuthBasicTypeRealName)},
+                                                               @{@"title":@"有效证件号",@"content":@"",@"placeholder":@"请填写身份证/护照号",@"type":@(AuthBasicTypeCertificateNo)},
+                                                               @{@"title":@"单位名称",@"content":@"",@"placeholder":@"请填写与工商注册证件一致的名称",@"type":@(AuthBasicTypeCompany)},
+                                                               @{@"title":@"所属行业",@"content":@"",@"placeholder":@"请选择所属行业",@"type":@(AuthBasicTypeIndustry)},
+                                                               @{@"title":@"所属职业",@"content":@"",@"placeholder":@"请选择所属职业",@"type":@(AuthBasicTypeOccupation)}]];
+        }
+        else   //购买方企业
+        {
+            self.dataS= [[NSMutableArray alloc]initWithArray:@[@{@"title":@"公司全称",@"content":@"",@"placeholder":@"请填写与工商注册证件一致的名称",@"type":@(AuthBasicTypeCompany)},
+                                                               @{@"title":@"营业执照号",@"content":@"",@"placeholder":@"请填写营业执照号",@"type":@(AuthBasicTypeLicensenumber)},
+                                                               @{@"title":@"管理员姓名",@"content":@"",@"placeholder":@"请填写身份证/护照姓名",@"type":@(AuthBasicTypeManageName)},
+                                                               @{@"title":@"有效证件号",@"content":@"",@"placeholder":@"请填写身份证/护照号",@"type":@(AuthBasicTypeCertificateNo)},
+                                                               @{@"title":@"选择身份",@"content":@"",@"placeholder":@"请选择您的身份",@"type":@(AuthBasicTypeBuyer),@"subType":@(0)}]];
+        }
+    }
+    
+
+    
+    [self headV];
+    [self tableV];
+    [self footV];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardFrameWillChange:)
+                                                 name:UIKeyboardWillChangeFrameNotification
+                                               object:nil];
+
+}
+
+-(void)onGoback
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(AuthHeadV*)headV
+{
+    if (!_headV) {
+        _headV=[[AuthHeadV alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, 48)];
+        [self.view addSubview:_headV];
+    }
+    return _headV;
+}
+
+- (TouchTableV *)tableV
+{
+    if(!_tableV)
+    {
+        _tableV = [[TouchTableV alloc] initWithFrame:CGRectMake(0,48,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-48) style:UITableViewStyleGrouped];
+        _tableV.delegate = self;
+        _tableV.dataSource = self;
+        _tableV.bounces=NO;
+        _tableV.touchDelegate=self;
+        _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+        _tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:_tableV];
+        _tableV.estimatedRowHeight = 0;
+        _tableV.estimatedSectionHeaderHeight = 0;
+        _tableV.estimatedSectionFooterHeight = 0;
+        _tableV.backgroundColor=[UIColor clearColor];
+    }
+    return _tableV;
+}
+
+-(void)footV
+{
+    AuthFootV *footV = [[AuthFootV alloc] initWithFrame:CGRectMake(0,UI_SCREEN_HEIGHT-SafeAreaTopHeight-48-100, UI_SCREEN_WIDTH, 100)];
+    [footV reloadUIWithType:0];
+    [self.tableV addSubview:footV];
+    WeakSelf(self);
+    footV.clickNextStep = ^{
+        [weakself didClickNextWithStep:0];
+    };
+    footV.clickLastStep = ^{
+        [weakself didClickLastWithStep:0];
+    };
+}
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return .1f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10.f;
+
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.dataS.count;
+
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView.tag==0||tableView.tag==1) {
+        return 48;
+    }
+    return UI_SCREEN_WIDTH*(418.0/750.0);
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifer = @"AuthCellA";
+    AuthCellA *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    if(!cell)
+    {
+        cell = [[AuthCellA alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor=[UIColor whiteColor];
+        
+    }
+    [cell reloadUIWithDic:self.dataS[indexPath.row]];
+    WeakSelf(self);
+    cell.BeginEdit = ^{
+        weakself.indexPath=indexPath;
+    };
+    cell.textFielChangeBlock = ^(NSString *text) {
+        NSDictionary *dic = self.dataS[indexPath.row];
+        NSDictionary *newDic = @{@"title":dic[@"title"],@"content":text,@"placeholder":dic[@"placeholder"],@"type":dic[@"type"]};
+        [self.dataS replaceObjectAtIndex:indexPath.row withObject:newDic];
+    };
+    return cell;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dic = self.dataS [indexPath.row];
+    AuthBasicType type = [dic[@"type"] integerValue];
+    WeakSelf(self);
+    if (type==AuthBasicTypeBirth)
+    {
+        BirthSelectV *birthV = [[BirthSelectV alloc] init];
+        birthV.didSelectDate = ^(NSString *dateStr){
+            NSDictionary *dic = weakself.dataS[indexPath.row];
+            NSDictionary *newDic = @{@"title":dic[@"title"],@"content":dateStr,@"placeholder":dic[@"placeholder"],@"type":dic[@"type"]};
+            [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:newDic];
+            [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        };
+        [birthV showWithString:dic[@"content"] withType:DateTypeDay];
+    }
+    else if (type==AuthBasicTypeSex || type==AuthBasicTypeNationality)
+    {
+        NSArray *array = @[@"性别",@"国籍"];
+        PublicPickerView *pickerV = [[PublicPickerView alloc] init];
+        pickerV.title=array[type-3];
+        pickerV.didSelectBlock = ^(NSString *select) {
+            NSDictionary *dic = weakself.dataS[indexPath.row];
+            NSDictionary *newDic = @{@"title":dic[@"title"],@"content":select,@"placeholder":dic[@"placeholder"],@"type":dic[@"type"]};
+            [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:newDic];
+            [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        };
+        [pickerV showWithPickerType:type+7 withDesc:dic[@"content"]];
+    }
+    else if (type==AuthBasicTypeIndustry)
+    {
+        PublicPickerView *pickerV = [[PublicPickerView alloc] init];
+        pickerV.title=@"所属行业";
+        pickerV.didSelectBlock = ^(NSString *select) {
+            NSDictionary *dic = weakself.dataS[indexPath.row];
+            NSDictionary *newDic = @{@"title":dic[@"title"],@"content":select,@"placeholder":dic[@"placeholder"],@"type":dic[@"type"]};
+            [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:newDic];
+            [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        };
+        [pickerV showWithPickerType:PickerTypeTrade withDesc:dic[@"content"]];
+    }
+    else if (type==AuthBasicTypeOccupation)
+    {
+        PublicPickerView *pickerV = [[PublicPickerView alloc] init];
+        pickerV.title=@"所属职业";
+        pickerV.didSelectBlock = ^(NSString *select) {
+            NSDictionary *dic = weakself.dataS[indexPath.row];
+            NSDictionary *newDic = @{@"title":dic[@"title"],@"content":select,@"placeholder":dic[@"placeholder"],@"type":dic[@"type"]};
+            [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:newDic];
+            [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        };
+        [pickerV showWithPickerType:PickerTypePostion withDesc:dic[@"content"]];
+    }
+    else if (type==AuthBasicTypeBuyer)
+    {
+        AuthChooseIdentityVC *chooseVC=[[AuthChooseIdentityVC alloc]init];
+        chooseVC.chooseIDTypeBlock = ^(NSInteger type, NSString * _Nonnull name) {
+            NSDictionary *dic = weakself.dataS[indexPath.row];
+            NSDictionary *newDic = @{@"title":dic[@"title"],@"content":name,@"placeholder":dic[@"placeholder"],@"type":dic[@"type"],@"subType":@(type)};
+            [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:newDic];
+            [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        };
+        [self.navigationController pushViewController:chooseVC animated:YES];
+    }
+}
+
+
+#pragma mark----Action
+//上一步
+-(void)didClickLastWithStep:(NSInteger)step
+{
+}
+
+//下一步
+-(void)didClickNextWithStep:(NSInteger)step
+{
+    for (int i =0; i<self.dataS.count; i++) {
+        NSDictionary *dic = self.dataS[i];
+        if ([dic[@"content"]length]<=0) {
+            [SVProgressHUD showErrorWithStatus:@"请将信息填写完整～"];
+            return;
+        }
+    }
+    
+    NSDictionary *dic;
+
+    //资源方
+    if ([UserInfoManager getUserType]==UserTypeResourcer)
+    {
+        dic = @{@"realname":self.dataS[0][@"content"],
+                @"birth":self.dataS[1][@"content"],
+                @"sex":[self.dataS[2][@"content"] isEqualToString:@"男"]?@(1):@(2),
+                @"nationality":self.dataS[3][@"content"],
+                @"papers":self.dataS[4][@"content"]};
+        
+        MyAuthStep2 *step2 = [[MyAuthStep2 alloc]init];
+        step2.infoDic=dic;
+        [self.navigationController pushViewController:step2 animated:NO];
+    }
+    else
+    {
+        //购买方个人
+        if ([UserInfoManager getUserSubType]==UserSubTypePurPersonal)
+        {
+            dic = @{@"realname":self.dataS[0][@"content"],
+                    @"papers":self.dataS[1][@"content"],
+                    @"companyname":self.dataS[2][@"content"],
+                    @"trade":self.dataS[3][@"content"],
+                    @"position":self.dataS[4][@"content"]};
+            
+            MyAuthStep3 *step3 = [[MyAuthStep3 alloc]init];
+            step3.infoDic=dic;
+            [self.navigationController pushViewController:step3 animated:NO];
+        }
+        else  //购买方企业
+        {
+
+            dic = @{@"companyname":self.dataS[0][@"content"],
+                    @"business":self.dataS[1][@"content"],
+                    @"realname":self.dataS[2][@"content"],
+                    @"papers":self.dataS[3][@"content"],
+                    @"useridentity":self.dataS[4][@"subType"]
+                    };
+            
+            MyAuthStep3 *step3 = [[MyAuthStep3 alloc]init];
+            step3.infoDic=dic;
+            [self.navigationController pushViewController:step3 animated:NO];
+        }
+    }
+
+}
+
+
+#pragma mark -
+#pragma mark - TableVTouchDelegate
+- (void)tableView:(UITableView *)tableView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+#pragma mark--keyboard Noti
+- (void)keyboardFrameWillChange:(NSNotification*)notification
+{
+    CGRect rect = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    
+    
+    //当前Cell在屏幕中的坐标值
+    CGRect rectInTableView = [self.tableV rectForRowAtIndexPath:self.indexPath];
+    CGRect cellRect = [self.tableV convertRect:rectInTableView toView:[self.tableV superview]];
+    
+    if (rect.origin.y-120-cellRect.origin.y<0) {
+        [self.tableV setContentOffset:CGPointMake(0,-rect.origin.y+cellRect.origin.y+120+self.tableV.contentOffset.y) animated:YES];
+    }
+    else
+    {
+        [self.tableV setContentOffset:CGPointMake(0, 0) animated:YES];
+    }
+}
+
+
+@end

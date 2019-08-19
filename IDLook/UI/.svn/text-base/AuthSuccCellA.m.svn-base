@@ -1,0 +1,108 @@
+//
+//  AuthSuccCellA.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/6.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "AuthSuccCellA.h"
+
+@interface AuthSuccCellA ()
+@property(nonatomic,strong)UIView *bgV;
+@property(nonatomic,strong)UILabel *titleLab;
+@end
+
+@implementation AuthSuccCellA
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        
+    }
+    return self;
+}
+
+-(UIView*)bgV
+{
+    if (!_bgV) {
+        _bgV = [[UIView alloc]init];
+        _bgV.backgroundColor=[UIColor whiteColor];
+        _bgV.layer.masksToBounds=YES;
+        _bgV.layer.cornerRadius=5.0;
+        [self.contentView addSubview:_bgV];
+        [_bgV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView);
+            make.left.mas_equalTo(self.contentView).offset(10);
+            make.centerX.mas_equalTo(self.contentView);
+            make.centerY.mas_equalTo(self.contentView);
+        }];
+        
+        UIView *lineV = [[UIView alloc]init];
+        lineV.backgroundColor=[UIColor colorWithHexString:@"#F7F7F7"];
+        [self.contentView addSubview:lineV];
+        [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).offset(48);
+            make.left.mas_equalTo(self.contentView).offset(25);
+            make.centerX.mas_equalTo(self.contentView);
+            make.height.mas_equalTo(1);
+        }];
+    }
+    return _bgV;
+}
+
+-(UILabel *)titleLab
+{
+    if (!_titleLab) {
+        _titleLab = [[UILabel alloc]init];
+        _titleLab.textColor=Public_Text_Color;
+        _titleLab.font=[UIFont boldSystemFontOfSize:15.0];
+        [self.contentView addSubview:_titleLab];
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).offset(17);
+            make.left.mas_equalTo(self.contentView).offset(25);
+        }];
+    }
+    return _titleLab;
+}
+
+-(void)reloadUIWithDic:(NSDictionary *)dic
+{
+    [self bgV];
+    for (UIView *view in self.bgV.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    NSString *title = dic[@"title"];
+    NSArray *array = dic[@"data"];
+    
+    for (int i = 0 ; i<array.count; i++) {
+        NSDictionary *dic = array[i];
+        UILabel *titleLab = [[UILabel alloc]init];
+        titleLab.textColor=[UIColor colorWithHexString:@"#666666"];
+        titleLab.font=[UIFont systemFontOfSize:14.0];
+        [self.bgV addSubview:titleLab];
+        titleLab.tag=100+i;
+        [titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).offset(74+26*i);
+            make.left.mas_equalTo(self.contentView).offset(25);
+        }];
+        titleLab.text=dic[@"title"];
+        
+        UILabel *descLab = [[UILabel alloc]init];
+        descLab.textColor=Public_Text_Color;
+        descLab.font=[UIFont systemFontOfSize:14.0];
+        [self.bgV addSubview:descLab];
+        descLab.tag=1000+i;
+        [descLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.contentView).offset(74+26*i);
+            make.left.mas_equalTo(self.contentView).offset(130);
+        }];
+        descLab.text=dic[@"desc"];
+    }
+    self.titleLab.text=title;
+
+}
+
+
+@end

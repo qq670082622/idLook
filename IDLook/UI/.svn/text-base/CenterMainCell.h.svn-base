@@ -1,0 +1,34 @@
+//
+//  CenterMainCell.h
+//  IDLook
+//
+//  Created by HYH on 2018/5/8.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSInteger,CenterMainType)
+{
+    CenterMainTypePersonal,      //个人中心
+    CenterMainTypeWorks,         //我的作品
+    CenterMainTypeAssets,        //资产管理
+    CenterMainTypePrice,         //报价管理
+    CenterMainTypeAuth,          //我的认证
+    CenterMainTypeCertificate,    //我的授权书
+    CenterMainTypeContact,         //联系脸探肖像
+    CenterMainTypeShare,            //分享脸探
+    CenterMainTypeModelCard,        //模特卡
+    CenterMainTypeStrategy,          //脸探攻略
+    CenterMainTypePerformance,      //分类表演
+    CenterMainTypePastwork          //过往作品
+};
+
+@interface CenterMainCell : UITableViewCell
+@property (nonatomic,copy)void(^CenterMainCellBlock)(NSInteger type);
+@end
+
+@interface CenterSubCell : UIView
+-(void)reloadUIWithDic:(NSDictionary*)dic;
+@end
+

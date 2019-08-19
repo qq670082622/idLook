@@ -1,0 +1,102 @@
+//
+//  ShotStepCellA.m
+//  IDLook
+//
+//  Created by HYH on 2018/7/20.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "ShotStepCellA.h"
+
+@interface ShotStepCellA ()
+
+@property(nonatomic,strong)UILabel *titleLab;
+@property(nonatomic,strong)UILabel *priceLab;
+@property(nonatomic,strong)UIButton *selectBtn;
+
+@end
+
+@implementation ShotStepCellA
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.contentView.layer.borderColor=Public_Background_Color.CGColor;
+        self.contentView.layer.borderWidth=0.5;
+    }
+    return self;
+}
+
+-(UIButton*)selectBtn
+{
+    if (!_selectBtn) {
+        _selectBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [_selectBtn setBackgroundImage:[UIImage imageNamed:@"works_noChoose"] forState:UIControlStateNormal];
+        [_selectBtn setBackgroundImage:[UIImage imageNamed:@"works_choose"] forState:UIControlStateSelected];
+        [self.contentView addSubview:_selectBtn];
+        [_selectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.contentView);
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.size.mas_equalTo(CGSizeMake(22, 22));
+        }];
+    }
+    return _selectBtn;
+}
+
+-(UILabel*)titleLab
+{
+    if (!_titleLab) {
+        _titleLab=[[UILabel alloc]init];
+        _titleLab.font=[UIFont systemFontOfSize:15.0];
+        _titleLab.textColor=Public_Text_Color;
+        [self.contentView addSubview:_titleLab];
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(47);
+            make.centerY.mas_equalTo(self.contentView);
+        }];
+    }
+    return _titleLab;
+}
+
+-(UILabel*)priceLab
+{
+    if (!_priceLab) {
+        _priceLab=[[UILabel alloc]init];
+        _priceLab.font=[UIFont systemFontOfSize:13.0];
+        _priceLab.textColor=[UIColor colorWithHexString:@"#999999"];
+        [self.contentView addSubview:_priceLab];
+        [_priceLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.contentView).offset(-15);
+            make.centerY.mas_equalTo(self.contentView);
+        }];
+    }
+    return _priceLab;
+}
+
+-(void)reloadUIWithModel:(OrderStructM *)model withRow:(NSInteger)row
+{
+    if (model.isChoose==YES) {
+        self.selectBtn.selected=YES;
+    }
+    else
+    {
+        self.selectBtn.selected=NO;
+    }
+    self.titleLab.text=model.title;
+    
+    NSString *str = [NSString stringWithFormat:@"¥%@/人",model.price];
+    NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc] initWithString:str];
+    [attStr addAttributes:@{NSForegroundColorAttributeName:Public_Red_Color,NSFontAttributeName:[UIFont boldSystemFontOfSize:15.0]} range:NSMakeRange(0,str.length-2)];
+    self.priceLab.attributedText=attStr;
+    
+    if (row==2) {
+        [self.selectBtn setBackgroundImage:[UIImage imageNamed:@"icon_unable"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.selectBtn setBackgroundImage:[UIImage imageNamed:@"works_noChoose"] forState:UIControlStateNormal];
+
+    }
+}
+
+@end

@@ -1,0 +1,84 @@
+//
+//  HomeHeadView.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/4.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "HomeHeadView.h"
+
+@implementation HomeHeadView
+
+-(instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithReuseIdentifier:reuseIdentifier]) {
+//        self.contentView.backgroundColor=[UIColor clearColor];
+        
+        self.backgroundView = ({
+            UIView * view = [[UIView alloc] initWithFrame:self.bounds];
+            view.backgroundColor = [UIColor colorWithWhite: 0.5 alpha:0.5];
+            view;
+        });
+        
+    }
+    return self;
+}
+
+-(void)reloadUI
+{
+    NSArray *array = @[@{@"title":@"视频演员",@"image":@"artist_male"},
+                       @{@"title":@"平面演员",@"image":@"artist_female"},
+                       @{@"title":@"活动模特",@"image":@"artist_old"},
+                       @{@"title":@"舞蹈特技",@"image":@"artist_young"},
+                       @{@"title":@"明星",@"image":@"artist_star"},
+                       @{@"title":@"网红",@"image":@"artist_IC"},
+                       @{@"title":@"运动",@"image":@"artist_wrists"},];
+    
+    UIImage *image = [UIImage imageNamed:@"artist_male"];
+    CGFloat width = (UI_SCREEN_WIDTH-30-6)/4;
+    CGFloat height = image.size.height;
+        
+    for (int i =0; i<array.count; i++) {
+        
+        NSDictionary *dic = array[i];
+        
+        UIButton *button=[[UIButton alloc]init];
+        [self.contentView addSubview:button];
+        button.tag=100+i;
+        button.titleLabel.font=[UIFont systemFontOfSize:16.0];
+        [button setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:UIControlStateNormal];
+        [button setBackgroundImage:[UIImage imageNamed:dic[@"image"]] forState:UIControlStateNormal];
+        [button setTitle:dic[@"title"] forState:UIControlStateNormal];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.mas_equalTo(self.contentView).offset(10+(i/4)*(height+2));
+            if (i<5) {
+                make.left.mas_equalTo(self.contentView).offset(15+i%4*(width+2));
+            }
+            else
+            {
+                make.left.mas_equalTo(self.contentView).offset(15+(i%4+1)*(width+2));
+            }
+            
+            if (i==4) {
+                make.size.mas_equalTo(CGSizeMake(width*2+2, height));
+            }
+            else
+            {
+                make.size.mas_equalTo(CGSizeMake(width, height));
+            }
+        }];
+        
+        [button addTarget:self action:@selector(clickType:) forControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
+-(void)clickType:(UIButton*)sender
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickWithType:)]) {
+        [self.delegate clickWithType:sender.tag-100];
+    }
+}
+
+@end

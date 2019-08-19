@@ -1,0 +1,122 @@
+//
+//  UserHeaderView.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/10.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "UserHeaderView.h"
+
+@interface UserHeaderView ()
+@property(nonatomic,strong)UIView *slider;
+@property(nonatomic,assign)NSInteger curePage;
+@end
+
+@implementation UserHeaderView
+
+-(id)init
+{
+    if (self=[super init]) {
+        self.backgroundColor=[UIColor whiteColor];
+        
+        self.curePage = 0;
+        
+        [self initUI];
+    }
+    return self;
+}
+
+-(void)initUI
+{
+    NSArray *array=@[@"分类表演",@"过往作品"];
+    for (int i = 0; i<array.count; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTag:100+i];
+        [button setTitle:array[i] forState:UIControlStateNormal];
+        [button setTitleColor:Public_Text_Color forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        [self addSubview:button];
+        
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self).offset(UI_SCREEN_WIDTH/array.count*i);
+            make.top.mas_equalTo(self);
+            make.bottom.mas_equalTo(self);
+            make.width.mas_equalTo(UI_SCREEN_WIDTH/array.count);
+        }];
+        
+        if (i==0) {
+            button.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+            [button setTitleColor:Public_Red_Color forState:UIControlStateNormal];
+        }
+        [button addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+        
+        UIView *lineVV=[[UIView alloc]init];
+        lineVV.backgroundColor=[UIColor colorWithHexString:@"#E8E8E8"];
+        [self addSubview:lineVV];
+        [lineVV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(0.5);
+            make.height.mas_equalTo(13);
+            make.centerY.mas_equalTo(self.mas_centerY);
+            make.left.mas_equalTo(button.mas_right);
+        }];
+    }
+    
+    UIButton *btn = (UIButton*)[self viewWithTag:100];
+
+#if 0
+    //slider
+    UIView *slider = [[UIView alloc] init];
+    slider.backgroundColor = Public_Red_Color;
+    [self addSubview:slider];
+    slider.layer.cornerRadius=2.0;
+    slider.layer.masksToBounds=YES;
+    [slider mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(@4);
+        make.centerX.mas_equalTo(btn);
+        make.bottom.mas_equalTo(self.mas_bottom);
+    }];
+    self.slider=slider;
+#endif
+    
+    UIView *lineV=[[UIView alloc]init];
+    lineV.backgroundColor=[UIColor colorWithHexString:@"#E8E8E8"];
+    [self addSubview:lineV];
+    [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self);
+        make.centerX.mas_equalTo(self);
+        make.height.mas_equalTo(0.5);
+        make.bottom.mas_equalTo(self);
+    }];
+    
+}
+
+
+-(void)btnClicked:(UIButton*)sender
+{
+    for (int i =0; i<4; i++) {
+        UIButton *button = (UIButton*)[self viewWithTag:100+i];
+        if (i==sender.tag-100) {
+            button.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+            [button setTitleColor:Public_Red_Color forState:UIControlStateNormal];
+        }
+        else
+        {
+            button.titleLabel.font = [UIFont systemFontOfSize:14.0];
+            [button setTitleColor:Public_Text_Color forState:UIControlStateNormal];
+        }
+    }
+    
+//    [self.slider mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.width.mas_equalTo(30);
+//        make.height.mas_equalTo(@4);
+//        make.centerX.mas_equalTo(sender);
+//        make.bottom.mas_equalTo(self.mas_bottom);
+//    }];
+    
+    self.userHeadTypeClickBlock(sender.tag-100);
+}
+
+@end

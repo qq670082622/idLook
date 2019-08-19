@@ -1,0 +1,141 @@
+//
+//  MirrorOrderCellA.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/21.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "MirrorOrderCellA.h"
+
+@interface MirrorOrderCellA()
+@property(nonatomic,strong)UIImageView *icon;
+@property(nonatomic,strong)UIButton *timeBtn;
+@property(nonatomic,strong)UILabel *desc1;   //肖像说明
+@property(nonatomic,strong)UILabel *desc2;   //使用说明
+@property(nonatomic,strong)UIView *worksInfoV;   //图片，视频信息
+@end
+
+@implementation MirrorOrderCellA
+
+-(UIImageView*)icon
+{
+    if (!_icon) {
+        _icon=[[UIImageView alloc]init];
+        [self.contentView addSubview:_icon];
+        _icon.layer.cornerRadius=4.0;
+        _icon.layer.masksToBounds=YES;
+        [_icon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.contentView).offset(17);
+            make.size.mas_equalTo(CGSizeMake(90, 90));
+        }];
+        
+    }
+    return _icon;
+}
+
+-(UIButton*)timeBtn
+{
+    if (!_timeBtn) {
+        _timeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [self.contentView addSubview:_timeBtn];
+        _timeBtn.layer.masksToBounds=YES;
+        _timeBtn.layer.cornerRadius=9;
+        _timeBtn.backgroundColor=[[UIColor colorWithHexString:@"#000000"]colorWithAlphaComponent:0.5];
+        _timeBtn.titleLabel.font=[UIFont systemFontOfSize:10.0];
+        [_timeBtn setTitle:@"00:00" forState:UIControlStateNormal];
+        [_timeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_timeBtn setImage:[UIImage imageNamed:@"u_video_s"] forState:UIControlStateNormal];
+        [_timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.icon).offset(3);
+            make.bottom.mas_equalTo(self.icon).offset(-2);
+            make.size.mas_equalTo(CGSizeMake(54, 18));
+        }];
+        _timeBtn.titleEdgeInsets=UIEdgeInsetsMake(0,2, 0, -2);
+    }
+    return _timeBtn;
+}
+
+-(UILabel*)desc1
+{
+    if (!_desc1) {
+        _desc1=[[UILabel alloc]init];
+        [self.contentView addSubview:_desc1];
+        _desc1.font=[UIFont systemFontOfSize:12];
+        _desc1.textColor=[UIColor colorWithHexString:@"#CCCCCC"];
+        [_desc1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.icon.mas_bottom).offset(10);
+        }];
+    }
+    return _desc1;
+}
+
+-(UILabel*)desc2
+{
+    if (!_desc2) {
+        _desc2=[[UILabel alloc]init];
+        [self.contentView addSubview:_desc2];
+        _desc2.font=[UIFont systemFontOfSize:12];
+        _desc2.textColor=[UIColor colorWithHexString:@"#CCCCCC"];
+        [_desc2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.desc1.mas_bottom).offset(5);
+        }];
+    }
+    return _desc2;
+}
+
+-(UIView*)worksInfoV
+{
+    if (!_worksInfoV) {
+        _worksInfoV=[[UIView alloc]init];
+        [self.contentView addSubview:_worksInfoV];
+        [_worksInfoV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.icon);
+            make.left.mas_equalTo(self.icon.mas_right).offset(10);
+            make.right.mas_equalTo(self.contentView).offset(-10);
+            make.bottom.mas_equalTo(self.icon);
+        }];
+    }
+    return _worksInfoV;
+}
+
+-(void)reloadUIWithWork:(WorksModel *)model
+{
+    if (model.microtype==0) {
+        [self.icon sd_setImageWithUrlStr:model.url placeholderImage:[UIImage imageNamed:@"default_video"]];
+        self.timeBtn.hidden=YES;
+    }
+    else
+    {
+        [self.icon sd_setImageWithUrlStr:model.cutvideo placeholderImage:[UIImage imageNamed:@"default_video"]];
+        
+        [self.timeBtn setTitle:model.timevideo forState:UIControlStateNormal];
+        self.timeBtn.hidden=NO;
+    }
+    
+    self.desc1.text=@"肖像说明：脸探肖像独家销售权，可转签肖像使用权(同品类独家)";
+    self.desc2.text=@"使用说明：可用于品牌商业用途，请提交下单获取报价信息";
+    
+    for (UIView *view in self.worksInfoV.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    NSArray *array = @[[NSString stringWithFormat:@"编码：%@",model.creativeid],[NSString stringWithFormat:@"格式：%@",model.format],[NSString stringWithFormat:@"像素：%.fX%.f",model.widthpx,model.heightpx],[NSString stringWithFormat:@"大小：%.2fMB",model.size]];
+    
+    for (int i =0; i<array.count; i++) {
+        UILabel *lab = [[UILabel alloc] init];
+        lab.text = array[i];
+        lab.font = [UIFont systemFontOfSize:12.0];
+        lab.textColor = [UIColor colorWithHexString:@"#666666"];
+        [self.worksInfoV addSubview:lab];
+        [lab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.worksInfoV).offset(10);
+            make.top.mas_equalTo(self.worksInfoV).offset(22*i+5);
+        }];
+    }
+}
+
+@end

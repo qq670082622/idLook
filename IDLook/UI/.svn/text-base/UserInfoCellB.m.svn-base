@@ -1,0 +1,121 @@
+//
+//  UserInfoCellB.m
+//  IDLook
+//
+//  Created by Mr Hu on 2018/10/15.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "UserInfoCellB.h"
+#import "TalentModel.h"
+
+@interface UserInfoCellB ()
+@property(nonatomic,strong)UILabel *titleLab;
+@property(nonatomic,strong)UIImageView *icon;
+@property(nonatomic,strong)UIButton *timeBtn;
+@property(nonatomic,assign)UserInfoCellType type;
+@end
+
+@implementation UserInfoCellB
+
+-(UILabel*)titleLab
+{
+    if (!_titleLab) {
+        _titleLab=[[UILabel alloc]init];
+        [self.contentView addSubview:_titleLab];
+        _titleLab.font=[UIFont boldSystemFontOfSize:13.0];
+        _titleLab.textColor=Public_Text_Color;
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.contentView).offset(15);
+        }];
+    }
+    return _titleLab;
+}
+
+-(UIImageView*)icon
+{
+    if (!_icon) {
+        _icon=[[UIImageView alloc]init];
+        [self.contentView addSubview:_icon];
+        _icon.layer.cornerRadius=5.0;
+        _icon.layer.masksToBounds=YES;
+        _icon.userInteractionEnabled=YES;
+
+        _icon.contentMode=UIViewContentModeScaleAspectFit;
+        [_icon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.right.mas_equalTo(self.contentView).offset(-15);
+            make.top.mas_equalTo(self.contentView).offset(46);
+            make.bottom.mas_equalTo(self.contentView).offset(-20);
+        }];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction)];
+        [_icon addGestureRecognizer:tap];
+    }
+    return _icon;
+}
+
+-(UIButton*)timeBtn
+{
+    if (!_timeBtn) {
+        _timeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [self.contentView addSubview:_timeBtn];
+        _timeBtn.layer.masksToBounds=YES;
+        _timeBtn.layer.cornerRadius=9;
+        _timeBtn.backgroundColor=[[UIColor colorWithHexString:@"#000000"]colorWithAlphaComponent:0.5];
+        _timeBtn.titleLabel.font=[UIFont systemFontOfSize:10.0];
+        [_timeBtn setTitle:@"00:00" forState:UIControlStateNormal];
+        [_timeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_timeBtn setImage:[UIImage imageNamed:@"u_video_s"] forState:UIControlStateNormal];
+        [_timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.icon).offset(6);
+            make.bottom.mas_equalTo(self.icon).offset(-6);
+            make.size.mas_equalTo(CGSizeMake(54, 18));
+        }];
+        _timeBtn.titleEdgeInsets=UIEdgeInsetsMake(0,2, 0, -2);
+    }
+    return _timeBtn;
+}
+
+-(void)reloadUIWithArray:(NSArray *)array withType:(UserInfoCellType)type
+{
+    self.type=type;
+    TalentModel *model = [array firstObject];
+    if (type==UserInfoCellTypeIntroduce) {
+        [self.icon sd_setImageWithUrlStr:model.cutvideo placeholderImage:[UIImage imageNamed:@"default_video"]];
+        [self.timeBtn setTitle:model.timevideo forState:UIControlStateNormal];
+        self.timeBtn.hidden=NO;
+        
+        NSString *str=[NSString stringWithFormat:@"自我介绍"];
+        NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [attStr addAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:17.0]} range:NSMakeRange(0,4)];
+        self.titleLab.attributedText=attStr;
+
+    }
+    else {
+        [self.icon sd_setImageWithUrlStr:model.imageurl placeholderImage:[UIImage imageNamed:@"default_video"]];
+        self.timeBtn.hidden=YES;
+        NSString *str=[NSString stringWithFormat:@"模特卡"];
+        NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc] initWithString:str];
+        [attStr addAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:17.0]} range:NSMakeRange(0,3)];
+        self.titleLab.attributedText=attStr;
+        
+    }
+}
+
+-(void)tapAction
+{
+    if (self.type==UserInfoCellTypeIntroduce) {
+        if (self.lookIntroduceVideo) {
+            self.lookIntroduceVideo();
+        }
+    }
+    else if (self.type==UserInfoCellTypeModelcard)
+    {
+        if (self.lookBigModelCardPhoto) {
+            self.lookBigModelCardPhoto();
+        }
+    }
+}
+
+@end

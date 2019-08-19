@@ -1,0 +1,283 @@
+//
+//  OrderDBottomV.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/27.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "OrderDBottomV.h"
+
+@interface OrderDBottomV ()
+@property(nonatomic,strong)UIButton *offerBtn;     //报价
+@property(nonatomic,strong)UIButton *refusalBtn;     //拒单
+@property(nonatomic,assign)OrderBottomActionType type;
+@end
+
+@implementation OrderDBottomV
+
+-(id)init
+{
+    if (self=[super init]) {
+        self.backgroundColor=[UIColor whiteColor];
+    }
+    return self;
+}
+
+-(UIButton*)offerBtn
+{
+    if (!_offerBtn) {
+        _offerBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [self addSubview:_offerBtn];
+        _offerBtn.layer.cornerRadius=3.0;
+        _offerBtn.layer.masksToBounds=YES;
+        _offerBtn.backgroundColor=Public_Red_Color;
+        [_offerBtn setTitle:@"报价" forState:UIControlStateNormal];
+        [_offerBtn setTitleColor:[UIColor colorWithHexString:@"#FFFEFE"] forState:UIControlStateNormal];
+        _offerBtn.titleLabel.font=[UIFont systemFontOfSize:14.0];
+        [_offerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self).offset(10);
+            make.right.mas_equalTo(self).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(85, 36));
+        }];
+        [_offerBtn addTarget:self action:@selector(offerAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _offerBtn;
+}
+
+-(UIButton*)refusalBtn
+{
+    if (!_refusalBtn) {
+        _refusalBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [self addSubview:_refusalBtn];
+        _refusalBtn.layer.cornerRadius=3.0;
+        _refusalBtn.layer.masksToBounds=YES;
+        _refusalBtn.layer.borderWidth=0.5;
+        _refusalBtn.layer.borderColor=[UIColor colorWithHexString:@"#999999"].CGColor;
+        [_refusalBtn setTitle:@"拒单" forState:UIControlStateNormal];
+        [_refusalBtn setTitleColor:[UIColor colorWithHexString:@"#999999"] forState:UIControlStateNormal];
+        _refusalBtn.titleLabel.font=[UIFont systemFontOfSize:14.0];
+        [_refusalBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self).offset(10);
+            make.right.mas_equalTo(self.offerBtn.mas_left).offset(-10);
+            make.size.mas_equalTo(CGSizeMake(85, 36));
+        }];
+        [_refusalBtn addTarget:self action:@selector(refusalAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _refusalBtn;
+}
+
+
+-(void)reloadUIWithModel:(OrderModel *)model
+{
+//    for (UIView *view in self.subviews) {
+//        [view removeFromSuperview];
+//    }
+    
+    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(55+SafeAreaTabBarHeight_IphoneX);
+    }];
+    
+    OrderType ordertype =model.ordertype;
+    if (ordertype==OrderTypeAudition)   //试镜订单
+    {
+        if ([model.orderstate isEqualToString:@"new"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer)
+            {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+            else
+            {
+                [self.offerBtn setTitle:@"付款" forState:UIControlStateNormal];
+                self.type=OrderBottomActionTypePayment;
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else if ([model.orderstate isEqualToString:@"paied"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer)
+            {
+                [self.offerBtn setTitle:@"接单" forState:UIControlStateNormal];
+                [self.refusalBtn setTitle:@"拒单" forState:UIControlStateNormal];
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=NO;
+                self.type=OrderBottomActionTypeAccept;
+            }
+            else
+            {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else if ([model.orderstate isEqualToString:@"acceptted"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer)
+            {
+                [self.offerBtn setTitle:@"上传视频" forState:UIControlStateNormal];
+                self.type=OrderBottomActionTypeUploadVide;
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=YES;
+            }
+            else
+            {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else if ([model.orderstate isEqualToString:@"videouploaded"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer) {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+            else
+            {
+                [self.offerBtn setTitle:@"确认完成" forState:UIControlStateNormal];
+                self.type=OrderBottomActionTypeFinish;
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else if ([model.orderstate isEqualToString:@"finished"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer) {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+            else
+            {
+                [self.offerBtn setTitle:@"下拍摄订单" forState:UIControlStateNormal];
+                self.type=OrderBottomActionTypeReAudition;
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else
+        {
+            [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(0);
+            }];
+            self.offerBtn.hidden=YES;
+            self.refusalBtn.hidden=YES;
+        }
+    }
+    else if (ordertype==OrderTypeShot)  //拍摄订单
+    {
+        if ([model.orderstate isEqualToString:@"new"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer)
+            {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+            else
+            {
+                [self.offerBtn setTitle:@"付首款" forState:UIControlStateNormal];
+                self.type=OrderBottomActionTypePayOne;
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else if ([model.orderstate isEqualToString:@"paiedone"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer)
+            {
+                [self.offerBtn setTitle:@"接单" forState:UIControlStateNormal];
+                [self.refusalBtn setTitle:@"拒单" forState:UIControlStateNormal];
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=NO;
+                self.type=OrderBottomActionTypeAccept;
+            }
+            else
+            {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else if ([model.orderstate isEqualToString:@"acceptted"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer)
+            {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+            else
+            {
+                [self.offerBtn setTitle:@"付尾款" forState:UIControlStateNormal];
+                self.type=OrderBottomActionTypePayTwo;
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else if ([model.orderstate isEqualToString:@"paiedtwo"])
+        {
+            if ([UserInfoManager getUserType]==UserTypeResourcer) {
+                [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.height.mas_equalTo(0);
+                }];
+                self.offerBtn.hidden=YES;
+                self.refusalBtn.hidden=YES;
+            }
+            else
+            {
+                [self.offerBtn setTitle:@"确认完成" forState:UIControlStateNormal];
+                self.type=OrderBottomActionTypeFinish;
+                self.offerBtn.hidden=NO;
+                self.refusalBtn.hidden=YES;
+            }
+        }
+        else
+        {
+            [self mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(0);
+            }];
+            self.offerBtn.hidden=YES;
+            self.refusalBtn.hidden=YES;
+        }
+    }
+}
+
+//接单，付款，确认完成
+-(void)offerAction
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(acceptOrderWithType:)]) {
+        [self.delegate acceptOrderWithType:self.type];
+    }
+}
+
+//拒单
+-(void)refusalAction
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(rejectOrder)]) {
+        [self.delegate rejectOrder];
+    }
+}
+
+@end

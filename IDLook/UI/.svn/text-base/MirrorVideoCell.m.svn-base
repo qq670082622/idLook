@@ -1,0 +1,299 @@
+//
+//  MirrorVideoCell.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/10.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "MirrorVideoCell.h"
+#import "MirrorMoreCell.h"
+
+@interface MirrorVideoCell ()<UITableViewDataSource,UITableViewDelegate>
+@property(nonatomic,strong)UILabel *titleLab;
+@property(nonatomic,strong)UIView *moreV;
+@property(nonatomic,strong)CustomTableV *tableV;
+@property(nonatomic,strong)NSArray *dataSource;
+
+@end
+
+@implementation MirrorVideoCell
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+
+    }
+    return self;
+}
+
+
+-(UILabel*)titleLab
+{
+    if (!_titleLab) {
+        
+        _titleLab=[[UILabel alloc]init];
+        [self.contentView addSubview:_titleLab];
+        _titleLab.font=[UIFont boldSystemFontOfSize:13];
+        _titleLab.textColor=Public_Text_Color;
+        _titleLab.text=@"视频";
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.contentView).offset(20);
+        }];
+        
+    }
+    return _titleLab;
+}
+
+-(UIView*)moreV
+{
+    if (!_moreV) {
+        _moreV = [[UIView alloc]init];
+        //        _moreV.backgroundColor=[UIColor redColor];
+        _moreV.userInteractionEnabled=YES;
+        [self.contentView addSubview:_moreV];
+        [_moreV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.contentView).offset(-12);
+            make.centerY.mas_equalTo(self.titleLab);
+            make.size.mas_equalTo(CGSizeMake(80, 30));
+        }];
+        
+        UIImageView *imageV=[[UIImageView alloc]init];
+        [_moreV addSubview:imageV];
+        imageV.image=[UIImage imageNamed:@"u_look_more"];
+        [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(_moreV);
+            make.right.mas_equalTo(_moreV);
+        }];
+        
+        UILabel *moreLab=[[UILabel alloc]init];
+        [self.contentView addSubview:moreLab];
+        moreLab.font=[UIFont systemFontOfSize:13];
+        moreLab.textColor=[UIColor colorWithHexString:@"#999999"];
+        moreLab.text=@"查看全部";
+        [moreLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(_moreV);
+            make.right.mas_equalTo(imageV.mas_left).offset(-5);
+        }];
+        
+        UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(moreAction)];
+        [_moreV addGestureRecognizer:tap];
+    }
+    return _moreV;
+}
+
+-(void)moreAction
+{
+    self.lookmoreMirrorVideoBlock();
+}
+
+-(CustomTableV*)tableV
+{
+    if (!_tableV) {
+        _tableV = [[CustomTableV alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableV.delegate = self;
+        _tableV.dataSource = self;
+        _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+        _tableV.showsVerticalScrollIndicator = NO;
+        //        _tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        _tableV.transform = CGAffineTransformMakeRotation(-M_PI_2);
+        _tableV.frame = CGRectMake(0,50, UI_SCREEN_WIDTH, 100);
+        [self.contentView addSubview:_tableV];
+        _tableV.estimatedRowHeight = 0;
+        _tableV.estimatedSectionHeaderHeight = 0;
+        _tableV.estimatedSectionFooterHeight = 0;
+        _tableV.backgroundColor=[UIColor whiteColor];        
+    }
+    return _tableV;
+}
+
+-(void)reloadUIWithArray:(NSArray *)array withTitle:(NSString *)title
+{
+    self.dataSource = array;
+
+    
+    [self titleLab];
+    [self moreV];
+    [self tableV];
+    
+    [self.tableV reloadData];
+}
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return .1f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 15.f;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (self.dataSource.count>5) {
+        return 5;
+    }
+    return self.dataSource.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return (UI_SCREEN_WIDTH-50)/2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifer = @"VideoSubCell";
+    VideoSubCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    if(!cell)
+    {
+        cell = [[VideoSubCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor=[UIColor clearColor];
+        cell.transform = CGAffineTransformMakeRotation(M_PI_2);
+        WeakSelf(self);
+        cell.buyActionBlock = ^{
+            weakself.buyVideoBlock(indexPath.row);
+        };
+    }
+    [cell reloadUIWithModel:self.dataSource[indexPath.row]];
+    return cell;
+    
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.entryMirrorVideoDetial(indexPath.row);
+}
+
+
+@end
+
+
+@interface VideoSubCell ()
+@property(nonatomic,strong)UIImageView *icon;
+@property(nonatomic,strong)UILabel *titleLab;
+@property(nonatomic,strong)UIButton *buyBtn;
+@property(nonatomic,strong)UIButton *timeBtn;
+@end
+
+@implementation VideoSubCell
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    }
+    return self;
+}
+
+
+-(UIImageView*)icon
+{
+    if (!_icon) {
+        _icon=[[UIImageView alloc]init];
+        [self.contentView addSubview:_icon];
+        _icon.layer.cornerRadius=5.0;
+        _icon.layer.masksToBounds=YES;
+        _icon.contentMode=UIViewContentModeScaleAspectFill;
+        [_icon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView);
+            make.right.mas_equalTo(self.contentView).offset(-6);
+            make.top.mas_equalTo(self.contentView);
+            make.bottom.mas_equalTo(self.contentView).offset(0);
+        }];
+    
+    }
+    return _icon;
+}
+
+
+-(UILabel*)titleLab
+{
+    if (!_titleLab) {
+        _titleLab=[[UILabel alloc]init];
+        [self.contentView addSubview:_titleLab];
+        _titleLab.font=[UIFont systemFontOfSize:13];
+        _titleLab.textColor=Public_Text_Color;
+        _titleLab.text=@"春节团拜会";
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView);
+            make.top.mas_equalTo(self.icon.mas_bottom).offset(8);
+        }];
+    }
+    return _titleLab;
+}
+
+-(UIButton*)buyBtn
+{
+    if (!_buyBtn) {
+        _buyBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [self.contentView addSubview:_buyBtn];
+        _buyBtn.titleLabel.font=[UIFont systemFontOfSize:10.0];
+        [_buyBtn setTitle:@"购买" forState:UIControlStateNormal];
+        [_buyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_buyBtn setBackgroundImage:[UIImage imageNamed:@"u_buy"] forState:UIControlStateNormal];
+        [_buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.icon);
+            make.centerY.mas_equalTo(self.titleLab);
+        }];
+        [_buyBtn addTarget:self action:@selector(buyAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _buyBtn;
+}
+
+-(UIButton*)timeBtn
+{
+    if (!_timeBtn) {
+        _timeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [self.contentView addSubview:_timeBtn];
+        _timeBtn.layer.masksToBounds=YES;
+        _timeBtn.layer.cornerRadius=9;
+        _timeBtn.backgroundColor=[[UIColor colorWithHexString:@"#000000"]colorWithAlphaComponent:0.5];
+        _timeBtn.titleLabel.font=[UIFont systemFontOfSize:10.0];
+        [_timeBtn setTitle:@"00:00" forState:UIControlStateNormal];
+        [_timeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_timeBtn setImage:[UIImage imageNamed:@"u_video_s"] forState:UIControlStateNormal];
+        [_timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.icon).offset(6);
+            make.bottom.mas_equalTo(self.icon).offset(-6);
+            make.size.mas_equalTo(CGSizeMake(54, 18));
+        }];
+        _timeBtn.titleEdgeInsets=UIEdgeInsetsMake(0,2, 0, -2);
+    }
+    return _timeBtn;
+}
+
+
+-(void)reloadUIWithModel:(WorksModel*)model;
+{
+    [self.icon sd_setImageWithUrlStr:model.cutvideo placeholderImage:[UIImage imageNamed:@"default_video"]];
+//    self.titleLab.text = model.title;
+    [self.timeBtn setTitle:model.timevideo forState:UIControlStateNormal];
+    
+//    if ([UserInfoManager getUserType]==UserTypePurchaser) {
+//        self.buyBtn.hidden=NO;
+//    }
+//    else
+//    {
+//        self.buyBtn.hidden=YES;
+//    }
+}
+
+//购买
+-(void)buyAction
+{
+    self.buyActionBlock();
+}
+
+@end

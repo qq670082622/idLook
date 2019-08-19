@@ -1,0 +1,22 @@
+//
+//  WorkNavView.h
+//  IDLook
+//
+//  Created by Mr Hu on 2018/9/20.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface WorkNavView : UIView
+@property(nonatomic,copy)void(^worksClickTypeBlock)(NSInteger type);
+
+-(void)initUIWithArray:(NSArray*)array;
+
+-(void)slideWithTag:(NSInteger)tag;
+
+@end
+
+NS_ASSUME_NONNULL_END
