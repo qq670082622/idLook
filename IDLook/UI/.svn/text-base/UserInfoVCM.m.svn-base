@@ -1,0 +1,384 @@
+//
+//  UserInfoVCM.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/10.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "UserInfoVCM.h"
+#import "TalentModel.h"
+
+NSString * const kUserInfoVCMCellClass =  @"kUserInfoVCMCellClass";
+NSString * const kUserInfoVCMCellHeight = @"kUserInfoVCMCellHeight";
+NSString * const kUserInfoVCMCellType =   @"kUserInfoVCMCellType";
+NSString * const kUserInfoVCMCellData =   @"kUserInfoVCMCellData";
+
+@interface UserInfoVCM ()
+@property(nonatomic,strong)NSMutableArray *talentArray;
+@end
+
+@implementation UserInfoVCM
+
+-(NSMutableArray*)talentArray
+{
+    if (!_talentArray) {
+        _talentArray=[NSMutableArray new];
+    }
+    return _talentArray;
+}
+
+-(NSMutableArray*)titleArray
+{
+    if (!_titleArray) {
+        _titleArray=[NSMutableArray new];
+    }
+    return _titleArray;
+}
+
+- (void)setInfo:(UserInfoM *)info
+{
+    _info = info;
+    [self refreshUserInfo];
+//    [self analyzeUserInfo];
+}
+- (NSMutableArray *)ds
+{
+    if(!_ds)
+    {
+        _ds = [NSMutableArray new];
+    }
+    return _ds;
+}
+
+-(void)refreshUserInfo
+{
+    NSDictionary *dicArg = @{@"userid":[UserInfoManager getUserUID],
+                             @"artistid":_info.UID};
+    [AFWebAPI getUserInfoWithArg:dicArg callBack:^(BOOL success, id object) {
+        if (success) {
+
+            _info = [[UserInfoM alloc]initWithDic:[object objectForKey:JSON_data]];
+
+            [self analyzeUserInfo];
+
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+        }
+    }];
+}
+
+-(void)analyzeUserInfo
+{
+    [self.ds removeAllObjects];
+    [self.titleArray removeAllObjects];
+    
+    for (int i =0; i<_info.showlist.count; i++) {
+        NSMutableArray *sec = [NSMutableArray new];
+        NSDictionary *dic = _info.showlist[i];
+        NSDictionary *lists = dic[@"lists"];
+        
+        NSArray *talent = lists[@"talent"];
+        NSArray *pastwork = lists[@"pastwork"];
+        NSArray *modelcard = lists[@"modelcard"];
+        
+        NSMutableArray *talentList = [NSMutableArray new];  //试戏作品
+        NSMutableArray *introduceList = [NSMutableArray new]; //自我介绍
+        NSMutableArray *pastworkList = [NSMutableArray new]; //过往作品
+        NSMutableArray *modelcardList= [NSMutableArray new];  //模特卡
+        
+        for (int i=0; i<talent.count; i++) {
+            NSDictionary *dicA = talent[i];
+            TalentModel *model = [[TalentModel alloc]initTalentDic:dicA];
+            [talentList addObject:model];
+        }
+        
+        for (int i=0;i<modelcard.count; i++) {
+            NSDictionary *dicA = modelcard[i];
+            TalentModel *model1 = [[TalentModel alloc]initModelCardDic:dicA];
+            model1.isModelCard=0;
+            
+            TalentModel *model2 = [[TalentModel alloc]initModelCardDic:dicA];
+            model2.isModelCard=1;
+            
+            [introduceList addObject:model2];
+            [modelcardList addObject:model1];
+        }
+        
+        NSMutableArray *pastworkImg = [NSMutableArray new];
+        NSMutableArray *pastworkVideo = [NSMutableArray new];
+        for (int i=0; i<pastwork.count; i++) {
+            NSDictionary *dicA = pastwork[i];
+            WorksModel *model = [[WorksModel alloc]initWithPastWorkDic:dicA];
+            if (model.microtype==1) {
+                model.type=@"图片";
+                [pastworkImg addObject:model];
+            }
+            else if (model.microtype==2)
+            {
+                model.type=@"视频";
+                [pastworkVideo addObject:model];
+            }
+        }
+        
+        if (pastworkVideo.count) {
+            [pastworkList addObject:@{@"type":@"0",
+                                      @"data":pastworkVideo}];
+        }
+        if (pastworkImg.count) {
+            [pastworkList addObject:@{@"type":@"1",
+                                      @"data":pastworkImg}];
+        }
+        
+        if (talentList.count) {
+            [sec addObject:@{kUserInfoVCMCellData:[NSArray arrayWithArray:talentList],
+                              kUserInfoVCMCellClass:@"UserInfoCellA",
+                              kUserInfoVCMCellHeight:[NSNumber numberWithFloat:170],
+                              kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypePerformType]}];
+        }
+        if (introduceList.count) {
+            [sec addObject:@{kUserInfoVCMCellData:[NSArray arrayWithArray:introduceList],
+                             kUserInfoVCMCellClass:@"UserInfoCellB",
+                             kUserInfoVCMCellHeight:[NSNumber numberWithFloat:(UI_SCREEN_WIDTH-30)/1.79+66],
+                             kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypeIntroduce]}];
+        }
+        if (pastworkList.count) {
+            [sec addObject:@{kUserInfoVCMCellData:[NSArray arrayWithArray:pastworkList],
+                             kUserInfoVCMCellClass:@"UserInfoCellA",
+                             kUserInfoVCMCellHeight:[NSNumber numberWithFloat:170],
+                             kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypePastWorkVideo]}]; 
+        }
+        if (modelcardList.count) {
+            [sec addObject:@{kUserInfoVCMCellData:[NSArray arrayWithArray:modelcardList],
+                             kUserInfoVCMCellClass:@"UserInfoCellB",
+                             kUserInfoVCMCellHeight:[NSNumber numberWithFloat:(UI_SCREEN_WIDTH-30)/1.4+66],
+                             kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypeModelcard]}];
+        }
+   
+        
+        [self.titleArray addObject:dic[@"catename"]];
+        [self.ds addObject:sec];
+    }
+    
+#if 0
+    {
+        NSArray *talentList = [self getPerformList];
+        if (talentList.count) {
+            [sec0 addObject:@{kUserInfoVCMCellData:[NSArray arrayWithArray:talentList],
+                              kUserInfoVCMCellClass:@"ModerCardCell",
+                              kUserInfoVCMCellHeight:[NSNumber numberWithFloat: 55+((UI_SCREEN_WIDTH-30)/1.78+20)*5+80],
+                              kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypePerformType]}];
+            
+        }
+    }
+    
+    {
+        if (_info.pastWorksImg.count)
+        {
+            //过往作品图片
+            NSArray *pastWorksImgList= _info.pastWorksImg;
+            NSMutableArray *array = [[NSMutableArray alloc]initWithCapacity:0];
+            
+            for (int i = 0 ;i<pastWorksImgList.count; i++)
+            {
+                WorksModel *model = [[WorksModel alloc]initWithPastWorkDic:pastWorksImgList[i]];
+                model.type=@"图片";
+                [array addObject:model];
+            }
+            
+            [sec1 addObject:@{@"title":@"过往作品",
+                              kUserInfoVCMCellData:array,
+                              kUserInfoVCMCellClass:@"MirrorPhotoCell",
+                              kUserInfoVCMCellHeight:[NSNumber numberWithFloat:215],
+                              kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypePastWorkPhoto]}];
+        }
+        
+        if (_info.pastWorksVdo.count) {
+            //过往作品视频
+            NSArray *pastWorksVdoList= _info.pastWorksVdo;
+            NSMutableArray *array = [[NSMutableArray alloc]initWithCapacity:0];
+            
+            for (int i = 0 ;i<pastWorksVdoList.count; i++)
+            {
+                WorksModel *model = [[WorksModel alloc]initWithPastWorkDic:pastWorksVdoList[i]];
+                model.type=@"视频";
+                [array addObject:model];
+            }
+            
+            CGFloat height = 0.0;
+            NSString *title =@"";
+            if (_info.pastWorksImg.count==0 ) {
+                height = 200;
+                title=@"过往作品";
+            }
+            else
+            {
+                height=160;
+                title=@"";
+            }
+            
+            [sec1 addObject:@{@"title":title,
+                              kUserInfoVCMCellData:array,
+                              kUserInfoVCMCellClass:@"MirrorVideoCell",
+                              kUserInfoVCMCellHeight:[NSNumber numberWithFloat:170],
+                              kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypePastWorkVideo]}];
+        }
+    }
+    
+
+    {
+        NSArray *mirrList= _info.micromirror;
+        NSMutableArray *array1 = [[NSMutableArray alloc]initWithCapacity:0];
+        NSMutableArray *array2 = [[NSMutableArray alloc]initWithCapacity:0];
+        
+        for (int i = 0 ;i<mirrList.count; i++)
+        {
+            WorksModel *model = [[WorksModel alloc]initWithMirrDic:mirrList[i]];
+            
+            if (model.microtype==0) {
+                model.type=@"授权图片";
+                [array1 addObject:model];
+            }
+            else if (model.microtype==1)
+            {
+                model.type=@"授权视频";
+                [array2 addObject:model];
+            }
+        }
+        
+        if (array1.count) {
+            //微出镜图片
+            [sec2 addObject:@{kUserInfoVCMCellData:array1,
+                              kUserInfoVCMCellClass:@"MirrorPhotoCell",
+                              kUserInfoVCMCellHeight:[NSNumber numberWithFloat:220],
+                              kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypeMirrorPhoto]}];
+        }
+        
+
+        if (array2.count) {
+            //微出镜视频
+            [sec2 addObject:@{kUserInfoVCMCellData:array2,
+                              kUserInfoVCMCellClass:@"MirrorVideoCell",
+                              kUserInfoVCMCellHeight:[NSNumber numberWithFloat:UI_SCREEN_HEIGHT-50-SafeAreaTopHeight-SafeAreaTabBarHeight_IphoneX-48-220],
+                              kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypeMirrorVideo]}];
+        }
+        
+    }
+    
+    {
+        if (_info.exoticroom.count) {
+            
+            NSMutableArray *array = [[NSMutableArray alloc]initWithCapacity:0];
+
+            for (int i = 0 ;i<_info.exoticroom.count; i++)
+            {
+                WorksModel *model = [[WorksModel alloc]initWithMirrDic:_info.exoticroom[i]];
+                [array addObject:model];
+            }
+            
+            //试葩间
+            [sec3 addObject:@{kUserInfoVCMCellData:[NSArray arrayWithArray:array],
+                              kUserInfoVCMCellClass:@"TrialWorkCell",
+                              kUserInfoVCMCellHeight:[NSNumber numberWithFloat:UI_SCREEN_HEIGHT-50-SafeAreaTopHeight-SafeAreaTabBarHeight_IphoneX-48],
+                              kUserInfoVCMCellType:[NSNumber numberWithInteger:UserInfoCellTypeTrialWorks]}];
+        }
+    }
+
+#endif
+
+    if(self.newDataNeedRefreshed)
+    {
+        self.newDataNeedRefreshed();
+    }
+}
+
+-(NSMutableArray*)getPerformList
+{
+    NSMutableArray *array = [NSMutableArray new];
+    
+    NSMutableArray *dataSource = [[NSMutableArray alloc]initWithCapacity:0];
+    NSArray *modelcardList = _info.mordcardList;
+    NSArray *talentList = _info.talentList;
+    
+    //将模特卡和试戏作品解析放到一个数组中 ,先加试戏作品，再加模特卡
+    for (int i=0; i<talentList.count; i++)
+    {
+        NSDictionary *dicA = talentList[i];
+        NSArray *list = dicA[@"list"];
+        NSMutableArray *arr = [NSMutableArray new];
+        for (int j=0; j<list.count; j++) {
+            TalentModel *model = [[TalentModel alloc]initTalentDic:list[j]];
+            [arr addObject:model];
+        }
+        NSDictionary *dicB = @{@"name":dicA[@"name"],
+                               @"list":arr};
+        [dataSource addObject:dicB];
+    }
+    
+    
+    for (int i =0; i<modelcardList.count; i++)
+    {
+        NSDictionary *dicA = modelcardList[i];
+        TalentModel *model1 = [[TalentModel alloc]initModelCardDic:dicA];
+        model1.isModelCard=0;
+        
+        TalentModel *model2 = [[TalentModel alloc]initModelCardDic:dicA];
+        model2.isModelCard=1;
+        
+        NSDictionary *dic = @{@"name":dicA[@"type"],
+                              @"list":@[model1,model2]};
+        [dataSource addObject:dic];
+    }
+    
+    if (dataSource.count>0)
+    {
+        [self.talentArray removeAllObjects];
+        [self getSameArrayList:dataSource];
+                
+        for (int i = 0; i<self.talentArray.count; i++)
+        {
+            NSArray *arr1 = self.talentArray[i];
+            NSMutableArray *arr2 = [NSMutableArray new];
+            for (int j =0; j<arr1.count; j++)
+            {
+                NSArray *list = arr1[j][@"list"];
+                for (int s=0; s<list.count; s++) { //将list的每一个在放到新数组中
+                    TalentModel *model = list[s];
+                    [arr2 addObject:model];
+                }
+            }
+            
+            NSDictionary *dic = @{@"name":[arr1 firstObject][@"name"],
+                                  @"list":arr2};
+            [array addObject:dic];
+        }
+    }
+    
+    return array;
+}
+
+//将相同类型名称的分组
+- (void)getSameArrayList:(NSArray *)arrayList
+{
+    NSMutableArray *diffArray = [NSMutableArray array];
+    NSMutableArray *sameArray = [NSMutableArray array];
+    [sameArray addObject:arrayList[0]];
+    for (int i = 1; i < arrayList.count; i ++) {
+        NSDictionary *dic1 = arrayList[i];
+        NSDictionary *dic2 = sameArray[0];
+        
+        if ([dic1[@"name"] isEqualToString:dic2[@"name"]]) {
+            [sameArray addObject:arrayList[i]];
+        }else{
+            [diffArray addObject:arrayList[i]];
+        }
+    }
+    [self.talentArray addObject:sameArray];
+    if (diffArray.count != 0) {
+        [self getSameArrayList:diffArray];
+    }
+}
+
+@end

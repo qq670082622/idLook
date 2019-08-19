@@ -1,0 +1,92 @@
+//
+//  UploadMCCellB.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/21.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "UploadMCCellB.h"
+
+@interface UploadMCCellB ()
+@property(nonatomic,strong)UILabel *titleLab;
+@property(nonatomic,strong)UIImageView *arrow;
+@end
+
+@implementation UploadMCCellB
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.contentView.layer.borderColor=Public_LineGray_Color.CGColor;
+        self.contentView.layer.borderWidth=0.5;
+    }
+    return self;
+}
+
+-(UILabel*)titleLab
+{
+    if (!_titleLab) {
+        _titleLab=[[UILabel alloc]init];
+        _titleLab.font=[UIFont systemFontOfSize:15.0];
+        _titleLab.textColor=[UIColor colorWithHexString:@"#666666"];
+        [self.contentView addSubview:_titleLab];
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.centerY.mas_equalTo(self.contentView);
+        }];
+    }
+    return _titleLab;
+}
+
+-(UITextField*)textField
+{
+    if (!_textField) {
+        _textField=[[UITextField alloc]init];
+        _textField.font=[UIFont systemFontOfSize:14.0];
+        [self.contentView addSubview:_textField];
+        [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.arrow.mas_left).offset(-15);
+            make.centerY.mas_equalTo(self.contentView);
+//            make.left.mas_equalTo(self.titleLab.mas_right).offset(15);
+            make.height.mas_equalTo(50);
+        }];
+        _textField.enabled=NO;
+        _textField.textAlignment=NSTextAlignmentRight;
+        
+        _textField.placeholder=@"请选择形象类型";
+
+        UIFont * font = [UIFont systemFontOfSize:13.0];
+        [_textField setValue:font forKeyPath:@"_placeholderLabel.font"];
+        
+        UIColor * color = [UIColor colorWithHexString:@"#CCCCCC"];
+        [self.textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
+        
+    }
+    return _textField;
+}
+
+-(UIImageView*)arrow
+{
+    if (!_arrow) {
+        _arrow=[[UIImageView alloc]init];
+        [self.contentView addSubview:_arrow];
+        _arrow.contentMode=UIViewContentModeScaleAspectFill;
+        _arrow.image=[UIImage imageNamed:@"center_arror_icon"];
+        [_arrow mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.contentView);
+            make.right.mas_equalTo(self.contentView).offset(-15);
+        }];
+    }
+    return _arrow;
+}
+
+
+-(void)reloadUI
+{
+    self.titleLab.text=@"形象类型";
+    [self arrow];
+    [self textField];
+}
+
+@end

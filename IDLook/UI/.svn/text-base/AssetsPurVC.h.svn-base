@@ -1,0 +1,13 @@
+//
+//  AssetsPurVC.h
+//  IDLook
+//
+//  Created by HYH on 2018/7/5.
+//  Copyright © 2018年 HYH. All rights reserved.
+//  购买方资产管理
+
+#import <UIKit/UIKit.h>
+
+@interface AssetsPurVC : UIViewController
+
+@end

@@ -1,0 +1,58 @@
+//
+//  UserService.h
+//  IDLook
+//
+//  Created by HYH on 2018/5/10.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "UserInfoVCM.h"
+
+@protocol UserServiceDelegate <NSObject>
+
+-(void)scrolloffY:(CGFloat)offY;
+
+//进入视频列表界面
+-(void)entryVideoListWithType:(UserInfoCellType)type;
+
+//查看更多微出境图片
+-(void)lookmoreMirrorPhoto;
+
+//查看更多微出境视频
+-(void)lookmoreMirrorVideo;
+
+//查看更多试葩间作品
+-(void)lookmoreTrialWorks;
+
+//查看试葩间，微出镜详情页面
+-(void)lookWorksDetialWithModel:(WorksModel*)model;
+
+//购买微出镜照片，视频，试葩间视频
+-(void)buyWorksWithModel:(WorksModel*)model;
+
+//查看模特卡大图
+-(void)lookModelCardPhoto:(NSString*)url;
+
+//播放自我介绍视频
+-(void)playIntroduceWithUrl:(NSString*)url;
+
+//过往作品，图片视频切换
+-(void)pastworkCutWithIndexPath:(NSIndexPath*)indexPath;
+
+//查看过往作品图片
+-(void)lookPastworkPhotoWithArray:(NSArray*)array withIndex:(NSInteger)index;
+
+//播放视频组
+-(void)playWorkVideoWithArray:(NSArray*)array withIndex:(NSInteger)index;
+
+@end
+
+@interface UserService : NSObject <UITableViewDelegate,UITableViewDataSource>
+
+@property(nonatomic,weak)id<UserServiceDelegate>delegate;
+@property(nonatomic,strong)UserInfoVCM *dataM;
+@property(nonatomic,assign)NSInteger selectIndex;
+@property(nonatomic,assign)NSInteger pastworkType;
+
+@end

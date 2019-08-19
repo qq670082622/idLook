@@ -1,0 +1,56 @@
+//
+//  AssetModel.h
+//  IDLook
+//
+//  Created by HYH on 2018/7/24.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface AssetModel : NSObject
+
+
+/**
+ 用户id
+ */
+@property(nonatomic,copy)NSString *userid;
+
+/**
+ 订单id
+ */
+@property(nonatomic,copy)NSString *orderid;
+
+/**
+ 金额
+ */
+@property(nonatomic,copy)NSString *money;
+
+/**
+ 日期
+ */
+@property(nonatomic,copy)NSString *tradingDate;
+
+/**
+ 月份
+ */
+@property(nonatomic,assign)NSInteger month;
+
+/**
+ 收入/支出类型
+ */
+@property(nonatomic,assign)NSInteger tradingtype;
+
+/**
+ 类型名称
+ */
+@property(nonatomic,copy)NSString *tradingName;
+
+@property(nonatomic,assign)NSInteger sortkey;
+
+
+-(id)initWithDic:(NSDictionary*)dic;
+
+-(id)initDrawDic:(NSDictionary*)dic;
+
+@end

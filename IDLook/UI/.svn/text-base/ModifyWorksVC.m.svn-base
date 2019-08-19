@@ -1,0 +1,388 @@
+//
+//  ModifyWorksVC.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/6.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "ModifyWorksVC.h"
+#import "UploadWorksCellA.h"
+#import "ModifyWorksCellA.h"
+#import "ModifyWorksCellB.h"
+#import "VideoPlayer.h"
+#import "WorkTypeSelectV.h"
+#import "LookBigImageVC.h"
+
+@interface ModifyWorksVC ()<UITableViewDelegate,UITableViewDataSource,TableVTouchDelegate>
+{
+    NSIndexPath *_indexPath;
+    VideoPlayer *_player;
+    CGRect _currentPlayCellRect;
+}
+@property(nonatomic,strong)TouchTableV *tableV;
+@property(nonatomic,strong)NSMutableArray *dataS;
+@end
+
+@implementation ModifyWorksVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor=Public_Background_Color;
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc]initWithCustomView:[CustomNavVC getRightDefaultButtionWithTitle:@"修改" Target:self action:@selector(modifyAction)]]];
+    
+    if (self.model.microtype==-1) {
+        [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"修改试戏作品"]];
+        
+        self.dataS = [[NSMutableArray alloc]initWithArray:@[@{@"title":@"",@"content":@"",@"placeholder":@"",@"isEdit":@(NO)},
+                                                            @{@"title":@"作品类型",@"content":self.model.type,@"placeholder":@"未填写",@"isEdit":@(NO)},
+                                                            @{@"title":@"作品关键词",@"content":[self.model.keyword stringByReplacingOccurrencesOfString:@"|" withString:@"、"],@"placeholder":@"未填写",@"isEdit":@(NO)}]];
+        
+    }
+    else if (self.model.microtype==1)
+    {
+        [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"修改过往作品"]];
+        
+        self.dataS = [[NSMutableArray alloc]initWithArray:@[@{@"title":@"",@"content":@"",@"placeholder":@"",@"isEdit":@(NO)},
+                                                            @{@"title":@"作品标题",@"content":self.model.title,@"placeholder":@"未填写",@"isEdit":@(YES)},
+                                                            @{@"title":@"作品类型",@"content":self.model.type,@"placeholder":@"未填写",@"isEdit":@(NO)},
+                                                            @{@"title":@"作品关键词",@"content":[self.model.keyword stringByReplacingOccurrencesOfString:@"|" withString:@"、"],@"placeholder":@"未填写",@"isEdit":@(NO)}]];
+
+    }
+    else if (self.model.microtype==2)
+    {
+        [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"修改过往作品"]];
+        self.dataS = [[NSMutableArray alloc]initWithArray:@[@{@"title":@"",@"content":@"",@"placeholder":@"",@"isEdit":@(NO)},
+                                                            @{@"title":@"作品标题",@"content":self.model.title,@"placeholder":@"未填写",@"isEdit":@(YES)},
+                                                            @{@"title":@"作品类型",@"content":self.model.type,@"placeholder":@"未填写",@"isEdit":@(NO)},
+                                                            @{@"title":@"作品关键词",@"content":[self.model.keyword stringByReplacingOccurrencesOfString:@"|" withString:@"、"],@"placeholder":@"未填写",@"isEdit":@(NO)}]];
+    }
+    else if (self.model.microtype==3)
+    {
+        [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"修改才艺展示作品"]];
+        self.dataS = [[NSMutableArray alloc]initWithArray:@[@{@"title":@"",@"content":@"",@"placeholder":@"",@"isEdit":@(NO)},
+                                                            @{@"title":@"作品标题",@"content":self.model.title,@"placeholder":@"未填写",@"isEdit":@(YES)}]];
+    }
+    
+    [self tableV];
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [_player destroyPlayer];
+    _player=nil;
+}
+
+-(void)onGoback
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)modifyAction
+{
+    
+    if (self.model.microtype==-1) {  //修改表演类型
+        UploadWorksCellA *cell1 = [self.tableV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        UploadWorksCellA *cell2 = [self.tableV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+        
+        if (cell1.textField.text.length==0) {
+            [SVProgressHUD showErrorWithStatus:@"请选择作品类型!"];
+            return;
+        }
+        
+        if (cell2.textField.text.length==0) {
+            [SVProgressHUD showErrorWithStatus:@"请选择作品关键词!"];
+            return;
+        }
+        
+        NSDictionary *dicArg = @{@"creativeid":self.model.creativeid,
+                   @"type":@(1),
+                   @"keyword":[cell2.textField.text stringByReplacingOccurrencesOfString:@"、" withString:@"|"],
+                   @"videotype":cell1.textField.text};
+        
+        [SVProgressHUD showWithStatus:@"正在修改，请稍等!" maskType:SVProgressHUDMaskTypeClear];
+
+        [AFWebAPI getModifyWorks:dicArg callBack:^(BOOL success, id object) {
+            if (success) {
+                [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+                [self onGoback];
+                self.saveRefreshUI();
+            }
+            else
+            {
+                AF_SHOW_RESULT_ERROR
+            }
+        }];
+        
+    }
+    else if (self.model.microtype==1 || self.model.microtype==2)  //修改过往作品
+    {
+        UploadWorksCellA *cell1 = [self.tableV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        UploadWorksCellA *cell2 = [self.tableV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+        UploadWorksCellA *cell3 = [self.tableV cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+        
+        if (cell1.textField.text.length==0) {
+            [SVProgressHUD showErrorWithStatus:@"请输入作品标题!"];
+            return;
+        }
+        
+        if (cell2.textField.text.length==0) {
+            [SVProgressHUD showErrorWithStatus:@"请选择作品类型!"];
+            return;
+        }
+        
+        if (cell3.textField.text.length==0) {
+            [SVProgressHUD showErrorWithStatus:@"请选择作品关键词!"];
+            return;
+        }
+        
+        [SVProgressHUD showWithStatus:@"正在修改，请稍等!" maskType:SVProgressHUDMaskTypeClear];
+        NSDictionary *dicArg = @{@"userid":[UserInfoManager getUserUID],
+                                 @"creativeid":self.model.creativeid,
+                                 @"type":@(self.model.microtype),
+                                 @"title":cell1.textField.text,
+                                 @"producetype":cell2.textField.text,
+                                 @"keyword":[cell3.textField.text stringByReplacingOccurrencesOfString:@"、" withString:@"|"]};
+        [AFWebAPI getUploadPastworkWithArg:dicArg data:nil callBack:^(BOOL success, id object) {
+            if (success) {
+                [SVProgressHUD showSuccessWithStatus:@"修改成功"];
+                [self onGoback];
+                self.saveRefreshUI();
+            }
+            else
+            {
+                AF_SHOW_RESULT_ERROR
+            }
+        }];
+    }
+
+}
+
+-(TouchTableV*)tableV
+{
+    if (!_tableV) {
+        _tableV = [[TouchTableV alloc] initWithFrame:CGRectMake(0,0.5,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+        _tableV.delegate = self;
+        _tableV.dataSource = self;
+        _tableV.touchDelegate=self;
+        _tableV.showsVerticalScrollIndicator=NO;
+        _tableV.showsHorizontalScrollIndicator=NO;
+        _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+        _tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:_tableV];
+        _tableV.estimatedRowHeight = 0;
+        _tableV.estimatedSectionHeaderHeight = 0;
+        _tableV.estimatedSectionFooterHeight = 0;
+        _tableV.backgroundColor=Public_Background_Color;
+    }
+    return _tableV;
+}
+
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return .1f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return .1f;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.dataS.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row==0) {
+        if (self.model.microtype==1) {
+            return (UI_SCREEN_WIDTH-30)/1.4+20;
+        }
+        return (UI_SCREEN_WIDTH-30)/1.78+20;
+    }
+    else
+    {
+        return 48;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row==0) {
+        if (self.model.microtype==1)
+        {
+            static NSString *identifer = @"ModifyWorksCellB";
+            ModifyWorksCellB *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+            if(!cell)
+            {
+                cell = [[ModifyWorksCellB alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.backgroundColor=[UIColor whiteColor];
+            }
+            [cell reloadUIWithUrl:self.model.url];
+            return cell;
+        }
+        else
+        {
+            static NSString *identifer = @"ModifyWorksCellA";
+            ModifyWorksCellA *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+            if(!cell)
+            {
+                cell = [[ModifyWorksCellA alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.backgroundColor=[UIColor whiteColor];
+                
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showVideoPlayer:)];
+                [cell addGestureRecognizer:tap];
+                cell.tag=indexPath.row+100;
+            }
+            [cell reloadUIWithUrl:self.model.cutvideo];
+            return cell;
+        }
+    }
+    else
+    {
+        static NSString *identifer = @"UploadWorksCellA";
+        UploadWorksCellA *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+        if(!cell)
+        {
+            cell = [[UploadWorksCellA alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor=[UIColor whiteColor];
+        }
+        
+        [cell reloadUIWithDic:self.dataS[indexPath.row]];
+        
+        return cell;
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.model.microtype==-1)
+    {
+        WeakSelf(self);
+        if (indexPath.row==1) {
+            NSDictionary *dicA = weakself.dataS[indexPath.row];
+            WorkTypeSelectV *selectV=[[WorkTypeSelectV alloc]init];
+            selectV.keywordSelectAction = ^(NSString *content) {
+                NSDictionary *dicB= [[NSDictionary alloc]init];
+                dicB = @{@"title":dicA[@"title"],@"content":content,@"placeholder":dicA[@"placeholder"],@"isEdit":dicA[@"isEdit"]};
+                [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:dicB];
+                [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            };
+            NSArray* array;
+            if ([dicA[@"content"] length]) {
+                array=[dicA[@"content"] componentsSeparatedByString:@"、"];
+            }
+            [selectV showWithSelectArray:array withType:0];
+        }
+        else if (indexPath.row==2)
+        {
+            NSDictionary *dicA = weakself.dataS[indexPath.row];
+            WorkTypeSelectV *selectV=[[WorkTypeSelectV alloc]init];
+            selectV.keywordSelectAction = ^(NSString *content) {
+                NSDictionary *dicB= [[NSDictionary alloc]init];
+                dicB = @{@"title":dicA[@"title"],@"content":content,@"placeholder":dicA[@"placeholder"],@"isEdit":dicA[@"isEdit"]};
+                [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:dicB];
+                [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            };
+            NSArray* array;
+            if ([dicA[@"content"] length]) {
+                array=[dicA[@"content"] componentsSeparatedByString:@"、"];
+            }
+            [selectV showWithSelectArray:array withType:1];
+        }
+    }
+    else if (self.model.microtype==1 || self.model.microtype==2) //过往作品
+    {
+        WeakSelf(self);
+        if (indexPath.row==0) {
+            ModifyWorksCellB *cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+
+            LookBigImageVC *lookImage=[[LookBigImageVC alloc]init];
+            [lookImage showWithImageArray:@[self.model.url] curImgIndex:0 AbsRect:cell.contentView.bounds];
+            [self.navigationController pushViewController:lookImage animated:YES];
+        }
+        else if (indexPath.row==2) {
+            NSDictionary *dicA = weakself.dataS[indexPath.row];
+            WorkTypeSelectV *selectV=[[WorkTypeSelectV alloc]init];
+            selectV.keywordSelectAction = ^(NSString *content) {
+                NSDictionary *dicB= [[NSDictionary alloc]init];
+                dicB = @{@"title":dicA[@"title"],@"content":content,@"placeholder":dicA[@"placeholder"],@"isEdit":dicA[@"isEdit"]};
+                [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:dicB];
+                [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            };
+            NSArray* array;
+            if ([dicA[@"content"] length]) {
+                array=[dicA[@"content"] componentsSeparatedByString:@"、"];
+            }
+            [selectV showWithSelectArray:array withType:0];
+        }
+        else if (indexPath.row==3)
+        {
+            WorkTypeSelectV *selectV=[[WorkTypeSelectV alloc]init];
+            NSDictionary *dicA = weakself.dataS[indexPath.row];
+            selectV.keywordSelectAction = ^(NSString *content) {
+                NSDictionary *dicB= [[NSDictionary alloc]init];
+                dicB = @{@"title":dicA[@"title"],@"content":content,@"placeholder":dicA[@"placeholder"],@"isEdit":dicA[@"isEdit"]};
+                [weakself.dataS replaceObjectAtIndex:indexPath.row withObject:dicB];
+                [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            };
+            NSArray* array;
+            if ([dicA[@"content"] length]) {
+                array=[dicA[@"content"] componentsSeparatedByString:@"、"];
+            }
+            [selectV showWithSelectArray:array withType:1];
+        }
+    }
+}
+
+- (void)showVideoPlayer:(UITapGestureRecognizer *)tapGesture {
+    [_player destroyPlayer];
+    _player = nil;
+    
+    UIView *view = tapGesture.view;
+    
+    _indexPath = [NSIndexPath indexPathForRow:view.tag - 100 inSection:0];
+    UITableViewCell *cell = [self.tableV cellForRowAtIndexPath:_indexPath];
+    
+    _player = [[VideoPlayer alloc] init];
+    _player.layer.masksToBounds=YES;
+    _player.layer.cornerRadius=5.0;
+//    _player.videoUrl =@"http://download.3g.joy.cn/video/236/60236937/1451280942752_hd.mp4";
+    _player.videoUrl=self.model.url;
+    [_player playerBindTableView:self.tableV currentIndexPath:_indexPath];
+    _player.frame = CGRectMake(15, 20, view.bounds.size.width-30, view.bounds.size.height-40);
+    
+    [cell.contentView addSubview:_player];
+    
+    _player.completedPlayingBlock = ^(VideoPlayer *player) {
+        [player destroyPlayer];
+        _player = nil;
+    };
+}
+
+#pragma mark -
+#pragma mark - TableVTouchDelegate
+- (void)tableView:(UITableView *)tableView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+
+@end

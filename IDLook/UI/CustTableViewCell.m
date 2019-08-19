@@ -1,0 +1,122 @@
+//
+//  CustTableViewCell.m
+//  IDLook
+//
+//  Created by HYH on 2018/8/29.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "CustTableViewCell.h"
+
+@interface CustTableViewCell ()
+@property(nonatomic,strong)UILabel *titleLab;
+@property(nonatomic,strong)UILabel *detialLab;
+@property(nonatomic,strong)UILabel *starLab;
+@property(nonatomic,strong)UIImageView *arrow;
+@end
+
+@implementation CustTableViewCell
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+
+    }
+    return self;
+}
+
+
+-(UILabel*)titleLab
+{
+    if (!_titleLab) {
+        _titleLab=[[UILabel alloc]init];
+        _titleLab.font=[UIFont systemFontOfSize:16.0];
+        _titleLab.textColor=Public_Text_Color;
+        [self.contentView addSubview:_titleLab];
+        [_titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.centerY.mas_equalTo(self.contentView);
+        }];
+    }
+    return _titleLab;
+}
+
+-(UILabel*)starLab
+{
+    if (!_starLab) {
+        _starLab=[[UILabel alloc]init];
+        _starLab.font=[UIFont systemFontOfSize:15.0];
+        _starLab.textColor=Public_Red_Color;
+        [self.contentView addSubview:_starLab];
+        _starLab.text=@"*";
+        [_starLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.titleLab.mas_right).offset(0);
+            make.centerY.mas_equalTo(self.contentView).offset(3);
+        }];
+    }
+    return _starLab;
+}
+
+-(UILabel*)detialLab
+{
+    if (!_detialLab) {
+        _detialLab=[[UILabel alloc]init];
+        _detialLab.font=[UIFont systemFontOfSize:16.0];
+        _detialLab.textAlignment=NSTextAlignmentLeft;
+        _detialLab.textColor=Public_Text_Color;
+        [self.contentView addSubview:_detialLab];
+        [_detialLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.arrow.mas_left).offset(-10);
+            make.centerY.mas_equalTo(self.contentView);
+            make.left.mas_equalTo(self.contentView).offset(124);
+        }];
+    }
+    return _detialLab;
+}
+
+-(UIImageView*)arrow
+{
+    if (!_arrow) {
+        _arrow=[[UIImageView alloc]init];
+        [self.contentView addSubview:_arrow];
+        UIImage *image=[UIImage imageNamed:@"center_arror_icon"];
+        _arrow.image=image;
+        [_arrow mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.contentView);
+            make.right.mas_equalTo(self.contentView).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(image.size.width,image.size.height));
+        }];
+    }
+    return _arrow;
+}
+
+
+-(void)reloadUIWithDic:(NSDictionary*)dic
+{
+    if (dic==nil) {
+        return;
+    }
+    self.titleLab.text=dic[@"title"];
+    self.detialLab.text=[dic[@"content"]length]>0?dic[@"content"]:dic[@"desc"];
+    
+    if ([dic[@"title"] isEqualToString:@"用户ID"]) {
+        self.arrow.hidden=YES;
+    }
+    else
+    {
+        self.arrow.hidden=NO;
+    }
+    
+    
+    BOOL isRequired = [dic[@"isRequired"] boolValue];
+    if (isRequired) {
+        self.starLab.hidden=NO;
+    }
+    else
+    {
+        self.starLab.hidden=YES;
+    }
+
+}
+
+@end

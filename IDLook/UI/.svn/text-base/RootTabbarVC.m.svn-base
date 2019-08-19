@@ -1,0 +1,114 @@
+//
+//  RootTabbarVC.m
+//  IDLook
+//
+//  Created by HYH on 2018/3/7.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "RootTabbarVC.h"
+#import "HomeMainVC.h"
+#import "VideoMainVC.h"
+#import "CollectionMainVC.h"
+#import "MsgMainVC.h"
+#import "CenterMainVC.h"
+#import "LoginAndRegistVC.h"
+#import "NetworkSettPopV.h"
+
+@interface RootTabbarVC ()<UITabBarControllerDelegate>
+
+@end
+
+@implementation RootTabbarVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+
+    self.delegate=self;
+    
+    
+    //首页
+    HomeMainVC *homeVC = [[HomeMainVC alloc] init];
+    homeVC.tabBarItem.tag=100;
+    [self addChildController:homeVC title:@"首页" imageName:@"menu_home_n" selectedImageName:@"menu_home_h"];
+    
+    //视频演员
+    VideoMainVC *videoVC = [[VideoMainVC alloc] init];
+    videoVC.tabBarItem.tag=101;
+    [self addChildController:videoVC title:@"视频演员" imageName:@"menu_video_n" selectedImageName:@"menu_video_h"];
+
+    //收藏
+    CollectionMainVC *collectVC = [[CollectionMainVC alloc] init];
+    collectVC.tabBarItem.tag=102;
+    [self addChildController:collectVC title:@"收藏" imageName:@"menu_collection_n" selectedImageName:@"menu_collection_h"];
+    
+    //消息
+    MsgMainVC *msgVC = [[MsgMainVC alloc] init];
+    msgVC.tabBarItem.tag=103;
+    [self addChildController:msgVC title:@"消息" imageName:@"menu_message_n" selectedImageName:@"menu_message_h"];
+
+    //我的
+    CenterMainVC *centerVC = [[CenterMainVC alloc] init];
+    centerVC.tabBarItem.tag=104;
+    [self addChildController:centerVC title:@"我的" imageName:@"menu_my_n" selectedImageName:@"menu_my_h"];
+    
+    [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]];
+    //  设置tabbar
+    [[UITabBar appearance] setShadowImage:[[UIImage alloc] init]];
+    
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //网络监听
+        if ([[NetworkNoti shareInstance]getNetworkStatus]==AFNetworkReachabilityStatusReachableViaWWAN && [UserInfoManager getNetworkSettingFirst]) {   //流量时弹出提示框,只会一次弹出
+            NetworkSettPopV *popV = [[NetworkSettPopV alloc]init];
+            [popV show];
+        }
+    });
+}
+
+- (void)addChildController:(UIViewController*)childController title:(NSString*)title imageName:(NSString*)imageName selectedImageName:(NSString*)selectedImageName
+{
+    id item ;
+    item = [childController.tabBarItem initWithTitle:title
+                                               image:[[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                       selectedImage:[[UIImage imageNamed:selectedImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    
+//    [childController.tabBarItem setImageInsets:UIEdgeInsetsMake(3, 0, -3, 0)];
+
+    // 设置一下选中tabbar文字颜色
+    [childController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:Public_Red_Color}forState:UIControlStateSelected];
+    
+
+    if (childController.tabBarItem.tag==101) {
+        [childController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#3EA3F3"]}forState:UIControlStateNormal];
+    }
+    else
+    {
+        [childController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#C8C8C8"]}forState:UIControlStateNormal];
+    }
+
+    CustomNavVC* nav = [[CustomNavVC alloc] initWithRootViewController:childController];
+    
+    [self addChildViewController:nav];
+}
+
+
+
+-(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+    if ([UserInfoManager getUserLoginType]==UserLoginTypeTourist && viewController.tabBarItem.tag>101) {   //游客模式
+        LoginAndRegistVC *login=[[LoginAndRegistVC alloc]init];
+        [self presentViewController:login animated:YES completion:nil];
+        return NO;
+    }
+    return YES;
+}
+
+-(void)skipMineWithIndex:(NSInteger)index
+{
+    [self setSelectedIndex:index];
+}
+
+
+@end

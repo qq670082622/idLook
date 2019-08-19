@@ -1,0 +1,84 @@
+//
+//  ForwardHeadView.m
+//  IDLook
+//
+//  Created by Mr Hu on 2018/9/18.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "ForwardHeadView.h"
+
+@interface ForwardHeadView ()
+@property(nonatomic,strong)UIView *slider;
+@property(nonatomic,assign)NSInteger curePage;
+@end
+
+@implementation ForwardHeadView
+
+-(id)initWithFrame:(CGRect)frame
+{
+    if (self=[super initWithFrame:frame]) {
+        self.backgroundColor=[UIColor whiteColor];
+        
+        self.curePage = 0;
+        [self initUI];
+    }
+    return self;
+}
+
+-(void)initUI
+{
+    NSArray *array=@[@"提现到银行卡",@"提现到支付宝"];
+    for (int i = 0; i<array.count; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTag:100+i];
+        [button setTitle:array[i] forState:UIControlStateNormal];
+        [button setTitleColor:Public_Text_Color forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        [self addSubview:button];
+        
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self).offset(UI_SCREEN_WIDTH/array.count*i);
+            make.top.mas_equalTo(self);
+            make.bottom.mas_equalTo(self);
+            make.width.mas_equalTo(UI_SCREEN_WIDTH/array.count);
+        }];
+        
+        if (i==0) {
+            [button setTitleColor:Public_Red_Color forState:UIControlStateNormal];
+        }
+        [button addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIView *lineVV=[[UIView alloc]init];
+        lineVV.backgroundColor=[UIColor colorWithHexString:@"#E8E8E8"];
+        [self addSubview:lineVV];
+        [lineVV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(0.5);
+            make.height.mas_equalTo(13);
+            make.centerY.mas_equalTo(self.mas_centerY);
+            make.left.mas_equalTo(button.mas_right);
+        }];
+    }
+
+    
+}
+
+
+-(void)btnClicked:(UIButton*)sender
+{
+    for (int i =0; i<4; i++) {
+        UIButton *button = (UIButton*)[self viewWithTag:100+i];
+        if (i==sender.tag-100) {
+            [button setTitleColor:Public_Red_Color forState:UIControlStateNormal];
+        }
+        else
+        {
+            [button setTitleColor:Public_Text_Color forState:UIControlStateNormal];
+        }
+    }
+    
+    
+    self.forwardTypeClickBlock(sender.tag-100);
+}
+
+@end

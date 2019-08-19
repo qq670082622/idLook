@@ -1,0 +1,283 @@
+//
+//  OrderDetialVCM.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/27.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "OrderDetialVCM.h"
+
+NSString * const kOrderDetialVCMCellClass =  @"kOrderDetialVCMCellClass";
+NSString * const kOrderDetialVCMCellHeight = @"kOrderDetialVCMCellHeight";
+NSString * const kOrderDetialVCMCellType =   @"kOrderDetialVCMCellType";
+NSString * const kOrderDetialVCMCellData =   @"kOrderDetialVCMCellData";
+
+
+@implementation OrderDetialVCM
+
+-(id)init
+{
+    if (self=[super init]) {
+    }
+    return self;
+}
+
+- (NSMutableArray *)ds
+{
+    if(!_ds)
+    {
+        _ds = [NSMutableArray new];
+    }
+    return _ds;
+}
+
+-(void)refreshOrderInfoWithOrderModel:(OrderModel *)model
+{
+    [self analyzeOrderInfoWithOrderModel:model];
+    NSDictionary *dicArg = @{@"orderid":model.orderId,
+                             @"userid":[UserInfoManager getUserUID]};
+    [AFWebAPI getOrderDetail:dicArg callBack:^(BOOL success, id object) {
+        if (success) {
+            NSDictionary *dic = [object objectForKey:JSON_data];
+            OrderModel *modelA = [[OrderModel alloc]initWithDic:dic];
+            [self analyzeOrderInfoWithOrderModel:modelA];
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+        }
+    }];
+}
+
+-(void)analyzeOrderInfoWithOrderModel:(OrderModel *)model
+{
+    self.model=model;
+    [self.ds removeAllObjects];
+    
+    OrderType type = model.ordertype;
+    
+    NSMutableArray *sec0 = [NSMutableArray new];
+    NSMutableArray *sec1 = [NSMutableArray new];
+    NSMutableArray *sec2 = [NSMutableArray new];
+    NSMutableArray *sec3 = [NSMutableArray new];
+    
+    [sec0 addObject:@{kOrderDetialVCMCellClass:@"OrderDetialCellA",
+                      kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:84],
+                      kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+    
+    [sec0 addObject:@{kOrderDetialVCMCellClass:@"OrderDetialCellB",
+                      kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:40],
+                      kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+    if (type==OrderTypeAudition)
+    {
+        NSString *desc =@"";
+        if ([UserInfoManager getUserType]==UserTypeResourcer && model.auditionType==0 ) {
+            desc = @"   (请竖屏拍摄视频)";
+        }
+        
+        NSArray *array1 = @[@{@"title":@"试镜艺人",@"content":model.actorNick,@"height":@(25)},
+                            @{@"title":@"试镜方式",@"content":[NSString stringWithFormat:@"%@%@",[model getAuditionWayWithType:model.auditionType],desc],@"height":@(25)},
+                            @{@"title":@"最晚上传作品日期",@"content":model.latestworktime,@"height":@(25)},
+                            @{@"title":@"项目简介",@"content":model.projectdesc,@"height":@([self heighOfString:model.projectdesc font:[UIFont systemFontOfSize:14] width:UI_SCREEN_WIDTH-150])},
+                            ];
+        
+        CGFloat totalH = 40;
+        for (int i =0; i<array1.count; i++) {
+            NSDictionary *dic = array1[i];
+            totalH+=[dic[@"height"]floatValue];
+        }
+        
+        [sec0 addObject:@{kOrderDetialVCMCellData:array1,
+                          kOrderDetialVCMCellClass:@"OrderDetialCellC",
+                          kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:totalH],
+                          kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        
+        NSArray *array2 = @[@{@"title":@"拍摄天数",@"content":[self getShotDay:model.shootdays],@"height":@(25)},
+                            @{@"title":@"拍摄城市",@"content":model.shootplace,@"height":@(25)},
+                            @{@"title":@"拍摄日期",@"content":[NSString stringWithFormat:@"%@  /  %@",model.shoottime,model.shoottimeend],@"height":@(25)}];
+        CGFloat totalH2 = 40;
+        for (int i =0; i<array2.count; i++) {
+            NSDictionary *dic = array2[i];
+            totalH2+=[dic[@"height"]floatValue];
+        }
+        
+        [sec0 addObject:@{kOrderDetialVCMCellData:array2,
+                          kOrderDetialVCMCellClass:@"OrderDetialCellC",
+                          kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:totalH2],
+                          kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        
+        if (model.creativeurl.length>0) {
+            [sec0 addObject:@{kOrderDetialVCMCellData:model.creativeurl,
+                              kOrderDetialVCMCellClass:@"OrderDetialCellN",
+                              kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:48],
+                              kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        }
+        
+        if ([model.orderstate isEqualToString:@"videouploaded"]||[model.orderstate isEqualToString:@"finished"]) {
+            [sec1 addObject:@{kOrderDetialVCMCellClass:@"OrderDetialCellH",
+                              kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:48],
+                              kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        }
+        
+        if ([UserInfoManager getUserType]==UserTypePurchaser) {
+            [sec2 addObject:@{kOrderDetialVCMCellData:model.price,
+                              kOrderDetialVCMCellClass:@"OrderDetialCellD",
+                              kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:63],
+                              kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];}
+        else
+        {
+            NSArray *array = @[@{@"title":@"到手价",@"desc":@"",@"content":[NSString stringWithFormat:@"¥ %ld",[model.profit integerValue]]}];
+            [sec2 addObject:@{kOrderDetialVCMCellData:array,
+                              kOrderDetialVCMCellClass:@"OrderDetialCellE",
+                              kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:55],
+                              kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        }
+        if (model.auditionType==2) {
+            [sec3 addObject:@{kOrderDetialVCMCellData:@"",
+                              kOrderDetialVCMCellClass:@"OrderDetialCellM",
+                              kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:48],
+                              kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        }
+    }
+    else if (type==OrderTypeShot)
+    {
+        NSArray *array1 = @[@{@"title":@"拍摄艺人",@"content":model.actorNick,@"height":@(25)},
+                            @{@"title":@"定妆",@"content":model.shotordertype==1?@"自备场地":@"平面影棚",@"height":@(25)},
+                            @{@"title":@"项目简介",@"content":model.projectdesc,@"height":@([self heighOfString:model.projectdesc font:[UIFont systemFontOfSize:14] width:UI_SCREEN_WIDTH-150])},];
+        
+        CGFloat totalH1 = 40;
+        for (int i =0; i<array1.count; i++) {
+            NSDictionary *dic = array1[i];
+            totalH1+=[dic[@"height"]floatValue];
+        }
+        
+        [sec0 addObject:@{kOrderDetialVCMCellData:array1,
+                          kOrderDetialVCMCellClass:@"OrderDetialCellC",
+                          kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:totalH1],
+                          kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        
+        NSArray *array2 = @[@{@"title":@"拍摄天数",@"content":[self getShotDay:model.shootdays],@"height":@(25)},
+                             @{@"title":@"拍摄城市",@"content":model.shootplace,@"height":@(25)},
+                             @{@"title":@"拍摄日期",@"content":[NSString stringWithFormat:@"%@  /  %@",model.datereservation,model.datereservationend],@"height":@(25)},
+                             @{@"title":@"肖像周期",@"content":model.cycle,@"height":@(25)},
+                             @{@"title":@"肖像范围",@"content":model.region,@"height":@(25)}];
+        CGFloat totalH2 = 40;
+        for (int i =0; i<array2.count; i++) {
+            NSDictionary *dic = array2[i];
+            totalH2+=[dic[@"height"]floatValue];
+        }
+        
+        [sec0 addObject:@{kOrderDetialVCMCellData:array2,
+                          kOrderDetialVCMCellClass:@"OrderDetialCellC",
+                          kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:totalH2],
+                          kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        
+        if (model.creativeurl.length>0) {
+            [sec0 addObject:@{kOrderDetialVCMCellData:model.creativeurl,
+                              kOrderDetialVCMCellClass:@"OrderDetialCellN",
+                              kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:48],
+                              kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        }
+        
+        NSArray *array;
+        CGFloat height ;
+        if ([UserInfoManager getUserType]==UserTypePurchaser)
+        {
+            NSString *fixPrice =fixPrice =[NSString stringWithFormat:@"¥%ld",[model.offerInfo[@"fixedprice"] integerValue]];
+            
+            NSString *state1  = @"";
+            if ([model.orderstate isEqualToString:@"new"]) {
+                state1=@"(待支付)";
+            }
+            else
+            {
+                state1=@"(已支付)";
+            }
+            
+            NSString *state2  = @"";
+            if ([model.orderstate isEqualToString:@"paiedtwo"] || [model.orderstate isEqualToString:@"finished"]) {
+                state2=@"(已支付)";
+            }
+            else
+            {
+                state2=@"(待支付)";
+            }
+            
+            array = @[@{@"title":model.shotordertype==1?@"意向金":@"定妆费",@"desc":state1,@"content":[NSString stringWithFormat:@"¥ %ld",[model.ordertypeprice integerValue]]},
+                      @{@"title":@"演出费",@"desc":state2,@"content":[NSString stringWithFormat:@"¥ %ld",[model.showprice integerValue]]},
+                      @{@"title":@"演出费优惠",@"desc":@"",@"content":[NSString stringWithFormat:@" - ¥%ld",([model.freeprice integerValue]<0?0:[model.freeprice integerValue])]}
+                      ];
+            height=130;
+        }
+        else
+        {
+            array = @[@{@"title":@"到手价",@"desc":@"",@"content":[NSString stringWithFormat:@"¥ %ld",[model.totalprofit integerValue]]}];
+            height=55;
+        }
+        
+        [sec1 addObject:@{kOrderDetialVCMCellData:array,
+                          kOrderDetialVCMCellClass:@"OrderDetialCellE",
+                          kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:height],
+                          kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+        
+        [sec3 addObject:@{kOrderDetialVCMCellData:@"",
+                          kOrderDetialVCMCellClass:@"OrderDetialCellM",
+                          kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:48],
+                          kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+    }
+    
+    
+    
+    
+    if ([model.orderstate isEqualToString:@"rejected"])
+    {
+        CGFloat height = [self heighOfString:model.ordermsg font:[UIFont systemFontOfSize:14.0] width:UI_SCREEN_WIDTH-110];
+        [sec2 addObject:@{kOrderDetialVCMCellClass:@"OrderDetialCellG",
+                          kOrderDetialVCMCellHeight:[NSNumber numberWithFloat:height+30],
+                          kOrderDetialVCMCellType:[NSNumber numberWithInteger:0]}];
+    }
+    
+    [self.ds addObject:sec0];
+    [self.ds addObject:sec1];
+    [self.ds addObject:sec2];
+    [self.ds addObject:sec3];
+    
+    if (self.newDataNeedRefreshed) {
+        self.newDataNeedRefreshed();
+    }
+}
+
+-(NSString*)getShotDay:(NSInteger)day
+{
+    if (day<=5) {
+        return [NSString stringWithFormat:@"%ld天",day];
+    }
+    else
+    {
+        return @"5天以上";
+    }
+}
+
+//文字高度
+-(CGFloat)heighOfString:(NSString *)string font:(UIFont *)font width:(CGFloat)width
+{
+    MLLabel *contentLab = [[MLLabel alloc] init];
+    contentLab.font = font;
+    contentLab.numberOfLines = 0;
+    contentLab.lineBreakMode = NSLineBreakByWordWrapping;
+    contentLab.lineSpacing = 5;
+    contentLab.text = string;
+    CGSize size = [contentLab sizeThatFits:CGSizeMake(width, 0)];
+    size.width = fmin(size.width, width);
+    
+    return ceilf(size.height)<25.0?25.0:ceilf(size.height);
+}
+
+//空字符串进行处理
+-(NSString*)dealNULLString:(NSString*)str
+{
+    return str.length>0?str:@"--";
+}
+
+@end

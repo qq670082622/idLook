@@ -1,0 +1,97 @@
+//
+//  UserWorksCell.m
+//  IDLook
+//
+//  Created by HYH on 2018/5/10.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "UserWorksCell.h"
+
+@interface UserWorksCell()
+@property(nonatomic,strong)UIImageView *icon;
+@property(nonatomic,strong)UILabel *countLab;
+@end
+
+@implementation UserWorksCell
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+
+    }
+    return self;
+}
+
+-(UIImageView*)icon
+{
+    if (!_icon) {
+        _icon=[[UIImageView alloc]init];
+        [self.contentView addSubview:_icon];
+        _icon.contentMode=UIViewContentModeScaleAspectFill;
+        _icon.layer.cornerRadius=5.0;
+        _icon.layer.masksToBounds=YES;
+        [_icon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.centerX.mas_equalTo(self.contentView);
+            make.top.mas_equalTo(self.contentView).offset(19);
+            make.bottom.mas_equalTo(self.contentView).offset(-8);
+        }];
+        
+        UIView *bottomV=[[UIView alloc]init];
+        [self.contentView addSubview:bottomV];
+        bottomV.layer.cornerRadius=3.0;
+        bottomV.layer.masksToBounds=YES;
+        bottomV.backgroundColor=[UIColor colorWithHexString:@"#D1D1D1"];
+        [bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(25);
+            make.centerX.mas_equalTo(self.contentView);
+            make.bottom.mas_equalTo(self.contentView).offset(-2);
+            make.height.mas_equalTo(8);
+        }];
+        
+        [self.contentView sendSubviewToBack:bottomV];
+        
+    }
+    return _icon;
+}
+
+-(UILabel*)countLab
+{
+    if (!_countLab) {
+        UIView *bottomBG=[[UIView alloc]init];
+        [self.icon addSubview:bottomBG];
+        bottomBG.backgroundColor=[[UIColor colorWithHexString:@"#000000"]colorWithAlphaComponent:0.5];
+        [bottomBG mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.icon);
+            make.right.mas_equalTo(self.icon);
+            make.bottom.mas_equalTo(self.icon);
+            make.height.mas_equalTo(45);
+        }];
+        
+        _countLab=[[UILabel alloc]init];
+        [self.contentView addSubview:_countLab];
+        _countLab.font=[UIFont systemFontOfSize:15];
+        _countLab.textColor=[UIColor whiteColor];
+        [_countLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.icon).offset(17);
+            make.centerY.mas_equalTo(bottomBG);
+        }];
+        
+    }
+    return _countLab;
+}
+
+-(void)reloadUIWithDic:(NSDictionary *)dic
+{
+    if (!dic)  return;
+    
+    NSArray *array = dic[@"list"];
+    
+    [self.icon sd_setImageWithUrlStr:[[array firstObject]objectForKey:@"cutvideo"] placeholderImage:[UIImage imageNamed:@"default_video"]];
+    
+    self.countLab.text = [NSString stringWithFormat:@"%@（%ld）",dic[@"name"],array.count];
+    
+}
+
+@end

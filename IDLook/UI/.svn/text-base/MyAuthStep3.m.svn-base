@@ -1,0 +1,377 @@
+//
+//  MyAuthStep3.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/4.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "MyAuthStep3.h"
+#import "AuthHeadV.h"
+#import "AuthCellB.h"
+#import "AuthFootV.h"
+#import "MyAuthStateVC.h"
+
+@interface MyAuthStep3 ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
+@property (nonatomic,strong)UITableView *tableV;
+@property (nonatomic,strong)AuthHeadV *headV;
+@property (nonatomic,strong)NSIndexPath *photoIndexPath;
+@property (nonatomic,strong)NSMutableDictionary *imageDic;
+@property (nonatomic,strong)NSArray *dataS;
+@end
+
+@implementation MyAuthStep3
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor=Public_Background_Color;
+    [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"我的认证"]];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
+    
+    self.imageDic = [[NSMutableDictionary alloc]init];
+    
+    //资源方
+    if ([UserInfoManager getUserType]==UserTypeResourcer) {
+        self.dataS= @[@{@"title":@"请上传您身份证/护照的正反面，用于实名认证",@"data":@[@{@"desc":@"身份证/护照正面",@"image":@"auth_id_01"},@{@"desc":@"身份证/护照背面",@"image":@"auth_id_02"}]},
+                      @{@"title":@"请上传您银行卡的正反面，用于实名认证",@"data":@[@{@"desc":@"银行卡正面",@"image":@"auth_card_01"},@{@"desc":@"银行卡背面",@"image":@"auth_card_02"}]}];
+    }
+    else  //购买方
+    {
+        //购买方个人
+        if ([UserInfoManager getUserSubType]==UserSubTypePurPersonal) {
+            self.dataS= @[@{@"title":@"请上传管理员身份证/护照的正反面，用于实名认证",@"data":@[@{@"desc":@"身份证/护照正面",@"image":@"auth_id_01"},@{@"desc":@"身份证/护照背面",@"image":@"auth_id_02"}]}];
+        }
+        else   //购买方企业
+        {
+            self.dataS= @[@{@"title":@"请上传营业执照正面，用于实名认证",@"data":@[@{@"desc":@"营业执照正面",@"image":@"auth_license"}]},
+                          @{@"title":@"请上传管理员身份证/护照的正反面，用于实名认证",@"data":@[@{@"desc":@"身份证/护照正面",@"image":@"auth_id_01"},@{@"desc":@"身份证/护照背面",@"image":@"auth_id_02"}]}];
+        }
+    }
+    
+    [self headV];
+    [self tableV];
+}
+
+
+-(void)onGoback
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(AuthHeadV*)headV
+{
+    if (!_headV) {
+        _headV=[[AuthHeadV alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, 48)];
+        [_headV reloadWithStep:2];
+        [self.view addSubview:_headV];
+    }
+    return _headV;
+}
+
+- (UITableView *)tableV
+{
+    if(!_tableV)
+    {
+        _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,48,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-48) style:UITableViewStyleGrouped];
+        _tableV.delegate = self;
+        _tableV.dataSource = self;
+        _tableV.bounces=NO;
+        _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+        _tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:_tableV];
+        _tableV.estimatedRowHeight = 0;
+        _tableV.estimatedSectionHeaderHeight = 0;
+        _tableV.estimatedSectionFooterHeight = 0;
+        _tableV.backgroundColor=[UIColor clearColor];
+    }
+    return _tableV;
+}
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == self.dataS.count-1) {
+        return 100;
+    }
+    return .1f;}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 50;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.dataS.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSDictionary *dic = self.dataS[section];
+    NSArray *array = dic[@"data"];
+    return array.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UI_SCREEN_WIDTH*(418.0/750.0);
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *identifer = @"AuthCellB";
+    AuthCellB *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    if(!cell)
+    {
+        cell = [[AuthCellB alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor=[UIColor clearColor];
+        WeakSelf(self);
+        cell.addPhotoBlock = ^{
+            weakself.photoIndexPath=indexPath;
+            [weakself addCertificate];
+        };
+    }
+    NSDictionary *dic = self.dataS[indexPath.section];
+    NSArray *array = dic[@"data"];
+    [cell reloadUIWithDic:array[indexPath.row]];
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSDictionary *dic = self.dataS[section];
+    
+    static NSString *identifer = @"UITableViewHeaderFooterView";
+    UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifer];
+    if(!headerView)
+    {
+        headerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:identifer];
+        [headerView.backgroundView setBackgroundColor:[UIColor clearColor]];
+        
+        UILabel *titleLabel = [[UILabel alloc] init];
+        titleLabel.tag=100;
+        titleLabel.textColor =  [UIColor colorWithHexString:@"#999999"];
+        titleLabel.font=[UIFont systemFontOfSize:12.0];
+        [headerView addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(headerView);
+            make.bottom.mas_equalTo(headerView).offset(-10);
+        }];
+    }
+    UILabel *titleLab = [headerView viewWithTag:100];
+    titleLab.text=dic[@"title"];
+    return headerView;
+
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section==self.dataS.count-1) {
+        AuthFootV *view = [[AuthFootV alloc] init];
+        [view reloadUIWithType:2];
+        WeakSelf(self);
+        view.clickNextStep = ^{
+            [weakself didClickNextWithStep:2];
+        };
+        view.clickLastStep = ^{
+            [weakself didClickLastWithStep:2];
+        };
+        return view;
+    }
+    return nil;
+}
+
+
+#pragma mark----Action
+//上一步
+-(void)didClickLastWithStep:(NSInteger)step
+{
+    [self.navigationController popViewControllerAnimated:NO];
+}
+
+//提交审核
+-(void)didClickNextWithStep:(NSInteger)step
+{
+    NSInteger count ;
+    //资源方
+    if ([UserInfoManager getUserType]==UserTypeResourcer) {
+        count=4;
+    }
+    else  //购买方
+    {
+        //购买方个人
+        if ([UserInfoManager getUserSubType]==UserSubTypePurPersonal) {
+            count=2;
+        }
+        else   //购买方企业
+        {
+            count=3;
+        }
+    }
+
+    if (self.imageDic.count<count) {
+        [SVProgressHUD showErrorWithStatus:@"请证件或银行卡信息上传完整～"];
+        return;
+    }
+    
+     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithDictionary:self.infoDic];
+    [dic setObject:[UserInfoManager getUserUID] forKey:@"userid"];
+    [dic setObject:@([UserInfoManager getUserType]) forKey:@"usertype"];
+
+    [AFWebAPI uploadAuthInfoWithArg:dic DataDic:self.imageDic callBack:^(BOOL success, id object) {
+        if (success) {
+            [SVProgressHUD showSuccessWithStatus:@"信息上传成功，请耐心等待审核结果！"];
+            
+            [UserInfoManager setUserAuthState:3];
+            MyAuthStateVC *stateVC=[[MyAuthStateVC alloc]init];
+            stateVC.authState=3;
+            [self.navigationController pushViewController:stateVC animated:YES];
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+        }
+    }];
+    
+
+}
+
+//添加银行卡，证件照
+- (void)addCertificate
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"手机拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+        if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera])
+        {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = NO;
+            picker.sourceType = sourceType;
+            [self presentViewController:picker animated:YES completion:^{}];
+        }
+        else
+        {}
+    }];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"本地图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.delegate = self;
+        picker.allowsEditing = NO;
+        
+        [self presentViewController:picker animated:YES completion:^{}];
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:^(UIAlertAction * _Nonnull action) {
+                                                        [alert dismissViewControllerAnimated:YES completion:^{}];
+                                                    }];
+    
+    [alert addAction:action0];
+    [alert addAction:action1];
+    [alert addAction:action2];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:alert animated:YES completion:nil];
+    });
+}
+
+#pragma mark -
+#pragma mark - UIImagePickerControllerDelegate
+
+
+-(void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    
+    if ([type isEqualToString:@"public.image"])
+    {
+        UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        AuthCellB *cell = [self.tableV cellForRowAtIndexPath:self.photoIndexPath];
+        cell.image=image;
+        [self setValueToImage:image];
+    }
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+}
+
+-(void)setValueToImage:(UIImage*)image
+{
+    NSInteger sec = self.photoIndexPath.section;
+    NSInteger row = self.photoIndexPath.row;
+    
+    //资源方
+    if ([UserInfoManager getUserType]==UserTypeResourcer)
+    {
+        if (sec==0&&row==0) {
+            [self.imageDic setObject:image forKey:@"papersphotourl1"];
+        }
+        else if (sec==0&&row==1)
+        {
+            [self.imageDic setObject:image forKey:@"papersphotourl2"];
+            
+        }
+        else if (sec==1&&row==0)
+        {
+            [self.imageDic setObject:image forKey:@"bankcardphotourl1"];
+            
+        }
+        else if (sec==1&&row==1)
+        {
+            [self.imageDic setObject:image forKey:@"bankcardphotourl2"];
+        }
+    }
+    else  //购买方
+    {
+        //购买方个人
+        if ([UserInfoManager getUserSubType]==UserSubTypePurPersonal)
+        {
+            if (sec==0&&row==0)
+            {
+                [self.imageDic setObject:image forKey:@"papersphotourl1"];
+                
+            }
+            else if (sec==0&&row==1)
+            {
+                [self.imageDic setObject:image forKey:@"papersphotourl2"];
+            }
+        }
+        else   //购买方企业
+        {
+
+            if (sec==0&&row==0) {
+                [self.imageDic setObject:image forKey:@"businessurl"];
+            }
+            else if (sec==1&&row==0)
+            {
+                [self.imageDic setObject:image forKey:@"papersphotourl1"];
+                
+            }
+            else if (sec==1&&row==1)
+            {
+                [self.imageDic setObject:image forKey:@"papersphotourl2"];
+            }
+        }
+    }
+
+}
+
+@end

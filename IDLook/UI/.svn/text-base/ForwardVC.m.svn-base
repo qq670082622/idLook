@@ -1,0 +1,304 @@
+//
+//  ForwardVC.m
+//  IDLook
+//
+//  Created by HYH on 2018/7/4.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "ForwardVC.h"
+#import "ForwardHeadView.h"
+#import "ForwardCellA.h"
+#import "ForwardCellB.h"
+#import "ForwardCellC.h"
+#import "ForwardCellD.h"
+
+#import "AddAlipayVC.h"
+#import "AddBankCardVC.h"
+
+@interface ForwardVC ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,TableVTouchDelegate>
+
+@property (nonatomic,strong)UIScrollView *scrollV;
+@property (nonatomic,strong)ForwardHeadView *headView;
+@property (nonatomic,assign)NSInteger cureIndex;
+
+@end
+
+@implementation ForwardVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor=Public_Background_Color;
+    [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"提现"]];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
+
+    self.cureIndex=0;
+    
+    [self headView];
+    [self scrollV];
+    
+    [self initUI];
+}
+
+-(void)onGoback
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(ForwardHeadView*)headView
+{
+    if (!_headView) {
+        _headView=[[ForwardHeadView alloc]initWithFrame:CGRectMake(0,0.5, UI_SCREEN_WIDTH, 45)];
+        [self.view addSubview:_headView];
+        WeakSelf(self);
+        _headView.forwardTypeClickBlock = ^(NSInteger type) {
+            weakself.cureIndex=type;
+            [weakself.scrollV setContentOffset:CGPointMake(UI_SCREEN_WIDTH*type, 0) animated:YES];
+        };
+    }
+    return _headView;
+}
+
+- (UIScrollView *)scrollV
+{
+    if(!_scrollV)
+    {
+        _scrollV = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 45, UI_SCREEN_WIDTH, UI_SCREEN_HEIGHT-SafeAreaTopHeight-45)];
+        _scrollV.delegate = self;
+        _scrollV.pagingEnabled=YES;
+        _scrollV.scrollEnabled = NO;
+        _scrollV.backgroundColor = [UIColor clearColor];
+        _scrollV.showsHorizontalScrollIndicator = YES;
+        _scrollV.showsVerticalScrollIndicator = NO;
+        [self.view addSubview:_scrollV];
+        _scrollV.contentSize = CGSizeMake(UI_SCREEN_WIDTH*2, 0);
+        
+        for (int i =0; i<2; i++) {
+            TouchTableV *tableV = [[TouchTableV alloc] initWithFrame:CGRectMake(UI_SCREEN_WIDTH*i,0,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-SafeAreaTopHeight-45-SafeAreaTabBarHeight_IphoneX) style:UITableViewStyleGrouped];
+            tableV.delegate = self;
+            tableV.dataSource = self;
+            tableV.touchDelegate=self;
+            tableV.tag=100+i;
+            tableV.bounces=YES;
+            tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
+            tableV.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+            [self.scrollV addSubview:tableV];
+            tableV.estimatedRowHeight = 0;
+            tableV.estimatedSectionHeaderHeight = 0;
+            tableV.estimatedSectionFooterHeight = 0;
+            tableV.backgroundColor=[UIColor clearColor];
+        }
+    }
+    return _scrollV;
+}
+
+-(void)initUI
+{
+
+    UIButton *confrimBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [self.view addSubview:confrimBtn];
+    [confrimBtn setTitle:@"确认提现" forState:UIControlStateNormal];
+    [confrimBtn setBackgroundImage:[UIImage imageNamed:@"auth_next"] forState:UIControlStateNormal];
+    [confrimBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(self.view).offset(-30);
+    }];
+    [confrimBtn addTarget:self action:@selector(confrimAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    UILabel *descLab = [[UILabel alloc]init];
+    descLab.text=@"温馨提示：申请提现后，平台会在24小时内处理。";
+    descLab.font=[UIFont systemFontOfSize:12.0];
+    descLab.textColor=[UIColor colorWithHexString:@"#FFA555"];
+    [self.view addSubview:descLab];
+    [descLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(confrimBtn.mas_top).offset(-30);
+    }];
+}
+
+
+#pragma mark -
+#pragma mark - UITableViewDataSource&&UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return .1f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10.0;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row==0) {
+        return 75;
+    }
+    return 97;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row==0) {
+        if (tableView.tag==100 && [[UserInfoManager getUserBankCard]length]>0) {
+            static NSString *identifer = @"ForwardCellC";
+            ForwardCellC *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+            if(!cell)
+            {
+                cell = [[ForwardCellC alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.backgroundColor=[UIColor whiteColor];
+            }
+            [cell reloadUI];
+            return cell;
+        }
+        else if(tableView.tag==101 && [[UserInfoManager getUserAlipay]length]>0)
+        {
+            static NSString *identifer = @"ForwardCellD";
+            ForwardCellD *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+            if(!cell)
+            {
+                cell = [[ForwardCellD alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.backgroundColor=[UIColor whiteColor];
+            }
+            [cell reloadUI];
+            return cell;
+        }
+        else
+        {
+            static NSString *identifer = @"ForwardCellB";
+            ForwardCellB *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+            if(!cell)
+            {
+                cell = [[ForwardCellB alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.backgroundColor=[UIColor whiteColor];
+            }
+            [cell reloadUIWithType:tableView.tag-100];
+            return cell;
+        }
+    }
+    else if (indexPath.row==1)
+    {
+        static NSString *identifer = @"ForwardCellA";
+        ForwardCellA *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+        if(!cell)
+        {
+            cell = [[ForwardCellA alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor=[UIColor whiteColor];
+        }
+        [cell reloadUIWithTotal:self.totalMoney];
+        return cell;
+    }
+    return nil;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row==0) {
+        if (tableView.tag==100) {
+            AddBankCardVC *bankVC=[[AddBankCardVC alloc]init];
+            bankVC.refreshUI = ^{
+                [tableView reloadData];
+            };
+            [self.navigationController pushViewController:bankVC animated:YES];
+        }
+        else if (tableView.tag==101)
+        {
+            AddAlipayVC *alipayVC=[[AddAlipayVC alloc]init];
+            alipayVC.refreshUI = ^{
+                [tableView reloadData];
+            };
+            [self.navigationController pushViewController:alipayVC  animated:YES];
+        }
+    }
+}
+
+-(TouchTableV*)correspondingCollectionViewWithTag:(NSInteger)tag
+{
+    TouchTableV *tableV=[self.scrollV viewWithTag:tag+100];
+    return tableV;
+}
+
+//确认提现
+-(void)confrimAction
+{
+    ForwardCellA *cell = [[self correspondingCollectionViewWithTag:self.cureIndex] cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    
+    if (cell.textField.text.length==0) {
+        [SVProgressHUD showImage:nil status:@"请输入金额"];
+        return;
+    }
+    if ([cell.textField.text floatValue]>self.totalMoney ) {
+        [SVProgressHUD showImage:nil status:@"您提现的金额超出总余额"];
+        return;
+    }
+    if ([cell.textField.text floatValue]<=0) {
+        [SVProgressHUD showImage:nil status:@"您提现的金额需大于零元"];
+        return;
+    }
+    
+     [SVProgressHUD showWithStatus:@"提现中" maskType:SVProgressHUDMaskTypeClear];
+    
+    NSDictionary *dicArg ;
+    if (self.cureIndex==0) {
+        dicArg =@{@"userid":[UserInfoManager getUserUID],
+                  @"bank":[UserInfoManager getUserBankName],
+                  @"bankno":[UserInfoManager getUserBankCard],
+                  @"accountname":[UserInfoManager getUserBankUser],
+                  @"total":[NSString stringWithFormat:@"%.2f",self.totalMoney],
+                  @"price":cell.textField.text};
+    }
+    else
+    {
+        dicArg =@{@"userid":[UserInfoManager getUserUID],
+                  @"alipayname":[UserInfoManager getUseralipayName],
+                  @"zhifubaoid":[UserInfoManager getUserAlipay],
+                  @"total":[NSString stringWithFormat:@"%.2f",self.totalMoney],
+                  @"price":cell.textField.text};
+    }
+    
+    
+    [AFWebAPI getForwardWithArg:dicArg callBack:^(BOOL success, id object) {
+        if (success) {
+            [SVProgressHUD showSuccessWithStatus:@"提现申请已提交，请等待后台审核"];
+            self.refreshUI();
+            [self onGoback];
+        }
+        else
+        {
+            AF_SHOW_RESULT_ERROR
+        }
+    }];
+    
+}
+
+#pragma mark -
+#pragma mark - TableVTouchDelegate
+- (void)tableView:(UITableView *)tableView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
+}
+
+@end

@@ -1,0 +1,33 @@
+//
+//  LoginCustomCell.h
+//  IDLook
+//
+//  Created by HYH on 2018/4/26.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "CustomTextField.h"
+#import "VerffyCodeBtn.h"
+
+typedef NS_ENUM(NSInteger,LRCellType)
+{
+    LRCellTypePhone=0,       //手机号
+    LRCellTypePassword,      //密码
+    LRCellTypeVerificationCode,   //验证码
+    LRCellTypeIdentity        //身份
+};
+
+@interface LoginCustomCell : UITableViewCell
+@property(nonatomic,strong)CustomTextField *textField;
+@property(nonatomic,strong)VerffyCodeBtn *codeBtn;
+
+-(void)reloadUIWithDic:(NSDictionary*)dic;
+-(void)setTextFieldText:(NSString*)text;
+
+@property (nonatomic,copy)void(^textFDidChanged)(CustomTextField *textF);
+
+@property (nonatomic,copy)void(^getVerificationCodeBlock)(void);
+
+
+@end

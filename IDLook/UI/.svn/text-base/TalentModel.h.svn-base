@@ -1,0 +1,37 @@
+//
+//  TalentModel.h
+//  IDLook
+//
+//  Created by HYH on 2018/8/8.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface TalentModel : NSObject
+
+@property(nonatomic,copy)NSString *imageurl;        //图片url(模特卡)
+
+@property(nonatomic,copy)NSString *video;        //视频url
+
+@property(nonatomic,copy)NSString *keyword;     //作品关键词
+
+@property(nonatomic,copy)NSString *cutvideo;    //视频格式时，第一帧图片
+
+@property(nonatomic,copy)NSString *creativeid;   //作品id
+
+@property(nonatomic,copy)NSString *type;   //作品类型
+
+@property(nonatomic,copy)NSString *timevideo;  //视频时长
+
+@property(nonatomic,assign)NSInteger isModelCard;  //是否模特卡
+
+@property(nonatomic,assign)NSInteger status; //审核状态
+
+//解析作品
+-(id)initTalentDic:(NSDictionary*)dic;
+
+//解析模特卡
+-(id)initModelCardDic:(NSDictionary*)dic;
+
+@end

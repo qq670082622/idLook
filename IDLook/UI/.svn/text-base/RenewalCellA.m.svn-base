@@ -1,0 +1,88 @@
+//
+//  RenewalCellA.m
+//  IDLook
+//
+//  Created by HYH on 2018/6/21.
+//  Copyright © 2018年 HYH. All rights reserved.
+//
+
+#import "RenewalCellA.h"
+
+@interface RenewalCellA ()
+@property(nonatomic,strong)UILabel *title1;
+@property(nonatomic,strong)UILabel *title2;
+@property(nonatomic,strong)UILabel *desc1;
+@property(nonatomic,strong)UILabel *desc2;
+@end
+
+@implementation RenewalCellA
+
+-(UILabel*)title1
+{
+    if (!_title1) {
+        _title1=[[UILabel alloc]init];
+        [self.contentView addSubview:_title1];
+        _title1.font=[UIFont systemFontOfSize:15];
+        _title1.textColor=Public_Text_Color;
+        [_title1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.contentView).offset(20);
+        }];
+    }
+    return _title1;
+}
+
+-(UILabel*)title2
+{
+    if (!_title2) {
+        _title2=[[UILabel alloc]init];
+        [self.contentView addSubview:_title2];
+        _title2.font=[UIFont systemFontOfSize:15];
+        _title2.textColor=Public_Text_Color;
+        [_title2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(15);
+            make.top.mas_equalTo(self.title1.mas_bottom).offset(5);
+        }];
+    }
+    return _title2;
+}
+
+-(UILabel*)desc1
+{
+    if (!_desc1) {
+        _desc1=[[UILabel alloc]init];
+        [self.contentView addSubview:_desc1];
+        _desc1.font=[UIFont systemFontOfSize:15];
+        _desc1.textColor=Public_Text_Color;
+        [_desc1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(123);
+            make.top.mas_equalTo(self.contentView).offset(20);
+        }];
+    }
+    return _desc1;
+}
+
+-(UILabel*)desc2
+{
+    if (!_desc2) {
+        _desc2=[[UILabel alloc]init];
+        [self.contentView addSubview:_desc2];
+        _desc2.font=[UIFont systemFontOfSize:15];
+        _desc2.textColor=Public_Text_Color;
+        [_desc2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.contentView).offset(123);
+            make.top.mas_equalTo(self.desc1.mas_bottom).offset(5);
+        }];
+    }
+    return _desc2;
+}
+
+-(void)reloadUI
+{
+    self.title1.text=@"项目名称";
+    self.title2.text=@"订单编号";
+    self.desc1.text=@"TVC消息续约";
+    self.desc2.text=@"TVC201705150080";
+}
+
+@end
