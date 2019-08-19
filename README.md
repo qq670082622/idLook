@@ -1,2 +1,0 @@
-# idlook-ios
-
