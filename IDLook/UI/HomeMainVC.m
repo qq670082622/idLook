@@ -85,7 +85,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-      [self.navigationItem setTitleView:[CustomNavVC getHomeSearchButtonWithTarget:self action:@selector(wordsearch)]];
+    self.navigationController.navigationBar.hidden = YES;
+   //   [self.navigationItem setTitleView:[CustomNavVC getHomeSearchButtonWithTarget:self action:@selector(wordsearch)]];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -161,7 +162,7 @@
 -(CustomTableV*)tableV
 {
     if (!_tableV) {
-        _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,0,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+        _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,-20,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT+20) style:UITableViewStyleGrouped];
         _tableV.delegate = self.service;
         _tableV.dataSource = self.service;
         _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -186,12 +187,12 @@
 -(UIView*)tableHeadV
 {
     CGFloat bgHeight = (UI_SCREEN_WIDTH-30)*0.3768;
-    UIView *bg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, bgHeight)];//140
+    UIView *bg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, bgHeight+228)];//300是搜索框高度 72是重合高度
     bg.backgroundColor=[UIColor whiteColor];
 //    AdvBannerView *bannerView = [[AdvBannerView alloc]initWithFrame:CGRectMake(0,0, UI_SCREEN_WIDTH, (260.0/750.0)*(UI_SCREEN_WIDTH))] ;
 //    bannerView.rollInterval=2.0;
 //    bannerView.animateInterval=0.5;
-    HomeBannerView *bannerView = [[HomeBannerView alloc] initWithFrame:CGRectMake(0,10, UI_SCREEN_WIDTH, bgHeight-10)];//(260.0/750.0)*(UI_SCREEN_WIDTH)
+    HomeBannerView *bannerView = [[HomeBannerView alloc] initWithFrame:CGRectMake(0,10, UI_SCREEN_WIDTH, bgHeight+218)];//banner是bg的子视图 bg这个view才是headerView
     [bg addSubview:bannerView];
     WeakSelf(self);
     bannerView.blockLoginOut = ^{

@@ -4524,6 +4524,13 @@
 			path = LJYDatePicker;
 			sourceTree = "<group>";
 		};
+		7C3FEC7B230BD7D800B44C29 /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SearchView;
+			sourceTree = "<group>";
+		};
 		7C53B26E225F633600D4D4B8 /* InsuranceViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -6435,8 +6442,9 @@
 				99429D03204FC32C009EC7D5 /* HomeMainVC.m */,
 				998237B2209C06CF00D79AE3 /* view */,
 				998237B3209C06DE00D79AE3 /* model */,
-				7C5F81DD2251FB6400AA944B /* MassesActor */,
 				385302B22182FF240033E146 /* Banner */,
+				7C3FEC7B230BD7D800B44C29 /* SearchView */,
+				7C5F81DD2251FB6400AA944B /* MassesActor */,
 				99CC7E9420F341D200D5BDC1 /* Mirror */,
 				998B8DD720A92F4300ED9EA5 /* Recommend */,
 				993B240B20941E66001FE3D1 /* WordSearch */,

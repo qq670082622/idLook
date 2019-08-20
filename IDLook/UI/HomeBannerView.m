@@ -139,8 +139,8 @@
 - (HQFlowView *)pageFlowView
 {
     if (!_pageFlowView) {
-        
-        _pageFlowView = [[HQFlowView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, self.height)];
+       
+        _pageFlowView = [[HQFlowView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, self.height-218)];
         _pageFlowView.delegate = self;
         _pageFlowView.dataSource = self;
         _pageFlowView.minimumPageAlpha = 0.3;

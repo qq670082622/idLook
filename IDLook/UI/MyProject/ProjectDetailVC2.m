@@ -342,7 +342,7 @@
             return 248;//拍摄
 
         
-    }else if(indexPath.row==2){
+    }else if(indexPath.row==2){ 
         return [ProjectCastingCell castingCellHeightWithCastingsCount:_model.roleList.count];
     }else{//查看时，没有此cell（按钮cell）
         if (_type==3) {
