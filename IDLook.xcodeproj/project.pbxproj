@@ -411,6 +411,7 @@
 		7C0CD08A22CC9D5A003D66F4 /* QNTestVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C0CD08922CC9D5A003D66F4 /* QNTestVC.xib */; };
 		7C126179228AAB3A004336B6 /* CouponVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C126178228AAB3A004336B6 /* CouponVC.xib */; };
 		7C12B2EA2237A69A007A1AC1 /* PriceModel_java.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C12B2E92237A69A007A1AC1 /* PriceModel_java.m */; };
+		7C14481A2313D00400047D55 /* HeiWeiPopV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1448192313D00400047D55 /* HeiWeiPopV.m */; };
 		7C181CB0226F2E98004A27EC /* AnnunciateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CAE226F2E98004A27EC /* AnnunciateVC.m */; };
 		7C181CB1226F2E98004A27EC /* AnnunciateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */; };
 		7C181CB7226F321E004A27EC /* AnnunciateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CB5226F321E004A27EC /* AnnunciateCell.m */; };
@@ -472,6 +473,9 @@
 		7C39DAD9224C722500C6F7E7 /* VIPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C39DAD6224C722500C6F7E7 /* VIPViewController.m */; };
 		7C3E23A92230FFB700E0B2B9 /* OfferTypePopV3.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3E23A82230FFB700E0B2B9 /* OfferTypePopV3.m */; };
 		7C3E23AB2230FFF300E0B2B9 /* OfferTypePopV3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C3E23AA2230FFF300E0B2B9 /* OfferTypePopV3.xib */; };
+		7C3FEC7E230BE07100B44C29 /* HomeSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3FEC7D230BE07100B44C29 /* HomeSearchView.m */; };
+		7C3FEC80230BE07B00B44C29 /* HomeSearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C3FEC7F230BE07B00B44C29 /* HomeSearchView.xib */; };
+		7C3FEC83230D36DD00B44C29 /* ConditionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3FEC82230D36DD00B44C29 /* ConditionModel.m */; };
 		7C4011D622925E3F00FD621C /* EditHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4011D422925E3F00FD621C /* EditHistoryVC.m */; };
 		7C4011D722925E3F00FD621C /* EditHistoryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C4011D522925E3F00FD621C /* EditHistoryVC.xib */; };
 		7C4011DA22928AB800FD621C /* historyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4011D922928AB800FD621C /* historyModel.m */; };
@@ -2051,6 +2055,8 @@
 		7C126178228AAB3A004336B6 /* CouponVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CouponVC.xib; sourceTree = "<group>"; };
 		7C12B2E82237A69A007A1AC1 /* PriceModel_java.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PriceModel_java.h; sourceTree = "<group>"; };
 		7C12B2E92237A69A007A1AC1 /* PriceModel_java.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PriceModel_java.m; sourceTree = "<group>"; };
+		7C1448182313D00400047D55 /* HeiWeiPopV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeiWeiPopV.h; sourceTree = "<group>"; };
+		7C1448192313D00400047D55 /* HeiWeiPopV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeiWeiPopV.m; sourceTree = "<group>"; };
 		7C181CAD226F2E98004A27EC /* AnnunciateVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnnunciateVC.h; sourceTree = "<group>"; };
 		7C181CAE226F2E98004A27EC /* AnnunciateVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnnunciateVC.m; sourceTree = "<group>"; };
 		7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnnunciateVC.xib; sourceTree = "<group>"; };
@@ -2150,6 +2156,11 @@
 		7C3E23A72230FFB700E0B2B9 /* OfferTypePopV3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfferTypePopV3.h; sourceTree = "<group>"; };
 		7C3E23A82230FFB700E0B2B9 /* OfferTypePopV3.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OfferTypePopV3.m; sourceTree = "<group>"; };
 		7C3E23AA2230FFF300E0B2B9 /* OfferTypePopV3.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferTypePopV3.xib; sourceTree = "<group>"; };
+		7C3FEC7C230BE07100B44C29 /* HomeSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeSearchView.h; sourceTree = "<group>"; };
+		7C3FEC7D230BE07100B44C29 /* HomeSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeSearchView.m; sourceTree = "<group>"; };
+		7C3FEC7F230BE07B00B44C29 /* HomeSearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeSearchView.xib; sourceTree = "<group>"; };
+		7C3FEC81230D36DD00B44C29 /* ConditionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConditionModel.h; sourceTree = "<group>"; };
+		7C3FEC82230D36DD00B44C29 /* ConditionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConditionModel.m; sourceTree = "<group>"; };
 		7C4011D322925E3F00FD621C /* EditHistoryVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditHistoryVC.h; sourceTree = "<group>"; };
 		7C4011D422925E3F00FD621C /* EditHistoryVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditHistoryVC.m; sourceTree = "<group>"; };
 		7C4011D522925E3F00FD621C /* EditHistoryVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditHistoryVC.xib; sourceTree = "<group>"; };
@@ -4527,6 +4538,11 @@
 		7C3FEC7B230BD7D800B44C29 /* SearchView */ = {
 			isa = PBXGroup;
 			children = (
+				7C3FEC7C230BE07100B44C29 /* HomeSearchView.h */,
+				7C3FEC7D230BE07100B44C29 /* HomeSearchView.m */,
+				7C3FEC7F230BE07B00B44C29 /* HomeSearchView.xib */,
+				7C1448182313D00400047D55 /* HeiWeiPopV.h */,
+				7C1448192313D00400047D55 /* HeiWeiPopV.m */,
 			);
 			name = SearchView;
 			sourceTree = "<group>";
@@ -7537,6 +7553,8 @@
 				7C2DB8A9222E2C2000BE8148 /* UserModel.m */,
 				7C2DB8B0222E4CD600BE8148 /* ActorVideoViewModel.h */,
 				7C2DB8B1222E4CD600BE8148 /* ActorVideoViewModel.m */,
+				7C3FEC81230D36DD00B44C29 /* ConditionModel.h */,
+				7C3FEC82230D36DD00B44C29 /* ConditionModel.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -8732,6 +8750,7 @@
 				3805B89A21D7769100DCD0AA /* orderdetial_up@3x.png in Resources */,
 				99C7402E212131C9009AC651 /* banner@2x.png in Resources */,
 				9959BBAF20ECA43600E5F894 /* price_bg2@2x.png in Resources */,
+				7C3FEC80230BE07B00B44C29 /* HomeSearchView.xib in Resources */,
 				3853C58D21708E4400B5A27E /* btn_select_n@3x.png in Resources */,
 				998A6D6E20A182DA00D0C27D /* center_certificate@2x.png in Resources */,
 				38323B3521AFBF510074FF89 /* center_workUpload@2x.png in Resources */,
@@ -9114,6 +9133,7 @@
 				993D3F2620B8143200D10F6A /* AssetsSelectPopV.m in Sources */,
 				7C181CFE227540DA004A27EC /* MCTabBar.m in Sources */,
 				9948F89320AD84DD00B45F7B /* EditBriefCell.m in Sources */,
+				7C14481A2313D00400047D55 /* HeiWeiPopV.m in Sources */,
 				9959BBBF20ECC4F800E5F894 /* AddPriceSubB.m in Sources */,
 				7C0038DF2240E11A00ECE8B4 /* StoreApplyView.m in Sources */,
 				7CF320E922409D52004043CB /* StoreTableHeaderView.m in Sources */,
@@ -9174,6 +9194,7 @@
 				7CBAEC27226745A8000EA048 /* MyInsuranceVC.m in Sources */,
 				7C7C321E22560890009E1864 /* AskCalendarVC.m in Sources */,
 				38B6304D21538D4700A9D562 /* AuthChooseIdentityVC.m in Sources */,
+				7C3FEC7E230BE07100B44C29 /* HomeSearchView.m in Sources */,
 				9949E48920BCEA0500B19DDF /* TouchTableV.m in Sources */,
 				383C89AB2175CD5100F3440A /* PriceBottomVB.m in Sources */,
 				9939043C20D8F9E00055BAA5 /* PlaceOrderHeadV.m in Sources */,
@@ -9386,6 +9407,7 @@
 				99BC455B20C78605006D24FE /* MyAuthStateVC.m in Sources */,
 				7C53B2AC226068C500D4D4B8 /* HotelCalendarCollectionViewFlowLayout.m in Sources */,
 				993ECA7020AC6B1100F62B14 /* EditBriefVC.m in Sources */,
+				7C3FEC83230D36DD00B44C29 /* ConditionModel.m in Sources */,
 				385B49A6219D97B600CEA01B /* VoiceCodePopV.m in Sources */,
 				7C4011E82293A03600FD621C /* NoticeActorCell.m in Sources */,
 				7CDF970F21F82E0800E06E42 /* UIGestureRecognizer+YYAdd.m in Sources */,

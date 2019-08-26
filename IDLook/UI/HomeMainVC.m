@@ -49,7 +49,10 @@
 #import "WriteFileManager.h"
 #import "ReturnKeyShareVC.h"
 #import "QNTestVC.h"
-@interface HomeMainVC ()<HomeServiceDelegate,UIScrollViewDelegate>
+#import "HomeSearchView.h"
+#import "HeiWeiPopV.h"
+#import "ConditionModel.h"
+@interface HomeMainVC ()<HomeServiceDelegate,HomeBannerViewDelegate,UIScrollViewDelegate>
 {
     VideoPlayer *_player;
 }
@@ -60,7 +63,7 @@
 //@property(nonatomic,strong)AdvBannerView *bannerView;
 @property(nonatomic,strong)HomeBannerView *bannerView;
 @property(nonatomic,strong)HomeTopV *topV;
-
+@property(nonatomic,strong)ConditionModel *conditionModel;
 
 @end
 
@@ -69,9 +72,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-    self.view.backgroundColor=Public_Background_Color;
-  
+ self.view.backgroundColor=Public_Background_Color;
+    self.conditionModel = [ConditionModel new];
  
     [self dsm];
     [self tableV];
@@ -86,14 +88,14 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
-   //   [self.navigationItem setTitleView:[CustomNavVC getHomeSearchButtonWithTarget:self action:@selector(wordsearch)]];
+//      [self.navigationItem setTitleView:[CustomNavVC getHomeSearchButtonWithTarget:self action:@selector(wordsearch)]];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [_player destroyPlayer];
     _player = nil;
-   
+     self.navigationController.navigationBar.hidden = NO;
     [self.navigationController setHidesBottomBarWhenPushed:NO];
 }
 
@@ -114,7 +116,9 @@
 -(HomeTopV*)topV
 {
     if (!_topV) {
-        _topV=[[HomeTopV alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, 48)];
+        CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?10:0; //30
+        CGFloat height = [UIApplication sharedApplication].statusBarFrame.size.height==20?48:82;
+        _topV=[[HomeTopV alloc]initWithFrame:CGRectMake(0, y, UI_SCREEN_WIDTH, height)];
         [self.view addSubview:_topV];
         WeakSelf(self);
         _topV.selectWithType = ^(NSInteger type) {
@@ -162,7 +166,8 @@
 -(CustomTableV*)tableV
 {
     if (!_tableV) {
-        _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,-20,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT+20) style:UITableViewStyleGrouped];
+        CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?-20:-10;
+        _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,y,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT+10) style:UITableViewStyleGrouped];
         _tableV.delegate = self.service;
         _tableV.dataSource = self.service;
         _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -186,13 +191,17 @@
 
 -(UIView*)tableHeadV
 {
-    CGFloat bgHeight = (UI_SCREEN_WIDTH-30)*0.3768;
-    UIView *bg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, bgHeight+228)];//300是搜索框高度 72是重合高度
+    CGFloat flowHeight = (UI_SCREEN_WIDTH-30)*0.3768;
+    CGFloat searchHeight = 280;
+    CGFloat bgHeight = searchHeight+flowHeight*0.7;
+    UIView *bg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, bgHeight+10)];//300是搜索框高度 72是重合高度
     bg.backgroundColor=[UIColor whiteColor];
 //    AdvBannerView *bannerView = [[AdvBannerView alloc]initWithFrame:CGRectMake(0,0, UI_SCREEN_WIDTH, (260.0/750.0)*(UI_SCREEN_WIDTH))] ;
 //    bannerView.rollInterval=2.0;
 //    bannerView.animateInterval=0.5;
-    HomeBannerView *bannerView = [[HomeBannerView alloc] initWithFrame:CGRectMake(0,10, UI_SCREEN_WIDTH, bgHeight+218)];//banner是bg的子视图 bg这个view才是headerView
+    HomeBannerView *bannerView = [[HomeBannerView alloc] initWithFrame:CGRectMake(0,0, UI_SCREEN_WIDTH, bgHeight+10)];//banner是bg的子视图 bg这个view才是headerView
+    bannerView.delegate = self;
+    bannerView.conditionModel = _conditionModel;
     [bg addSubview:bannerView];
     WeakSelf(self);
     bannerView.blockLoginOut = ^{
@@ -232,25 +241,39 @@
         PublicWebVC * webVC = [[PublicWebVC alloc] initWithTitle:dic[@"name"] url:url];
         webVC.hidesBottomBarWhenPushed=YES;
         [weakself.navigationController pushViewController:webVC animated:YES];
-        
-//             test
-//            OfferTypePopV3 *popV= [[OfferTypePopV3 alloc]init];
-//        NSMutableArray *priceArr = [NSMutableArray new];
-//
-//            PriceModel *pricem = [[PriceModel alloc] init];
-//            pricem.type = 1;
-//            pricem.singleprice = @"123";
-//            [priceArr addObject:pricem];
-//
-//        PriceModel *select = [[PriceModel alloc] init];
-//        select.type = 1;
-//        select.day = 10;
-//            [popV showOfferTypeWithPriceList:[priceArr copy] withSelectArray:[NSArray arrayWithObject:select] withUserModel:nil];
+
     };
     self.bannerView=bannerView;
     return bg;
 }
-
+#pragma -mark homebannerDelegate(搜索框方法回调)
+-(void)searchViewInBannerViewWithActionType:(conditionType)type
+{
+    WeakSelf(self);
+    if (type==conditionTypeRegion_select) {//城市
+        
+    }else if (type==conditionTypeKeyWord_select ){//关键字
+        
+    }else if (type==conditionTypeHeiWei_select ){//身高体重
+        HeiWeiPopV *hwp = [[HeiWeiPopV alloc] init];
+        [hwp showTypeWithSelectLowHei:_conditionModel.hei_min andHighHei:_conditionModel.hei_max andLowWei:_conditionModel.wei_min andiHighWei:_conditionModel.wei_max];
+        hwp.selectNum = ^(NSInteger lowHei, NSInteger highHei, NSInteger lowWei, NSInteger highWei) {
+            weakself.conditionModel.hei_min = lowHei;
+            weakself.conditionModel.hei_max = highHei;
+            weakself.conditionModel.wei_min = lowWei;
+            weakself.conditionModel.wei_max = highWei;
+            [weakself.tableV reloadData];
+        };
+    }else if (type==conditionTypeSexAge_select ){//性别年龄
+        
+    }else if (type==conditionTypePriceMin_select ){//最低价格
+        
+    }else if (type==conditionTypePirceMax_select ){//最高价格
+        
+    }else if (type==conditionTypeShotType_select ){//拍摄类别
+        
+    }
+}
 -(void)pullDownToRefresh:(id)sender
 {
     [self.dsm refreshHomeInfoWithSortPage:1 withRefreshType:RefreshTypePullDown];
@@ -551,7 +574,7 @@
 -(void)scrollUpScreen
 {
     CGFloat offY= self.tableV.contentOffset.y;
-    if (offY<((260.0/750.0)*(UI_SCREEN_WIDTH)+130)) {
+    if (offY<((480.0/750.0)*(UI_SCREEN_WIDTH)+130)) {
         self.topV.hidden=YES;
     }
     else

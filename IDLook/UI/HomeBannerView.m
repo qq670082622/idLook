@@ -11,6 +11,7 @@
 #import "FLAnimatedImage.h"
 #import "HQFlowView.h"
 
+
 @interface HomeBannerView()<HQFlowViewDelegate,HQFlowViewDataSource>
 @property (nonatomic, strong) HQFlowView *pageFlowView;
 
@@ -29,11 +30,36 @@
    [self addSubview:self.pageFlowView];
     _images = [NSMutableArray new];
     [self.pageFlowView reloadData];//刷新轮播
+    for (UIView *suview in self.subviews) {
+        if ([suview isKindOfClass:[HomeSearchView class]]) {
+            [suview removeFromSuperview];
+        }
+    }
+  
+//添加搜索大框
+    HomeSearchView *searchView = [[HomeSearchView alloc] initWithFrame:CGRectMake(15, _pageFlowView.bottom-_pageFlowView.height*0.3, UI_SCREEN_WIDTH-30, 280)];
+    searchView.frame = CGRectMake(15, _pageFlowView.bottom-_pageFlowView.height*0.3, UI_SCREEN_WIDTH-30, 280);
+    searchView.model = _conditionModel;
+    searchView.layer.borderColor = [UIColor colorWithHexString:@"#f0f0f0"].CGColor;
+    searchView.layer.borderWidth= 1 ;
+    searchView.layer.cornerRadius = 18;
+//    searchView.layer.masksToBounds = YES;
+        searchView.layer.shadowOffset = CGSizeMake(5,5);
+        searchView.layer.shadowOpacity = 0.3;
+        searchView.layer.shadowColor = [[UIColor colorWithHexString:@"#090E13"] colorWithAlphaComponent:0.2].CGColor;
+        searchView.layer.borderColor = [UIColor colorWithHexString:@"#f0f0f0"].CGColor;
+        searchView.layer.borderWidth= 1 ;
+    [self addSubview:searchView];
+    WeakSelf(self);
+    searchView.conditionSelectType = ^(conditionType type) {
+        [weakself.delegate searchViewInBannerViewWithActionType:type];
+    };
 }
 #pragma mark JQFlowViewDelegate
 - (CGSize)sizeForPageInFlowView:(HQFlowView *)flowView//中间图的大小
 {
-    return CGSizeMake(UI_SCREEN_WIDTH-2*15, self.pageFlowView.height);
+  //  return CGSizeMake(UI_SCREEN_WIDTH-2*15, self.pageFlowView.height);
+    return CGSizeMake(UI_SCREEN_WIDTH, self.pageFlowView.height);
 }
 
 
@@ -55,14 +81,11 @@
   __block  HQIndexBannerSubview *bannerView = (HQIndexBannerSubview *)[flowView dequeueReusableCell];
     if (!bannerView) {
         bannerView = [[HQIndexBannerSubview alloc] initWithFrame:CGRectMake(0, 0, self.pageFlowView.frame.size.width, self.pageFlowView.frame.size.height)];
-        bannerView.layer.cornerRadius = 8;
-        bannerView.layer.masksToBounds = YES;
+      //  bannerView.layer.cornerRadius = 8;//中间图的圆角
+     //   bannerView.layer.masksToBounds = YES;
         bannerView.coverView.backgroundColor = [UIColor darkGrayColor];
     }
-    //在这里下载网络图片
-    //    [bannerView.mainImageView sd_setImageWithURL:[NSURL URLWithString:self.advArray[index]] placeholderImage:nil];
-    //加载本地图片
-  //  bannerView.mainImageView.image = [UIImage imageNamed:self.dataSource[index]];
+  
     NSString *imageUrl;
     NSDictionary *dic = self.dataSource[index];
     if ([UserInfoManager getIsJavaService]) {
@@ -139,8 +162,8 @@
 - (HQFlowView *)pageFlowView
 {
     if (!_pageFlowView) {
-       
-        _pageFlowView = [[HQFlowView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, self.height-218)];
+        CGFloat flowHeight = (UI_SCREEN_WIDTH-30)*0.3768;
+        _pageFlowView = [[HQFlowView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, flowHeight)];
         _pageFlowView.delegate = self;
         _pageFlowView.dataSource = self;
         _pageFlowView.minimumPageAlpha = 0.3;

@@ -35,7 +35,7 @@
         [button setTitleColor:Public_Text_Color forState:UIControlStateNormal];
         [button setTitleColor:Public_Text_Color forState:UIControlStateSelected];
         [button setTitle:array[i] forState:UIControlStateNormal];
-        button.frame=CGRectMake(width*i, 0, width,48);
+        button.frame=CGRectMake(width*i, self.height-48, width,48);
         [button addTarget:self action:@selector(buttionClick:) forControlEvents:UIControlEventTouchUpInside];
     }
 }
