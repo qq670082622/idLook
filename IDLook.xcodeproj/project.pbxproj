@@ -547,6 +547,8 @@
 		7C73118822608EB600973A23 /* InsuranceBuySuccessVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C73118622608EB600973A23 /* InsuranceBuySuccessVC.xib */; };
 		7C73118A2264357800973A23 /* HomeHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C7311892264357800973A23 /* HomeHeadView.xib */; };
 		7C73118D2264882400973A23 /* AskPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C73118C2264882400973A23 /* AskPriceView.m */; };
+		7C737B6723166B11005FB26A /* HomeSearchViewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C737B6523166B11005FB26A /* HomeSearchViewVC.m */; };
+		7C737B6823166B11005FB26A /* HomeSearchViewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C737B6623166B11005FB26A /* HomeSearchViewVC.xib */; };
 		7C7A7DDF21E590120035152F /* nodata_project@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C7A7DDC21E590120035152F /* nodata_project@2x.png */; };
 		7C7A7DE021E590120035152F /* nodata_project@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C7A7DDD21E590120035152F /* nodata_project@3x.png */; };
 		7C7A7DE121E590120035152F /* nodata_project@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C7A7DDE21E590120035152F /* nodata_project@1x.png */; };
@@ -571,6 +573,7 @@
 		7CA985FA2293A7990048C5F9 /* NoticeActorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA985F92293A7990048C5F9 /* NoticeActorModel.m */; };
 		7CAAAAD821F5A19800420695 /* PublishGradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAAAD621F5A19800420695 /* PublishGradeViewController.m */; };
 		7CAAAAD921F5A19800420695 /* PublishGradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CAAAAD721F5A19800420695 /* PublishGradeViewController.xib */; };
+		7CAC955D2316559600286111 /* ShotTypePopV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAC955C2316559600286111 /* ShotTypePopV.m */; };
 		7CAEED6C23162239001B6C93 /* PricePopV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAEED6B23162239001B6C93 /* PricePopV.m */; };
 		7CB6A5CD21F08A1200A366AA /* mediaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB6A5CC21F08A1200A366AA /* mediaModel.m */; };
 		7CBAEC27226745A8000EA048 /* MyInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBAEC25226745A8000EA048 /* MyInsuranceVC.m */; };
@@ -2274,6 +2277,9 @@
 		7C7311892264357800973A23 /* HomeHeadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeHeadView.xib; sourceTree = "<group>"; };
 		7C73118B2264882400973A23 /* AskPriceView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AskPriceView.h; sourceTree = "<group>"; };
 		7C73118C2264882400973A23 /* AskPriceView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AskPriceView.m; sourceTree = "<group>"; };
+		7C737B6423166B11005FB26A /* HomeSearchViewVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeSearchViewVC.h; sourceTree = "<group>"; };
+		7C737B6523166B11005FB26A /* HomeSearchViewVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeSearchViewVC.m; sourceTree = "<group>"; };
+		7C737B6623166B11005FB26A /* HomeSearchViewVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeSearchViewVC.xib; sourceTree = "<group>"; };
 		7C7A7DDC21E590120035152F /* nodata_project@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nodata_project@2x.png"; sourceTree = "<group>"; };
 		7C7A7DDD21E590120035152F /* nodata_project@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nodata_project@3x.png"; sourceTree = "<group>"; };
 		7C7A7DDE21E590120035152F /* nodata_project@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nodata_project@1x.png"; sourceTree = "<group>"; };
@@ -2309,6 +2315,8 @@
 		7CAAAAD521F5A19800420695 /* PublishGradeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishGradeViewController.h; sourceTree = "<group>"; };
 		7CAAAAD621F5A19800420695 /* PublishGradeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishGradeViewController.m; sourceTree = "<group>"; };
 		7CAAAAD721F5A19800420695 /* PublishGradeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PublishGradeViewController.xib; sourceTree = "<group>"; };
+		7CAC955B2316559600286111 /* ShotTypePopV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShotTypePopV.h; sourceTree = "<group>"; };
+		7CAC955C2316559600286111 /* ShotTypePopV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShotTypePopV.m; sourceTree = "<group>"; };
 		7CAEED6A23162239001B6C93 /* PricePopV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PricePopV.h; sourceTree = "<group>"; };
 		7CAEED6B23162239001B6C93 /* PricePopV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PricePopV.m; sourceTree = "<group>"; };
 		7CB6A5CB21F08A1200A366AA /* mediaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mediaModel.h; sourceTree = "<group>"; };
@@ -4553,6 +4561,11 @@
 				7C1459CE23150FC100C7C1DA /* SexAgePopV.m */,
 				7CAEED6A23162239001B6C93 /* PricePopV.h */,
 				7CAEED6B23162239001B6C93 /* PricePopV.m */,
+				7CAC955B2316559600286111 /* ShotTypePopV.h */,
+				7CAC955C2316559600286111 /* ShotTypePopV.m */,
+				7C737B6423166B11005FB26A /* HomeSearchViewVC.h */,
+				7C737B6523166B11005FB26A /* HomeSearchViewVC.m */,
+				7C737B6623166B11005FB26A /* HomeSearchViewVC.xib */,
 			);
 			name = SearchView;
 			sourceTree = "<group>";
@@ -8496,6 +8509,7 @@
 				384F5E2C216CB7D100274FDE /* idcard_model_4@2x.png in Resources */,
 				998A6D6420A182DA00D0C27D /* center_order_new@3x.png in Resources */,
 				7C3199C621F9DCBE00FA7350 /* CheckGradeSectionView.xib in Resources */,
+				7C737B6823166B11005FB26A /* HomeSearchViewVC.xib in Resources */,
 				38323B3921AFE4850074FF89 /* works_agree_h@3x.png in Resources */,
 				3865FE57219562A00017233A /* home_auth@2x.png in Resources */,
 				384F90F121A6843F002FDBD5 /* auth_lic_bg@2x.png in Resources */,
@@ -9251,6 +9265,7 @@
 				9973D94F20F4E5D100D1A5D1 /* RegionSelectStep1.m in Sources */,
 				7CDF973321F82E0900E06E42 /* VICacheConfiguration.m in Sources */,
 				7C5F81F122530BB400AA944B /* ProjectDetailVC2.m in Sources */,
+				7CAC955D2316559600286111 /* ShotTypePopV.m in Sources */,
 				993E916F20AEFB1B005D5455 /* UploadWorksCellB.m in Sources */,
 				99733EFF20C6B65200F46C8D /* XLSlider.m in Sources */,
 				3852E41B227046EB00F3FE97 /* AnnunciateTopV.m in Sources */,
@@ -9544,6 +9559,7 @@
 				99627EE420BE89D8009F18FE /* WorksVCM.m in Sources */,
 				3875F18821DC6C5C00CD84DD /* PlaceShotVCM.m in Sources */,
 				7CDF974021F82E0900E06E42 /* ApiXml.mm in Sources */,
+				7C737B6723166B11005FB26A /* HomeSearchViewVC.m in Sources */,
 				7CDF975C21F82E0900E06E42 /* POPMath.mm in Sources */,
 				383C899E2175BD5700F3440A /* PlaceAuditCellC.m in Sources */,
 				99A76892209FF7DD00C90D27 /* ChoseIdentityVC.m in Sources */,

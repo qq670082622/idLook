@@ -54,6 +54,7 @@
 #import "ConditionModel.h"
 #import "SexAgePopV.h"
 #import "CitySelectStep1.h"
+#import "PricePopV.h"
 @interface HomeMainVC ()<HomeServiceDelegate,HomeBannerViewDelegate,UIScrollViewDelegate>
 {
     VideoPlayer *_player;
@@ -297,11 +298,22 @@
         weakself.conditionModel.age_min = 0;
         weakself.conditionModel.age_max = 0;
     }else if (type==conditionTypePriceMin_select ){//最低价格
-        
+        PricePopV *pv = [[PricePopV alloc] init];
+        [pv showTypeWithSelectLowPrice:_conditionModel.price_min andHighPrice:_conditionModel.price_max];
+        pv.selectNum = ^(NSInteger lowPrice, NSInteger highPrice) {
+            weakself.conditionModel.price_min = lowPrice;
+            weakself.conditionModel.price_max = highPrice;
+        };
     }else if(type==conditionTypePriceMin_clear){
-        
+        weakself.conditionModel.price_min = 0;
+        weakself.conditionModel.price_max = 0;
     }else if (type==conditionTypePirceMax_select ){//最高价格
-        
+        PricePopV *pv = [[PricePopV alloc] init];
+        [pv showTypeWithSelectLowPrice:_conditionModel.price_min andHighPrice:_conditionModel.price_max];
+        pv.selectNum = ^(NSInteger lowPrice, NSInteger highPrice) {
+            weakself.conditionModel.price_min = lowPrice;
+            weakself.conditionModel.price_max = highPrice;
+        };
     }else if (type==conditionTypeShotType_select ){//拍摄类别
         
     }else if(type==conditionTypeShotType_clear){
