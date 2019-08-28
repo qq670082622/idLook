@@ -14,7 +14,7 @@
 
 @interface HomeBannerView()<HQFlowViewDelegate,HQFlowViewDataSource>
 @property (nonatomic, strong) HQFlowView *pageFlowView;
-
+@property(nonatomic,strong)HomeSearchView *searchView;
 @property(nonatomic,strong)NSMutableArray *images;//[@"url...",gif,@"url..",gif,..]
 @end
 @implementation HomeBannerView
@@ -39,7 +39,7 @@
 //添加搜索大框
     HomeSearchView *searchView = [[HomeSearchView alloc] initWithFrame:CGRectMake(15, _pageFlowView.bottom-_pageFlowView.height*0.3, UI_SCREEN_WIDTH-30, 280)];
     searchView.frame = CGRectMake(15, _pageFlowView.bottom-_pageFlowView.height*0.3, UI_SCREEN_WIDTH-30, 280);
-    searchView.model = _conditionModel;
+//    searchView.model = _conditionModel;
     searchView.layer.borderColor = [UIColor colorWithHexString:@"#f0f0f0"].CGColor;
     searchView.layer.borderWidth= 1 ;
     searchView.layer.cornerRadius = 18;
@@ -50,10 +50,15 @@
         searchView.layer.borderColor = [UIColor colorWithHexString:@"#f0f0f0"].CGColor;
         searchView.layer.borderWidth= 1 ;
     [self addSubview:searchView];
+    self.searchView = searchView;
     WeakSelf(self);
     searchView.conditionSelectType = ^(conditionType type) {
         [weakself.delegate searchViewInBannerViewWithActionType:type];
     };
+}
+-(void)reloadSearchViewWithModel:(ConditionModel *)cdModel
+{
+    [self.searchView loadUIWithModel:cdModel];
 }
 #pragma mark JQFlowViewDelegate
 - (CGSize)sizeForPageInFlowView:(HQFlowView *)flowView//中间图的大小

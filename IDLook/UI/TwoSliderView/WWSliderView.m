@@ -99,7 +99,7 @@
     leftLabel = [[UILabel alloc]init];
     leftLabel.textColor = [UIColor lightGrayColor];
     leftLabel.font = [UIFont systemFontOfSize:12]; ;
-    leftLabel.frame = CGRectMake(0, 50, 36, 16);
+    leftLabel.frame = CGRectMake(0, 50, 46, 16);
     leftLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:leftLabel];
    
@@ -107,7 +107,7 @@
     rightLabel = [[UILabel alloc]init];
     rightLabel.textColor = [UIColor lightGrayColor];
     rightLabel.font = [UIFont systemFontOfSize:12];
-    rightLabel.frame = CGRectMake(0, 50, 36, 16);
+    rightLabel.frame = CGRectMake(0, 50, 46, 16);
      rightLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:rightLabel];
   
@@ -123,7 +123,7 @@
 
 #pragma mark - private
 
-- (void) setLayerFrames
+- (void)setLayerFrames
 {
     CGFloat widthRates = [UIScreen mainScreen].bounds.size.width/375;
     track_x = 50 * widthRates;
@@ -168,7 +168,11 @@
         }
     }
 }
-
+-(void)resetLeftAndRightLabel
+{
+    leftLabel.center = CGPointMake(lowerKnobLayer.frame.origin.x  + lowerKnobLayer.frame.size.width * 0.5, lowerKnobLayer.frame.origin.y - 14);
+    rightLabel.center = CGPointMake(upperKnobLayer.frame.origin.x + upperKnobLayer.frame.size.width * 0.5, upperKnobLayer.frame.origin.y - 14);
+}
 //根据滑块对应的值来计算滑块center的x的值
 - (float) positionForValue:(float)value
 {

@@ -37,5 +37,5 @@
 
 //设置两滑块位置
 - (void)resetLeftValue:(float)leftValue rightValue:(float)rightValue;
-
+-(void)resetLeftAndRightLabel;
 @end

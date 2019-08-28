@@ -412,6 +412,7 @@
 		7C126179228AAB3A004336B6 /* CouponVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C126178228AAB3A004336B6 /* CouponVC.xib */; };
 		7C12B2EA2237A69A007A1AC1 /* PriceModel_java.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C12B2E92237A69A007A1AC1 /* PriceModel_java.m */; };
 		7C14481A2313D00400047D55 /* HeiWeiPopV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1448192313D00400047D55 /* HeiWeiPopV.m */; };
+		7C1459CF23150FC100C7C1DA /* SexAgePopV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1459CE23150FC100C7C1DA /* SexAgePopV.m */; };
 		7C181CB0226F2E98004A27EC /* AnnunciateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CAE226F2E98004A27EC /* AnnunciateVC.m */; };
 		7C181CB1226F2E98004A27EC /* AnnunciateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */; };
 		7C181CB7226F321E004A27EC /* AnnunciateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CB5226F321E004A27EC /* AnnunciateCell.m */; };
@@ -570,6 +571,7 @@
 		7CA985FA2293A7990048C5F9 /* NoticeActorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA985F92293A7990048C5F9 /* NoticeActorModel.m */; };
 		7CAAAAD821F5A19800420695 /* PublishGradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAAAD621F5A19800420695 /* PublishGradeViewController.m */; };
 		7CAAAAD921F5A19800420695 /* PublishGradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CAAAAD721F5A19800420695 /* PublishGradeViewController.xib */; };
+		7CAEED6C23162239001B6C93 /* PricePopV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAEED6B23162239001B6C93 /* PricePopV.m */; };
 		7CB6A5CD21F08A1200A366AA /* mediaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB6A5CC21F08A1200A366AA /* mediaModel.m */; };
 		7CBAEC27226745A8000EA048 /* MyInsuranceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBAEC25226745A8000EA048 /* MyInsuranceVC.m */; };
 		7CBAEC28226745A8000EA048 /* MyInsuranceVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CBAEC26226745A8000EA048 /* MyInsuranceVC.xib */; };
@@ -2057,6 +2059,8 @@
 		7C12B2E92237A69A007A1AC1 /* PriceModel_java.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PriceModel_java.m; sourceTree = "<group>"; };
 		7C1448182313D00400047D55 /* HeiWeiPopV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeiWeiPopV.h; sourceTree = "<group>"; };
 		7C1448192313D00400047D55 /* HeiWeiPopV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeiWeiPopV.m; sourceTree = "<group>"; };
+		7C1459CD23150FC100C7C1DA /* SexAgePopV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SexAgePopV.h; sourceTree = "<group>"; };
+		7C1459CE23150FC100C7C1DA /* SexAgePopV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SexAgePopV.m; sourceTree = "<group>"; };
 		7C181CAD226F2E98004A27EC /* AnnunciateVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnnunciateVC.h; sourceTree = "<group>"; };
 		7C181CAE226F2E98004A27EC /* AnnunciateVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnnunciateVC.m; sourceTree = "<group>"; };
 		7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnnunciateVC.xib; sourceTree = "<group>"; };
@@ -2305,6 +2309,8 @@
 		7CAAAAD521F5A19800420695 /* PublishGradeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishGradeViewController.h; sourceTree = "<group>"; };
 		7CAAAAD621F5A19800420695 /* PublishGradeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PublishGradeViewController.m; sourceTree = "<group>"; };
 		7CAAAAD721F5A19800420695 /* PublishGradeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PublishGradeViewController.xib; sourceTree = "<group>"; };
+		7CAEED6A23162239001B6C93 /* PricePopV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PricePopV.h; sourceTree = "<group>"; };
+		7CAEED6B23162239001B6C93 /* PricePopV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PricePopV.m; sourceTree = "<group>"; };
 		7CB6A5CB21F08A1200A366AA /* mediaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mediaModel.h; sourceTree = "<group>"; };
 		7CB6A5CC21F08A1200A366AA /* mediaModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mediaModel.m; sourceTree = "<group>"; };
 		7CBAEC24226745A8000EA048 /* MyInsuranceVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyInsuranceVC.h; sourceTree = "<group>"; };
@@ -4543,6 +4549,10 @@
 				7C3FEC7F230BE07B00B44C29 /* HomeSearchView.xib */,
 				7C1448182313D00400047D55 /* HeiWeiPopV.h */,
 				7C1448192313D00400047D55 /* HeiWeiPopV.m */,
+				7C1459CD23150FC100C7C1DA /* SexAgePopV.h */,
+				7C1459CE23150FC100C7C1DA /* SexAgePopV.m */,
+				7CAEED6A23162239001B6C93 /* PricePopV.h */,
+				7CAEED6B23162239001B6C93 /* PricePopV.m */,
 			);
 			name = SearchView;
 			sourceTree = "<group>";
@@ -9602,6 +9612,7 @@
 				7C69382521F9DB1100A515A2 /* CheckGradeViewController.m in Sources */,
 				991F06C720F8D50E00250156 /* OrderDetialCellH.m in Sources */,
 				38B458E821E49E2E00ACBFE9 /* MyOrderHeadView.m in Sources */,
+				7C1459CF23150FC100C7C1DA /* SexAgePopV.m in Sources */,
 				993ECA6D20AC6AD300F62B14 /* EditSpecialtyVC.m in Sources */,
 				99FCB08D20F7597E000D1FBC /* RejectOrderPopV.m in Sources */,
 				7C2DB8AA222E2C2000BE8148 /* UserModel.m in Sources */,
@@ -9772,6 +9783,7 @@
 				9948F87C20AD296800B45F7B /* MsgMainCellA.m in Sources */,
 				9985AB6B20AACCC700A55E0E /* AuthFootV.m in Sources */,
 				7C0ABDF82240D06F008BC971 /* SoreDetailViewController.m in Sources */,
+				7CAEED6C23162239001B6C93 /* PricePopV.m in Sources */,
 				99B726E820E1197E006B48B8 /* UploadVideoCell.m in Sources */,
 				993ECA5020AC2A7900F62B14 /* EditCooperatVC.m in Sources */,
 				38B8BF2D225B447D008D2B64 /* ProjectMainCustomCell.m in Sources */,

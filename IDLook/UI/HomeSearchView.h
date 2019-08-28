@@ -30,6 +30,7 @@ typedef enum{
 
 @interface HomeSearchView : UIView
 @property(nonatomic,strong)ConditionModel *model;
+-(void)loadUIWithModel:(ConditionModel *)model;
 @property(nonatomic,copy)void(^conditionSelectType)(conditionType type);
 @end
 

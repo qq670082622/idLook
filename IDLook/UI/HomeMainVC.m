@@ -52,6 +52,8 @@
 #import "HomeSearchView.h"
 #import "HeiWeiPopV.h"
 #import "ConditionModel.h"
+#import "SexAgePopV.h"
+#import "CitySelectStep1.h"
 @interface HomeMainVC ()<HomeServiceDelegate,HomeBannerViewDelegate,UIScrollViewDelegate>
 {
     VideoPlayer *_player;
@@ -251,8 +253,19 @@
 {
     WeakSelf(self);
     if (type==conditionTypeRegion_select) {//城市
-        
+        CitySelectStep1 *cityStep = [CitySelectStep1 new];
+        cityStep.selectedArr = [NSArray arrayWithObject:_conditionModel.region.length>0?_conditionModel.region:@""];
+        cityStep.hidesBottomBarWhenPushed=YES;
+        cityStep.selectCity = ^(NSString *city) {
+            //取出选择的城市，用、
+            weakself.conditionModel.region = city;
+            };
+        [self.navigationController pushViewController:cityStep animated:YES];
+    }else if(type==conditionTypeRegion_clear){
+        weakself.conditionModel.region = @"";
     }else if (type==conditionTypeKeyWord_select ){//关键字
+        
+    }else if(type==conditionTypeKeyWord_clear){
         
     }else if (type==conditionTypeHeiWei_select ){//身高体重
         HeiWeiPopV *hwp = [[HeiWeiPopV alloc] init];
@@ -262,17 +275,39 @@
             weakself.conditionModel.hei_max = highHei;
             weakself.conditionModel.wei_min = lowWei;
             weakself.conditionModel.wei_max = highWei;
-            [weakself.tableV reloadData];
+          
         };
+    }else if(type==conditionTypeHeiWei_clear){
+        weakself.conditionModel.hei_min = 0;
+        weakself.conditionModel.hei_max = 0;
+        weakself.conditionModel.wei_min = 0;
+        weakself.conditionModel.wei_max = 0;
+       
     }else if (type==conditionTypeSexAge_select ){//性别年龄
-        
+        SexAgePopV *sap = [[SexAgePopV alloc] init];
+        [sap showTypeWithSelectSex:_conditionModel.sex andAgeHigh:_conditionModel.age_max andAgeLow:_conditionModel.age_min];
+        sap.selectNum = ^(NSInteger sex, NSInteger ageHigh, NSInteger ageLow) {
+            weakself.conditionModel.sex = sex;
+            weakself.conditionModel.age_max = ageHigh;
+            weakself.conditionModel.age_min = ageLow;
+           
+        };
+    }else if(type==conditionTypeSexAge_clear){
+        weakself.conditionModel.sex = 0;
+        weakself.conditionModel.age_min = 0;
+        weakself.conditionModel.age_max = 0;
     }else if (type==conditionTypePriceMin_select ){//最低价格
+        
+    }else if(type==conditionTypePriceMin_clear){
         
     }else if (type==conditionTypePirceMax_select ){//最高价格
         
     }else if (type==conditionTypeShotType_select ){//拍摄类别
         
+    }else if(type==conditionTypeShotType_clear){
+        
     }
+      [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
 }
 -(void)pullDownToRefresh:(id)sender
 {

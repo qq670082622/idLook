@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)NSArray *dataSource;
 @property(nonatomic,strong)ConditionModel *conditionModel;
 @property(nonatomic,weak)id<HomeBannerViewDelegate>delegate;
+-(void)reloadSearchViewWithModel:(ConditionModel *)cdModel;
 @end
 
 NS_ASSUME_NONNULL_END
