@@ -55,6 +55,8 @@
 #import "SexAgePopV.h"
 #import "CitySelectStep1.h"
 #import "PricePopV.h"
+#import "HomeSearchViewVC.h"
+#import "ShotTypePopV.h"
 @interface HomeMainVC ()<HomeServiceDelegate,HomeBannerViewDelegate,UIScrollViewDelegate>
 {
     VideoPlayer *_player;
@@ -77,7 +79,8 @@
     // Do any additional setup after loading the view.
  self.view.backgroundColor=Public_Background_Color;
     self.conditionModel = [ConditionModel new];
- 
+    self.conditionModel.region = @"";
+    self.conditionModel.keyWord = @"";
     [self dsm];
     [self tableV];
     //收听appdelegate的push通知
@@ -260,14 +263,23 @@
         cityStep.selectCity = ^(NSString *city) {
             //取出选择的城市，用、
             weakself.conditionModel.region = city;
+            [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
             };
         [self.navigationController pushViewController:cityStep animated:YES];
     }else if(type==conditionTypeRegion_clear){
         weakself.conditionModel.region = @"";
     }else if (type==conditionTypeKeyWord_select ){//关键字
-        
+        HomeSearchViewVC *hsv = [HomeSearchViewVC new];
+        hsv.hidesBottomBarWhenPushed = YES;
+        hsv.selectKeyWord = _conditionModel.keyWord;
+        hsv.category = self.conditionModel.sex;
+        hsv.wordKeySelect = ^(NSString * _Nonnull wordKey) {
+            weakself.conditionModel.keyWord = wordKey;
+            [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
+            };
+        [self.navigationController pushViewController:hsv animated:NO];
     }else if(type==conditionTypeKeyWord_clear){
-        
+        weakself.conditionModel.keyWord = @"";
     }else if (type==conditionTypeHeiWei_select ){//身高体重
         HeiWeiPopV *hwp = [[HeiWeiPopV alloc] init];
         [hwp showTypeWithSelectLowHei:_conditionModel.hei_min andHighHei:_conditionModel.hei_max andLowWei:_conditionModel.wei_min andiHighWei:_conditionModel.wei_max];
@@ -276,7 +288,7 @@
             weakself.conditionModel.hei_max = highHei;
             weakself.conditionModel.wei_min = lowWei;
             weakself.conditionModel.wei_max = highWei;
-          
+          [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
         };
     }else if(type==conditionTypeHeiWei_clear){
         weakself.conditionModel.hei_min = 0;
@@ -291,7 +303,7 @@
             weakself.conditionModel.sex = sex;
             weakself.conditionModel.age_max = ageHigh;
             weakself.conditionModel.age_min = ageLow;
-           
+           [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
         };
     }else if(type==conditionTypeSexAge_clear){
         weakself.conditionModel.sex = 0;
@@ -303,6 +315,7 @@
         pv.selectNum = ^(NSInteger lowPrice, NSInteger highPrice) {
             weakself.conditionModel.price_min = lowPrice;
             weakself.conditionModel.price_max = highPrice;
+            [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
         };
     }else if(type==conditionTypePriceMin_clear){
         weakself.conditionModel.price_min = 0;
@@ -313,11 +326,24 @@
         pv.selectNum = ^(NSInteger lowPrice, NSInteger highPrice) {
             weakself.conditionModel.price_min = lowPrice;
             weakself.conditionModel.price_max = highPrice;
+            [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
         };
     }else if (type==conditionTypeShotType_select ){//拍摄类别
-        
+        ShotTypePopV *stp = [[ShotTypePopV alloc] init];
+        [stp showTypeWithSelect:_conditionModel.shotType];
+        stp.selectType = ^(NSString * _Nonnull type) {
+            weakself.conditionModel.shotType = type;
+            [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
+        };
     }else if(type==conditionTypeShotType_clear){
-        
+         weakself.conditionModel.shotType = @"";
+    }else if (type==conditionTypeSearch){
+        VideoListVC *listVC=[[VideoListVC alloc]init];
+        listVC.hidesBottomBarWhenPushed=YES;
+        listVC.masteryType = 2;
+        listVC.isHomeSearch = YES;
+        listVC.conditionModel = _conditionModel;
+        [self.navigationController pushViewController:listVC animated:YES];
     }
       [weakself.bannerView reloadSearchViewWithModel:weakself.conditionModel];
 }

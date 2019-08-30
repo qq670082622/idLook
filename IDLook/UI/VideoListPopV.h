@@ -4,7 +4,7 @@
 //
 //  Created by Mr Hu on 2018/10/12.
 //  Copyright © 2018年 HYH. All rights reserved.
-// 上下弹窗
+// 上下弹窗 顶部j点击以后出来的东西
 
 #import <UIKit/UIKit.h>
 

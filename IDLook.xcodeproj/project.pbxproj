@@ -4555,6 +4555,9 @@
 				7C3FEC7C230BE07100B44C29 /* HomeSearchView.h */,
 				7C3FEC7D230BE07100B44C29 /* HomeSearchView.m */,
 				7C3FEC7F230BE07B00B44C29 /* HomeSearchView.xib */,
+				7C737B6423166B11005FB26A /* HomeSearchViewVC.h */,
+				7C737B6523166B11005FB26A /* HomeSearchViewVC.m */,
+				7C737B6623166B11005FB26A /* HomeSearchViewVC.xib */,
 				7C1448182313D00400047D55 /* HeiWeiPopV.h */,
 				7C1448192313D00400047D55 /* HeiWeiPopV.m */,
 				7C1459CD23150FC100C7C1DA /* SexAgePopV.h */,
@@ -4563,9 +4566,6 @@
 				7CAEED6B23162239001B6C93 /* PricePopV.m */,
 				7CAC955B2316559600286111 /* ShotTypePopV.h */,
 				7CAC955C2316559600286111 /* ShotTypePopV.m */,
-				7C737B6423166B11005FB26A /* HomeSearchViewVC.h */,
-				7C737B6523166B11005FB26A /* HomeSearchViewVC.m */,
-				7C737B6623166B11005FB26A /* HomeSearchViewVC.xib */,
 			);
 			name = SearchView;
 			sourceTree = "<group>";

@@ -404,6 +404,11 @@
         {
             self.dataSource  = (NSArray*)safeObjectForKey(dic, @"filmActorPriceGroup");
         }
+//        else if (mastery==5) //价格
+//        {
+//          
+//            self.dataSource =
+//        }
     }
     else if (type==ScreenCellTypeAge)
     {
@@ -420,6 +425,9 @@
             NSDictionary *dicC= dicA[@"ageGroupType"];
             NSArray *array2 = dicC[@"ageRange"];
             self.dataSource = array2;
+        }else if (mastery==5)//年龄
+        {
+          
         }
         else
         {
@@ -434,6 +442,12 @@
     {
         self.dataSource = @[@{@"attrid":@(1),@"attrname":@"男"},
                             @{@"attrid":@(2),@"attrname":@"女"}];
+        if (mastery==5) {
+            self.dataSource = @[@{@"attrid":@(1),@"attrname":@"男"},
+                                @{@"attrid":@(2),@"attrname":@"女"},
+                                @{@"attrid":@(3),@"attrname":@"不限"}
+                                ];
+        }
     }
     else if (type==ScreenCellTypeNationality)
     {

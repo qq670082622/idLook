@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *low_price;
 - (IBAction)low_price_select:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIView *priceLine;
 @property (weak, nonatomic) IBOutlet UILabel *high_price;
 - (IBAction)high_price_select:(id)sender;
 
@@ -157,17 +158,10 @@
     }
     
     self.hei_wei_closeBtn.hidden = NO;
-    if (model.hei_min>0) {
-        self.hei_wei.text = [NSString stringWithFormat:@"%ld-%ldcm",model.hei_min,model.hei_max];
-        if (model.hei_min>0&&model.wei_min>0) {
-            [NSString stringWithFormat:@"%ld-%ldcm/%ld-%ldkg",model.hei_min,model.hei_max,model.wei_min,model.wei_max];
-        }
-        
+    if (model.hei_min>0 || model.hei_max>0 || model.wei_min>0|| model.wei_max>0) {
+      self.hei_wei.text = [NSString stringWithFormat:@"%ld-%ldcm/%ld-%ldkg",model.hei_min,model.hei_max,model.wei_min,model.wei_max];
         self.hei_wei.textColor = [UIColor colorWithHexString:@"464646"];
-    }else if (model.hei_min==0&&model.wei_min>0){
-        self.hei_wei.text = [NSString stringWithFormat:@"%ld-%ldkg",model.wei_min,model.wei_max];
-        self.hei_wei.textColor = [UIColor colorWithHexString:@"464646"];
-    }else if (model.hei_min==0&&model.wei_min==0){
+  }else if (model.hei_min==0&&model.hei_max==0&&model.wei_min==0&&model.wei_max==0){
         self.hei_wei.text = @"身高/体重";
         self.hei_wei.textColor = [UIColor colorWithHexString:@"bcbcbc"];
         self.hei_wei_closeBtn.hidden = YES;
@@ -176,42 +170,54 @@
     self.sex_age_closeBtn.hidden = NO;
     if(model.sex>0){
         self.sex_age.text = model.sex==1?@"男":@"女";
+        if (model.sex==3) {
+            self.sex_age.text = @"性别不限";
+        }
+        NSString *sexStr = self.sex_age.text;
         self.sex_age.textColor = [UIColor colorWithHexString:@"464646"];
-        if (model.age_min>0) {
-            self.sex_age.text = [NSString stringWithFormat:@"%@/%ld-%ld岁",model.sex==1?@"男":@"女",model.age_min,model.age_max];
+        if (model.age_min>0||model.age_max>0) {
+            self.sex_age.text = [NSString stringWithFormat:@"%@/%ld-%ld岁",sexStr,model.age_min,model.age_max];
             self.sex_age.textColor = [UIColor colorWithHexString:@"464646"];
         }
-    }else if (model.sex==0&&model.age_min>0){
-        self.sex_age.text = [NSString stringWithFormat:@"%ld-%ld岁",model.age_min,model.age_max];
-        self.sex_age.textColor = [UIColor colorWithHexString:@"464646"];
-    }else if (model.sex==0&&model.age_min==0){
+    }
+    if (model.age_min>0 || model.age_max>0){
+        if (model.sex==0) {
+            self.sex_age.text = [NSString stringWithFormat:@"%ld-%ld岁",model.age_min,model.age_max];
+            self.sex_age.textColor = [UIColor colorWithHexString:@"464646"];
+        }
+     }
+    if (model.sex==0&&model.age_min==0&&model.age_max==0){
         self.sex_age.text = @"性别/年龄";
         self.sex_age.textColor = [UIColor colorWithHexString:@"bcbcbc"];
         self.sex_age_closeBtn.hidden = YES;
     }
     
     
-    if (model.price_min>0) {
+    if (model.price_min>0 || model.price_max>0) {
         self.low_price.textColor = [UIColor colorWithHexString:@"464646"];//3000-5000
         NSString *minStr = [NSString stringWithFormat:@"%ld 最低价格",model.price_min];
         NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc] initWithString:minStr];
         [attStr addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,minStr.length-5)];
+        [attStr addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0 weight:UIFontWeightMedium]} range:NSMakeRange(minStr.length-5,5)];
         self.low_price.attributedText=attStr;
-    }else if (model.price_min==0){
+        
+        self.high_price.textColor = [UIColor colorWithHexString:@"464646"];
+        NSString *highStr = [NSString stringWithFormat:@"%ld 最高价格",model.price_max];
+        NSMutableAttributedString * attStr2 = [[NSMutableAttributedString alloc] initWithString:highStr];
+        [attStr2 addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,highStr.length-5)];
+        [attStr2 addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.0 weight:UIFontWeightMedium]} range:NSMakeRange(highStr.length-5,5)];
+        self.high_price.attributedText=attStr2;
+        
+        self.priceLine.x = _low_price.right + (_high_price.x - _low_price.right - _priceLine.width)/2;
+    }else if (model.price_min==0 && model.price_max==0){
         self.low_price.textColor = [UIColor colorWithHexString:@"bcbcbc"];
         self.low_price.text = @"最低价格";
-    }
-    
-    if (model.price_max>0) {
-        self.high_price.textColor = [UIColor colorWithHexString:@"464646"];
-        NSString *highStr = [NSString stringWithFormat:@"%ld 最高价格",model.price_min];
-        NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc] initWithString:highStr];
-        [attStr addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,highStr.length-5)];
-        self.high_price.attributedText=attStr;
-    }else if (model.price_max==0){
         self.high_price.textColor = [UIColor colorWithHexString:@"bcbcbc"];
         self.high_price.text = @"最高价格";
+        self.priceLine.x = (self.width - _priceLine.width)/2;
     }
+    
+ 
     
     self.type_closeBtn.hidden = NO;
     if (model.shotType.length>0) {

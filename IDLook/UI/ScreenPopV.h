@@ -4,7 +4,7 @@
 //
 //  Created by HYH on 2018/6/12.
 //  Copyright © 2018年 HYH. All rights reserved.
-//  筛选添加弹出视图 上下弹窗 y过期
+//  左右弹窗superView
 
 #import <UIKit/UIKit.h>
 

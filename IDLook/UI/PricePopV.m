@@ -99,13 +99,14 @@
     //2.再设置两个滑块位置
     [_rangeSlider resetLeftValue:_price_Low rightValue:_price_High];
     [self addSubview:_rangeSlider];
+      [_rangeSlider resetLeftAndRightLabel];
     
     NSArray *priceArr= @[@"0-2000",@"2000-4000",@"4000-6000",@"6000-8000",@"8000-15000",@"15000-30000"];
     CGFloat wid = (UI_SCREEN_WIDTH-48)/3;
-    for(int i =0;i<3;i++){
-        CGFloat y = 119;
+    for(int i =0;i<priceArr.count;i++){
+        CGFloat y = 109;
         if(i>2){
-            y = 160;
+            y = 166;
         }
         CGFloat i2 = i>2?(i-3):i;
         CGFloat x = 15+i2*(wid+9);

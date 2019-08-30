@@ -159,7 +159,8 @@
     {
             leftLabel.center = CGPointMake(lowerKnobLayer.frame.origin.x  + lowerKnobLayer.frame.size.width * 0.5, lowerKnobLayer.frame.origin.y - 14);
             rightLabel.center = CGPointMake(upperKnobLayer.frame.origin.x + upperKnobLayer.frame.size.width * 0.5, upperKnobLayer.frame.origin.y - 14);
-    }else {
+    }
+    else {
         if (_seclectedUpperKnob) {
             rightLabel.center = CGPointMake(leftLabel.frame.size.width + leftLabel.frame.origin.x  + leftLabel.frame.size.width * 0.5, lowerKnobLayer.frame.origin.y - 14);
         }
@@ -172,6 +173,15 @@
 {
     leftLabel.center = CGPointMake(lowerKnobLayer.frame.origin.x  + lowerKnobLayer.frame.size.width * 0.5, lowerKnobLayer.frame.origin.y - 14);
     rightLabel.center = CGPointMake(upperKnobLayer.frame.origin.x + upperKnobLayer.frame.size.width * 0.5, upperKnobLayer.frame.origin.y - 14);
+   
+    CGFloat mergion = 10;
+    if ([_type isEqualToString:@"元"]) {
+        mergion = 13;
+    }
+    if (rightLabel.x<leftLabel.right) {//两个挤在一起了
+        leftLabel.center = CGPointMake(lowerKnobLayer.frame.origin.x  + lowerKnobLayer.frame.size.width * 0.5 - mergion, lowerKnobLayer.frame.origin.y - 14);
+        rightLabel.center = CGPointMake(upperKnobLayer.frame.origin.x + upperKnobLayer.frame.size.width * 0.5 + mergion, upperKnobLayer.frame.origin.y - 14);
+    }
 }
 //根据滑块对应的值来计算滑块center的x的值
 - (float) positionForValue:(float)value

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ConditionModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoListVC : UIViewController
@@ -21,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
  专精类型
  */
 @property(nonatomic,assign)NSInteger masteryType;
-
+@property(nonatomic,assign)BOOL isHomeSearch;// 是否是通过新版大搜索进来的
+@property(nonatomic,strong)ConditionModel *conditionModel;
 @end
 
 NS_ASSUME_NONNULL_END

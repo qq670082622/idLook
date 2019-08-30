@@ -113,7 +113,7 @@
         //1.先设置最左边数值、最右边数值（0-24）
         _hei_rangeSlider.minimumValue = 0;
         _hei_rangeSlider.maximumValue = 200;
-        _hei_rangeSlider.type = @"";
+        _hei_rangeSlider.type = @"cm";
 
     //2.再设置两个滑块位置
     [_hei_rangeSlider resetLeftValue:_hei_low rightValue:_hei_high];
@@ -180,7 +180,7 @@ _wei_rangeSlider = [[WWSliderView alloc] initWithFrame:sliderFrame
     //1.先设置最左边数值、最右边数值（0-24）
     _wei_rangeSlider.minimumValue = 0;
     _wei_rangeSlider.maximumValue = 120;
-    _wei_rangeSlider.type = @"";
+    _wei_rangeSlider.type = @"kg";
 
     //2.再设置两个滑块位置
     [_wei_rangeSlider resetLeftValue:_wei_low rightValue:_wei_high];
@@ -243,7 +243,7 @@ _wei_rangeSlider = [[WWSliderView alloc] initWithFrame:sliderFrame
         _hei_high = [numArr[1] integerValue];
           [_hei_rangeSlider resetLeftValue:_hei_low rightValue:_hei_high];
         [_hei_rangeSlider resetLeftAndRightLabel];
-    }else if (tag>100){//体重
+    }else if (tag>99){//体重
         NSArray *weightArr= @[@"0-30",@"30-40",@"40-50",@"50-60",@"60-70",@"70-120"];
         NSString *num = weightArr[tag-100];
         NSArray *numArr = [num componentsSeparatedByString:@"-"];

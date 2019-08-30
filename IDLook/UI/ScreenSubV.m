@@ -117,7 +117,7 @@
             button.selected=YES;
         }
     }
-    
+    //此处加一个拍摄类型UI
     if (self.type==ScreenCellTypeHeight || self.type==ScreenCellTypeWeight ||self.type==ScreenCellTypeAge) {
         CGFloat textFWidth = (UI_SCREEN_WIDTH*0.8-60)/2;
         UITextField *textField1 = [[UITextField alloc] init];

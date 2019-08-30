@@ -108,6 +108,14 @@ typedef void (^HttpCallBackWithObject)(BOOL success,id object);
 +(void)getUserInfoWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 //关键字搜索艺人
 +(void)searchAristKeywordWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//获取新版搜索页相关搜索词条
++(void)getSearchVCDataWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//清空搜索历史数据
++(void)cleanSearchHistoryWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//根据条件搜索演员（new）
++(void)searchActorWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//首页搜索进入的搜索列表的条件配置
++(void)getHomeSearchConfigWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 /*******************************************报价相关***************************************/
 //查看演员报价
 +(void)getQuotaListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
@@ -120,6 +128,10 @@ typedef void (^HttpCallBackWithObject)(BOOL success,id object);
 
 //视频埋点统计
 +(void)getVideoStatisticalWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//校验未认证用户能不能看
++(void)canLookPriceWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//告知后端未认证用户要去看了
++(void)unAuthLookedPriceWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 /*******************************************积分商城相关***************************************/
 //获取商城列表
 +(void)getStoreListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;

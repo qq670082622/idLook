@@ -617,6 +617,42 @@
         callBack(NO,errorStr);
     }];
 }
+//获取新版搜索页相关搜索词条
++(void)getSearchVCDataWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"home/get/search/tags" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//清空搜索历史数据
++(void)cleanSearchHistoryWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"home/clear/search/tags" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//根据条件搜索演员（new）
++(void)searchActorWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"home/actor/search" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//首页搜索进入的搜索列表的条件配置
++(void)getHomeSearchConfigWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"config/data/list/actor/search" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
 /*******************************************报价相关***************************************/
 //查看演员报价
 +(void)getQuotaListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
@@ -659,6 +695,24 @@
 +(void)applyVIPWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
 {
     [AFWebAPI_JAVA postWithUrl:@"buyer/applyVip" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//校验未认证用户能不能看
++(void)canLookPriceWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"actor/consult/price/validate" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//告知后端未认证用户要去看了
++(void)unAuthLookedPriceWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"quotation/priceInfo" params:arg success:^(NSDictionary *contentDic) {
         callBack(YES,contentDic);
     } failure:^(NSString *errorStr) {
         callBack(NO,errorStr);

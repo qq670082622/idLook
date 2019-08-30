@@ -176,7 +176,8 @@
     UIButton *btn = (UIButton *)sender;
     NSInteger tag = btn.tag;
     if (tag<100) {//性别
-       self.sex = tag;
+    
+       self.sex = tag-49;
         UIButton *man = [self viewWithTag:50];
         man.layer.borderColor = Public_Text_Color.CGColor;
         [man setTitleColor:Public_Text_Color forState:0];
@@ -203,7 +204,7 @@
 
 -(void)sureAction
 {
-    self.selectNum(_sex,_age_Low,_age_High);
+    self.selectNum(_sex,_age_High,_age_Low);
     [self hide];
 }
 - (void)hide

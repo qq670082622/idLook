@@ -114,7 +114,8 @@
         self.vipView.hidden = YES;
     }
     if ([UserInfoManager getUserAuthState_wm]!=1 &&  [UserInfoManager getUserLoginType] != UserLoginTypeTourist) {
-        [self.authBtn setTitle:@"认证后查看报价" forState:0];//认证提示提示
+     //   [self.authBtn setTitle:@"认证后查看报价" forState:0];//认证提示提示
+        [self.authBtn setTitle:@"查看价格" forState:0];
         self.price.textColor = [UIColor clearColor];
          self.vipView.hidden = YES;
     }
@@ -401,7 +402,8 @@
 - (IBAction)authAction:(id)sender {
   
     if ([UserInfoManager getUserAuthState_wm]!=1) {
-        [SVProgressHUD showImage:nil status:@"认证后可查看报价！"];
+//        [SVProgressHUD showImage:nil status:@"认证后可查看报价！"];
+//        弹窗
         }
     if( [UserInfoManager getUserLoginType] == UserLoginTypeTourist){
         [SVProgressHUD showImage:nil status:@"登录后可查看报价！"];

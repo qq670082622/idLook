@@ -72,7 +72,8 @@ typedef NS_ENUM(NSInteger,ScreenCellType)  //筛选条件
     ScreenCellTypeWeight,       //体重
     ScreenCellTypeSex,          //性别
     ScreenCellTypeNationality,   //国籍
-    ScreenCellTypeRole          //角色
+    ScreenCellTypeRole,          //角色
+    ScreenCellTypeShotType          //拍摄类型
 };
 
 @interface PublicManager : NSObject

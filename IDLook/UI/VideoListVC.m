@@ -78,6 +78,9 @@
     {
         [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"前景演员"]];
     }
+    if (_isHomeSearch) {
+         [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"搜索结果"]];
+    }
     
     self.dataSource= [NSMutableArray new];
     [self tableV];
@@ -115,6 +118,203 @@
 }
 -(void)refreshDataWithSortPage:(NSInteger)sortpage withRefreshType:(RefreshType)type
 {
+    if (_isHomeSearch) {
+        //点击的价格
+        NSArray *prices = @[@"0-2000",@"2000-4000",@"4000-8000",@"8000-30000"];
+        NSString *priceStr = [_screenConditionDic objectForKey:@"price"];
+        NSMutableArray *priceA = [NSMutableArray new];
+        if (priceStr.length>0) {
+            _conditionModel.price_min = -1;
+            _conditionModel.price_max = -1;
+            NSArray *priceArr = [priceStr componentsSeparatedByString:@","];
+            for(int i = 0 ;i<priceArr.count;i++){
+                NSInteger index = [priceArr[i] integerValue];
+                NSString *indexStr = prices[index+1];
+                [priceA addObject:indexStr];
+            }
+            }
+    
+        //自填的价格
+        NSInteger pricestar = [[_screenConditionDic objectForKey:@"pricestart"] integerValue];
+         NSInteger priceend = [[_screenConditionDic objectForKey:@"priceend"] integerValue];
+        if (pricestar>0) {
+            _conditionModel.price_min = pricestar;
+            _conditionModel.price_max = priceend>0?priceend:20000;
+        }
+        if (priceend>0) {
+            _conditionModel.price_max = priceend;
+            _conditionModel.price_min = pricestar>0?pricestar:0;
+        }
+        //性别
+        NSInteger sex = [[_screenConditionDic objectForKey:@"sex"] integerValue];
+        _conditionModel.sex = sex;
+         // 点击的年龄
+       NSArray *ages = @[@"0-11",@"12-19",@"20-29",@"30-39",@"40-100"];
+        NSString *ageStr = [_screenConditionDic objectForKey:@"age"];
+        NSMutableArray *ageeA = [NSMutableArray new];
+        if (ageStr.length>0) {
+            _conditionModel.age_min = -1;
+            _conditionModel.age_max = -1;
+            NSArray *ageArr = [priceStr componentsSeparatedByString:@","];
+            for(int i = 0 ;i<ageArr.count;i++){
+                NSInteger index = [ageArr[i] integerValue];
+                NSString *indexStr = ages[index+1];
+                [ageeA addObject:indexStr];
+            }
+        }
+        //自填的年龄
+        NSInteger agestar = [[_screenConditionDic objectForKey:@"agestart"] integerValue];
+        NSInteger ageend = [[_screenConditionDic objectForKey:@"ageend"] integerValue];
+        if (agestar>0) {
+            _conditionModel.age_min = agestar;
+            _conditionModel.age_max = ageend>0?ageend:100;
+        }
+        if (ageend>0) {
+            _conditionModel.age_max = ageend;
+            _conditionModel.age_min = agestar>0?agestar:0;
+        }
+        // 点击的身高
+        NSArray *heights = @[@"0-160",@"160-170",@"170-180",@"180-250"];
+      NSString *heightStr = [_screenConditionDic objectForKey:@"height"];
+        NSMutableArray *heightA = [NSMutableArray new];
+        if (ageStr.length>0) {
+            _conditionModel.hei_min = -1;
+            _conditionModel.hei_max = -1;
+            NSArray *heiArr = [heightStr componentsSeparatedByString:@","];
+            for(int i = 0 ;i<heiArr.count;i++){
+                NSInteger index = [heiArr[i] integerValue];
+                NSString *indexStr = heights[index+1];
+                [heightA addObject:indexStr];
+            }
+        }
+        //自填的身高
+        NSInteger heistar = [[_screenConditionDic objectForKey:@"heightstart"] integerValue];
+        NSInteger heiend = [[_screenConditionDic objectForKey:@"heightend"] integerValue];
+        if (heistar>0) {
+            _conditionModel.hei_min = heistar;
+            _conditionModel.hei_max = heiend>0?heiend:250;
+        }
+        if (heiend>0) {
+            _conditionModel.hei_max = heiend;
+            _conditionModel.hei_min = heistar>0?heistar:0;
+        }
+        // 点击的体重
+        NSArray *weights = @[@"0-50",@"50-60",@"60-70",@"70-120"];
+        NSString *weightStr = [_screenConditionDic objectForKey:@"weight"];
+        NSMutableArray *weightA = [NSMutableArray new];
+        if (weightStr.length>0) {
+            _conditionModel.wei_min = -1;
+            _conditionModel.wei_max = -1;
+            NSArray *weiArr = [heightStr componentsSeparatedByString:@","];
+            for(int i = 0 ;i<weiArr.count;i++){
+                NSInteger index = [weiArr[i] integerValue];
+                NSString *indexStr = weights[index+1];
+                [weightA addObject:indexStr];
+            }
+        }
+        //自填的体重
+        NSInteger weistar = [[_screenConditionDic objectForKey:@"weightstart"] integerValue];
+        NSInteger weiend = [[_screenConditionDic objectForKey:@"weightend"] integerValue];
+        if (weistar>0) {
+            _conditionModel.wei_min = weistar;
+            _conditionModel.wei_max = heiend>0?heiend:250;
+        }
+        if (weiend>0) {
+            _conditionModel.wei_max = weiend;
+            _conditionModel.wei_min = weistar>0?weistar:0;
+        }
+        NSMutableString *ageMuStr = [NSMutableString new];
+        if (_conditionModel.age_max>0 || _conditionModel.age_min>0) {
+            ageMuStr = [NSMutableString stringWithFormat:@"%ld-%ld",_conditionModel.age_min,_conditionModel.age_max];
+        }
+        if (ageeA.count>0) {
+            ageMuStr = [NSMutableString stringWithString:[ageeA componentsJoinedByString:@","]];
+        }
+        NSMutableString *priceMuStr = [NSMutableString new];
+        if (_conditionModel.price_min>0 || _conditionModel.price_max>0) {
+            priceMuStr = [NSMutableString stringWithFormat:@"%ld-%ld",_conditionModel.price_min,_conditionModel.price_max];
+        }
+        if (priceA.count>0) {
+            priceMuStr = [NSMutableString stringWithString:[priceA componentsJoinedByString:@","]];
+        }
+        NSMutableString *heiMuStr = [NSMutableString new];
+        if (_conditionModel.hei_min>0 || _conditionModel.hei_max>0) {
+            heiMuStr = [NSMutableString stringWithFormat:@"%ld-%ld",_conditionModel.hei_min,_conditionModel.hei_max];
+        }
+        if (heightA.count>0) {
+            heiMuStr = [NSMutableString stringWithString:[heightA componentsJoinedByString:@","]];
+        }
+        NSMutableString *weiMuStr = [NSMutableString new];
+        if (_conditionModel.wei_min>0 || _conditionModel.wei_max>0) {
+            weiMuStr = [NSMutableString stringWithFormat:@"%ld-%ld",_conditionModel.wei_min,_conditionModel.wei_max];
+        }
+        if (weightA.count>0) {
+            weiMuStr = [NSMutableString stringWithString:[weightA componentsJoinedByString:@","]];
+        }
+        //topselect 0 综合 1价格高到低
+      
+        NSDictionary *arg = @{
+                              @"ageMax":[ageMuStr copy],
+                              @"height":[heiMuStr copy],
+                              @"keyword":_conditionModel.keyWord,
+                              @"occupation":@(0),
+                              @"price":[priceMuStr copy],
+                             @"region":_conditionModel.region,
+                              @"sex":@(_conditionModel.sex==3?0:_conditionModel.sex),
+                              @"weight":[weiMuStr copy],
+                              @"pageCount":@(25),
+                              @"pageNumber":@(sortpage),
+                              @"order":@(_topSelect), //_topSelect==0是综合 ==1是价格
+                              @"desc":@(_offerLowToHigh==YES?0:1)  //0降序 1升序
+                              };
+        [AFWebAPI_JAVA searchActorWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            self.tableV.animatedStyle = TABTableViewAnimationEnd;
+            if (success) {
+                NSArray *array= [object objectForKey:@"body"];
+                if (type==RefreshTypePullDown) {
+                    [self.dataSource removeAllObjects];
+                    _sortPage=2;
+                }else if (type==RefreshTypePullUp){
+                    _sortPage++;
+                }
+                for(int i=0;i<array.count;i++){
+                    NSDictionary *modelDic = array[i];
+                    UserModel *model = [UserModel yy_modelWithDictionary:modelDic];
+                    if (self.masteryType==1) {//广告演员  解决从广告点击标签进来没有排序的问题
+                        NSArray *list = self.dic[@"lists"];
+                        NSString *typeString = list[self.subType][@"attrname"];
+                        NSMutableArray *newList = [NSMutableArray new];
+                        for(int i = 0 ;i<model.showList.count;i++){
+                            NSDictionary *showDic = model.showList[i];
+                            if ([showDic[@"cateName"] isEqualToString:typeString]) {
+                                [newList insertObject:showDic atIndex:0];
+                            }else{
+                                [newList addObject:showDic];
+                            }
+                        }
+                        model.showList = [newList copy];
+                    }
+                    
+                    [self.dataSource addObject:model];
+                }
+                [self.tableV reloadData];
+                [self.tableV hideNoDataScene];
+                if (self.dataSource.count==0) {
+                    [self.tableV showWithNoDataType:NoDataTypeSearchResult];
+                }
+            }else{
+                
+                [SVProgressHUD showErrorWithStatus:object];
+                [self.tableV hideNoDataScene];
+                if (self.dataSource.count==0) {
+                    [self.tableV showWithNoDataType:NoDataTypeNetwork];
+                }
+            }
+            [self.tableV headerEndRefreshing];
+            [self.tableV footerEndRefreshing];
+        }];
+        return;
+    }
       if ([UserInfoManager getIsJavaService]) {//java后台
           NSArray *actorConditions;//演员筛选条件
           NSArray *priceConditions;//价格筛选条件

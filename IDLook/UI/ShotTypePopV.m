@@ -67,14 +67,14 @@
 - (void)initUI
 {
     UILabel *piceLabel = [UILabel new];
-    piceLabel.frame = CGRectMake(15, 20, 35, 23);
+    piceLabel.frame = CGRectMake(15, 20, 100, 23);
     piceLabel.textColor = [UIColor colorWithHexString:@"464646"];
     piceLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
     piceLabel.text = @"拍摄类型";
     [self addSubview:piceLabel];
 
     NSArray *titleArr= @[@"视频",@"平面",@"不限"];
-    CGFloat wid = (UI_SCREEN_WIDTH-24)/3;
+    CGFloat wid = (UI_SCREEN_WIDTH-24);
     for(int i =0;i<3;i++){
         CGFloat y = 54 + i*58;
         UIButton *btn = [UIButton buttonWithType:0];
@@ -104,7 +104,7 @@
     NSInteger tag = btn.tag-50;
    NSArray *titleArr= @[@"视频",@"平面",@"不限"];
     NSString *selectTitle = titleArr[tag];
-    _type = selectTitle;
+  
     
     UIButton *video = [self viewWithTag:50];
     video.layer.borderColor = Public_Text_Color.CGColor;
@@ -119,7 +119,8 @@
   
     [btn setTitleColor:Public_Red_Color forState:0];
     btn.layer.borderColor = Public_Red_Color.CGColor;
-    
+    self.selectType(selectTitle);
+    [self hide];
 }
 
 - (void)hide
