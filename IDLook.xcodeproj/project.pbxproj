@@ -570,6 +570,8 @@
 		7C81A8BE226EEDF700824D07 /* ProjectCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C81A8BC226EEDF700824D07 /* ProjectCell2.xib */; };
 		7C8B529622E55AF900706E7C /* PortraitSignVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B529422E55AF800706E7C /* PortraitSignVC.m */; };
 		7C8B529722E55AF900706E7C /* PortraitSignVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C8B529522E55AF800706E7C /* PortraitSignVC.xib */; };
+		7CA307752318D4300036F8A6 /* UnAuthLookCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA307742318D4300036F8A6 /* UnAuthLookCountView.m */; };
+		7CA307772318D4410036F8A6 /* UnAuthLookCountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CA307762318D4410036F8A6 /* UnAuthLookCountView.xib */; };
 		7CA985FA2293A7990048C5F9 /* NoticeActorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA985F92293A7990048C5F9 /* NoticeActorModel.m */; };
 		7CAAAAD821F5A19800420695 /* PublishGradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAAAD621F5A19800420695 /* PublishGradeViewController.m */; };
 		7CAAAAD921F5A19800420695 /* PublishGradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CAAAAD721F5A19800420695 /* PublishGradeViewController.xib */; };
@@ -2310,6 +2312,9 @@
 		7C8B529322E55AF800706E7C /* PortraitSignVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PortraitSignVC.h; sourceTree = "<group>"; };
 		7C8B529422E55AF800706E7C /* PortraitSignVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PortraitSignVC.m; sourceTree = "<group>"; };
 		7C8B529522E55AF800706E7C /* PortraitSignVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortraitSignVC.xib; sourceTree = "<group>"; };
+		7CA307732318D4300036F8A6 /* UnAuthLookCountView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnAuthLookCountView.h; sourceTree = "<group>"; };
+		7CA307742318D4300036F8A6 /* UnAuthLookCountView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnAuthLookCountView.m; sourceTree = "<group>"; };
+		7CA307762318D4410036F8A6 /* UnAuthLookCountView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnAuthLookCountView.xib; sourceTree = "<group>"; };
 		7CA985F82293A7990048C5F9 /* NoticeActorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoticeActorModel.h; sourceTree = "<group>"; };
 		7CA985F92293A7990048C5F9 /* NoticeActorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoticeActorModel.m; sourceTree = "<group>"; };
 		7CAAAAD521F5A19800420695 /* PublishGradeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishGradeViewController.h; sourceTree = "<group>"; };
@@ -4566,6 +4571,9 @@
 				7CAEED6B23162239001B6C93 /* PricePopV.m */,
 				7CAC955B2316559600286111 /* ShotTypePopV.h */,
 				7CAC955C2316559600286111 /* ShotTypePopV.m */,
+				7CA307732318D4300036F8A6 /* UnAuthLookCountView.h */,
+				7CA307742318D4300036F8A6 /* UnAuthLookCountView.m */,
+				7CA307762318D4410036F8A6 /* UnAuthLookCountView.xib */,
 			);
 			name = SearchView;
 			sourceTree = "<group>";
@@ -8547,6 +8555,7 @@
 				9959BBE820ECE6AF00E5F894 /* price_icon_21@2x.png in Resources */,
 				99BDE8C220CE13DA00A81E9D /* msg_star@2x.png in Resources */,
 				999E4FEF2112F959007721EB /* video_back@2x.png in Resources */,
+				7CA307772318D4410036F8A6 /* UnAuthLookCountView.xib in Resources */,
 				9985AB6320AA83CC00A55E0E /* auth_next_01@2x.png in Resources */,
 				9935E7EF20B5088A0018929C /* certificate_bg2@2x.png in Resources */,
 				99BC457C20C7C113006D24FE /* center_modecard@3x.png in Resources */,
@@ -9535,6 +9544,7 @@
 				3846EC8622CB3CC60064194F /* AuditPOSubV.m in Sources */,
 				7C7C3251225D8DCC009E1864 /* ApplyPriceVC.m in Sources */,
 				7C42896B2266FEB1001FA711 /* WebVC.m in Sources */,
+				7CA307752318D4300036F8A6 /* UnAuthLookCountView.m in Sources */,
 				7CDF96F021F82E0800E06E42 /* MLLabel.m in Sources */,
 				9947A13E20D370EA003CD62E /* PhotoProgressV.m in Sources */,
 				9959BB9B20EC9D5700E5F894 /* PriceTopV.m in Sources */,

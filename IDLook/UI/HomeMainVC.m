@@ -69,7 +69,7 @@
 @property(nonatomic,strong)HomeBannerView *bannerView;
 @property(nonatomic,strong)HomeTopV *topV;
 @property(nonatomic,strong)ConditionModel *conditionModel;
-
+@property(nonatomic,strong)UIButton *backTopBtn;
 @end
 
 @implementation HomeMainVC
@@ -83,10 +83,12 @@
     self.conditionModel.keyWord = @"";
     [self dsm];
     [self tableV];
+     [self backTopBtn];
     //收听appdelegate的push通知
     NSNotificationCenter *notiCenter = [NSNotificationCenter defaultCenter];
     [notiCenter addObserver:self selector:@selector(getUserInfoWhenAppLauchFromForeignWithActorId:) name:@"HomeVCPush" object:nil];//此分享作app唤醒时的通知进指定页面。包含演员主页，优惠券兑换页，通告详情页
      [notiCenter addObserver:self selector:@selector(HomeVCReload) name:@"HomeVCReload" object:nil];//annuciatePush
+   
     
 }
 
@@ -654,7 +656,11 @@
     {
         self.topV.hidden=NO;
     }
-   
+    if (offY>UI_SCREEN_HEIGHT) {
+        self.backTopBtn.hidden = NO;
+    }else if (offY<UI_SCREEN_HEIGHT){
+        self.backTopBtn.hidden = YES;
+    }
     [_player playerScrollIsSupportSmallWindowPlay:NO];
 }
 
@@ -840,7 +846,43 @@
         [self VideostatisticsWithWorkModel:model withType:2];
     };
 }
-
+-(UIButton*)backTopBtn
+{
+    if (!_backTopBtn) {
+        _backTopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        CGFloat originY = 0;
+      originY=UI_SCREEN_HEIGHT-SafeAreaTabBarHeight_IphoneX-70-54;
+        _backTopBtn.frame = CGRectMake(UI_SCREEN_WIDTH-64,originY, 44, 44);
+        [self.view addSubview:_backTopBtn];
+        _backTopBtn.layer.cornerRadius=22;
+        _backTopBtn.layer.masksToBounds=YES;
+        _backTopBtn.layer.borderColor=Public_DetailTextLabelColor.CGColor;
+        _backTopBtn.layer.borderWidth=1.0;
+        _backTopBtn.backgroundColor=[UIColor whiteColor];
+        [_backTopBtn setTitle:@"顶部" forState:UIControlStateNormal];
+        [_backTopBtn setTitleColor:Public_Text_Color forState:UIControlStateNormal];
+        _backTopBtn.titleLabel.font=[UIFont systemFontOfSize:10];
+        [_backTopBtn setImage:[UIImage imageNamed:@"u_info_goTop"] forState:UIControlStateNormal];
+        [_backTopBtn setImage:[UIImage imageNamed:@"u_info_goTop"] forState:UIControlStateSelected];
+        [_backTopBtn addTarget:self action:@selector(backToTopAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        _backTopBtn.titleLabel.backgroundColor = _backTopBtn.backgroundColor;
+        _backTopBtn.imageView.backgroundColor = _backTopBtn.backgroundColor;
+        CGSize titleSize = _backTopBtn.titleLabel.bounds.size;
+        CGSize imageSize = _backTopBtn.imageView.bounds.size;
+        CGFloat interval = 1;
+        [_backTopBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0, titleSize.height + interval, -(titleSize.width + interval))];
+        [_backTopBtn setTitleEdgeInsets:UIEdgeInsetsMake(imageSize.height + interval + 5, -(imageSize.width + interval), 0, 0)];
+        _backTopBtn.hidden=YES;
+    }
+    return _backTopBtn;
+}
+//回到顶部
+-(void)backToTopAction
+{
+    CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?-20:-40;
+    [self.tableV setContentOffset:CGPointMake(0, y) animated:YES];
+}
 //视频浏览量埋点统计
 -(void)VideostatisticsWithWorkModel:(WorksModel*)model withType:(NSInteger)type
 {
