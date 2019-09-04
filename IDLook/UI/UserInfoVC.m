@@ -33,6 +33,8 @@
 #import "ActorGradesVC.h"
 #import "ActorPriceListVC.h"
 #import "AskCalendarPriceModel.h"
+#import "UnAuthLookCountView.h"
+#import "AuthBuyerVC.h"
 @interface UserInfoVC ()<UIScrollViewDelegate,UserServiceDelegate,UserHeaderVDelegate,ActorPriceListVCDelegate>
 {
     VideoPlayer *_player;
@@ -79,6 +81,8 @@
     
     [self bottomV];
     [self backTopBtn];
+  
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -211,6 +215,9 @@
             weakself.praiseBtn.selected=weakself.dataM.info.isPraise;
             [weakself.bottomV reloadUIWithInfo:weakself.dataM.info];
             [weakself autoSwitchWork];
+            if (weakself.isCheckPrice) {//这里是其他页面的未认证用户要查看价格
+                [weakself lookPrice2];
+            }
         };
     }
     return _dataM;
@@ -496,22 +503,44 @@
 #pragma mark 此处是直接从底部弹出项目选择 ，用法和以前一样，类名OfferTypePopV3
 -(void)lookUserPrice
 {
+  
     if ([UserInfoManager getUserLoginType]) {
         [SVProgressHUD showImage:nil status:@"登录后可查看报价！"];
         return;
     }
     
-    //未认证成功，跳到认证界面
+    //未认证成功，弹窗
     if ([UserInfoManager getUserAuthState]!=1) {
-        [SVProgressHUD showImage:nil status:@"认证后可查看报价！"];
+       // [SVProgressHUD showImage:nil status:@"认证后可查看报价！"];
+        NSDictionary *arg = @{
+                              @"actorId":@(_info.actorId),
+                              @"query":@(YES)
+                              };
+        [AFWebAPI_JAVA canLookPriceWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            if (success) {
+                NSDictionary *body = object[@"body"];
+                NSString *message = body[@"message"];
+                BOOL consultPrice = [body[@"consultPrice"] boolValue];
+                //        弹窗
+                UnAuthLookCountView *ualcv = [[UnAuthLookCountView alloc] init];
+                ualcv.actionType = ^(NSString * _Nonnull type) {
+                    if ([type isEqualToString:@"认证"]) {
+                        AuthBuyerVC *authVC=[[AuthBuyerVC alloc]init];
+                        authVC.hidesBottomBarWhenPushed=YES;
+                        [self.navigationController pushViewController:authVC animated:YES];
+                    }else if ([type isEqualToString:@"查看价格"]){
+                        [self lookPrice2];
+                    }
+                    
+                };
+                [ualcv showWithString:message andCanLook:consultPrice];
+            }
+        }];
+    
         return;
     }
     
-    if ([self.dataM.info.priceInfo[@"startPrice"] integerValue]==0) {
-        AskPriceView *ap  = [[AskPriceView alloc] init];
-        [ap showWithTitle:@"咨询价格" desc:@"此演员价格受拍摄日期，脚本影响较大，无固定价格。具体价格请拨打400-833-6969咨询脸探副导。" leftBtn:@"" rightBtn:@"" phoneNum:@"4008336969"];
-        return;
-    }
+    [self lookPrice2];
 
     
 //    WeakSelf(self);
@@ -543,6 +572,15 @@
 //                return;
 //            }
 //    }}];
+
+}
+-(void)lookPrice2//这里才是真的查价格 前面排出未登录 未认证的问题
+{
+    if ([self.dataM.info.priceInfo[@"startPrice"] integerValue]==0) {
+        AskPriceView *ap  = [[AskPriceView alloc] init];
+        [ap showWithTitle:@"咨询价格" desc:@"此演员价格受拍摄日期，脚本影响较大，无固定价格。具体价格请拨打400-833-6969咨询脸探副导。" leftBtn:@"" rightBtn:@"" phoneNum:@"4008336969"];
+        return;
+    }
     ActorPriceListVC *apvc = [ActorPriceListVC new];
     apvc.hidesBottomBarWhenPushed = YES;
     apvc.actorId = self.dataM.info.actorId;
@@ -550,22 +588,30 @@
     apvc.delegate = self;
     apvc.pushType = 1;
     if (_selectArray.count==0 || [_selectArray isKindOfClass:[NSNull class]]) {//没有选择项目
-
+        
         apvc.selectArr = [NSArray new];
         apvc.year = 0;
         apvc.region = 0;
         apvc.yidi = 0;
-
+        
     }else if (_selectArray.count>0){//已经选择了拍摄项目，
         apvc.selectArr = _selectArray;
         apvc.year = _orderYear;
         apvc.region = _orderRegion;
         apvc.yidi = _otherArea;
-      
+        
     }
-     [self.navigationController pushViewController:apvc animated:YES];
+    if (_isCheckPrice) {
+        NSDictionary *arg = @{
+                              @"actorId":@(_info.actorId),
+                              @"query":@(NO)
+                              };
+        [AFWebAPI_JAVA canLookPriceWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            NSLog(@"确认查看报价后的回调%@",object);
+        }];
+    }
+    [self.navigationController pushViewController:apvc animated:YES];
 }
-
 #pragma mark--UserHeaderVDelegate
 //作品切换
 -(void)clickWorkWithIndex:(NSInteger)index

@@ -52,6 +52,8 @@ typedef void (^HttpCallBackWithObject)(BOOL success,id object);
 + (void)checkTokenIsValid:(id)arg callBack:(HttpCallBackWithObject)callBack;
 
 /**********************************************个人设置*******************************************/
+//版本控制
++(void)checkVersionWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 //用户消息设置
 +(void)setUserNewMsgWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 //验证旧手机号

@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger,UserInfoCellType)
 @property(nonatomic,strong)UserDetialInfoM *info;
 @property(nonatomic,strong)NSMutableArray *ds;
 @property(nonatomic,strong)NSMutableArray *typeDataSource;  //类型标签数据
+
 - (void)refreshUserInfo;
 
 @end

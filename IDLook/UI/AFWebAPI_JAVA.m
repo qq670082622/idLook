@@ -380,6 +380,15 @@
     
 }
 /**********************************************个人设置*******************************************/
+//版本控制
++(void)checkVersionWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"version/query" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
 //用户消息设置 免打扰
 +(void)setUserNewMsgWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
 {

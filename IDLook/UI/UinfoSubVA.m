@@ -145,6 +145,8 @@
         make.centerY.mas_equalTo(offerIcon);
     }];
     salePriceVipLab.text=@"￥3000/天起";
+  [salePriceVipLab addGestureRecognizer:tap1];
+    salePriceVipLab.userInteractionEnabled = YES;
     self.salePriceVipLab=salePriceVipLab;
     
     //vipt标示
@@ -277,7 +279,7 @@
     {
         //未认证成功，跳到认证界面
         if ([UserInfoManager getUserAuthState]!=1) {
-            self.salePriceVipLab.text=@"认证后可查看报价";
+            self.salePriceVipLab.text=@"查看报价";
             self.salePriceLab.text=@"";
         }
         else

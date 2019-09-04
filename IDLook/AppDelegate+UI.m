@@ -13,7 +13,7 @@
 #import "CompleteInfoVC.h"
 #import "AppUnablePopV.h"
 #import "JPUSHService.h"
-
+#import "VersionPopv.h"
 @implementation AppDelegate (UI)
 
 -(void)initializeUI
@@ -279,31 +279,84 @@
 
 -(void)receiveData:(id)sender
 {
-    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    // 手机当前APP软件版本  比如：1.0.2
-    NSString *nativeVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    NSString *storeVersion  = sender[@"version"];
+//    NSUserDefaults *udf = [NSUserDefaults standardUserDefaults];
+//    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+//    // 手机当前APP软件版本  比如：1.0.2
+//    NSString *nativeVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+//    NSString *storeVersion  = sender[@"version"];
+//    NSString *popVersion = [udf objectForKey:@"popversion"];
+//    NSLog(@"本地版本号curV=%@",nativeVersion);
+//    NSLog(@"商店版本号appV=%@", sender[@"version"]);
+//
+//
+//    BOOL needPop = false; //需要弹窗
+//    BOOL needUpdate = false;//弹窗需要升级按钮
+//    NSComparisonResult comparisonResult = [popVersion compare:nativeVersion options:NSNumericSearch];
+//    //NSOrderedSame相同 NSOrderedAscending = -1L表示升序;  NSOrderedDescending = +1 表示降序
+//    switch (comparisonResult) {
+//        case NSOrderedSame:
+//            NSLog(@"弹窗版本与本地版本号相同，不需要更新");
+//            break;
+//        case NSOrderedAscending:
+//            NSLog(@"弹窗版本号 < 本地版本号，需要更新");
+//            // [self update];
+//            needPop = YES;
+//            [udf setObject:storeVersion forKey:@"popversion"];
+//
+//            break;
+//        case NSOrderedDescending:
+//            NSLog(@"弹窗版本号 > 本地版本号，不需要更新");
+//            break;
+//        default:
+//            break;
+//    }
+//
+//     NSComparisonResult comparisonResult2 = [nativeVersion compare:storeVersion options:NSNumericSearch];
+//    //NSOrderedSame相同 NSOrderedAscending = -1L表示升序;  NSOrderedDescending = +1 表示降序
+//    switch (comparisonResult2) {
+//        case NSOrderedSame:
+//            NSLog(@"本地版本与商店版本号相同，不需要更新");
+//            break;
+//        case NSOrderedAscending:
+//            NSLog(@"本地版本号 < 商店版本号，需要更新");
+//           // [self update];
+//            needPop = YES;
+//            needUpdate = YES;
+//            break;
+//        case NSOrderedDescending:
+//            NSLog(@"本地版本号 > 商店版本号，不需要更新");
+//            break;
+//        default:
+//            break;
+//    }
+//
+//    if (needPop) {
+//        VersionPopv *vp = [[VersionPopv alloc] init];
+//        [vp showWithUpdate:YES andVersion:@"v1.4.2" andTips:@[@"2183621874681268",@"12312412412312sfdfsdf",@"nv839725v9823v9832nv79582v3b2359v8b62359v8b632598vb68923v69238bv6923bv692"]];
+//        vp.update = ^{
+//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/cn/app/id%@?mt=8",STORE_APPID]];
+//            [[UIApplication sharedApplication] openURL:url];
+//        };
+//    }
     
-    NSLog(@"本地版本号curV=%@",nativeVersion);
-    NSLog(@"商店版本号appV=%@", sender[@"version"]);
-    
-    NSComparisonResult comparisonResult = [nativeVersion compare:storeVersion options:NSNumericSearch];
-    
-    //NSOrderedSame相同 NSOrderedAscending = -1L表示升序;  NSOrderedDescending = +1 表示降序
-    switch (comparisonResult) {
-        case NSOrderedSame:
-            NSLog(@"本地版本与商店版本号相同，不需要更新");
-            break;
-        case NSOrderedAscending:
-            NSLog(@"本地版本号 < 商店版本号，需要更新");
-            [self update];
-            break;
-        case NSOrderedDescending:
-            NSLog(@"本地版本号 > 商店版本号，不需要更新");
-            break;
-        default:
-            break;
-    }
+    [AFWebAPI_JAVA checkVersionWithArg:[NSDictionary new] callBack:^(BOOL success, id  _Nonnull object) {
+        if (success) {
+            NSDictionary *body = [object objectForKey:@"body"];
+            BOOL prompt = [body[@"prompt"] boolValue];//新版内容弹窗
+            BOOL update = [body[@"update"] boolValue];//更新样式弹窗
+            NSString *version = body[@"version"];
+            NSArray *desc = body[@"desc"];
+            if (prompt || update) {
+
+                        VersionPopv *vp = [[VersionPopv alloc] init];
+                        [vp showWithUpdate:update andVersion:version andTips:desc];
+                        vp.update = ^{
+                            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/cn/app/id%@?mt=8",STORE_APPID]];
+                            [[UIApplication sharedApplication] openURL:url];
+                        };
+            }
+        }
+    }];
 }
 
 //更新

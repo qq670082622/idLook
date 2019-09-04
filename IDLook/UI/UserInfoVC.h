@@ -11,4 +11,5 @@
 @interface UserInfoVC : UIViewController
 @property (nonatomic,strong)UserDetialInfoM *info;
 @property (nonatomic,strong)UserModel *userModel;
+@property(nonatomic,assign)BOOL isCheckPrice;//直接进入查看报价页面
 @end

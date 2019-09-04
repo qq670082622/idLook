@@ -361,6 +361,26 @@
 }
 
 #pragma mark---HomeServiceDelegate
+-(void)actionType:(NSString *)type andUserInfo:(UserModel *)info
+{
+    if ([type isEqualToString:@"认证"]) {
+        AuthBuyerVC *authVC=[[AuthBuyerVC alloc]init];
+        authVC.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:authVC animated:YES];
+    }else if ([type isEqualToString:@"查看价格"]){
+        UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
+        userInfoVC.hidesBottomBarWhenPushed=YES;
+        UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
+        uInfo.actorId = info.actorId;
+        uInfo.nickName = info.nickName;
+        uInfo.sex = info.sex;
+        uInfo.region = info.region;
+        uInfo.avatar = info.actorHeadMini;
+        userInfoVC.info =uInfo;
+        userInfoVC.isCheckPrice = YES;
+        [self.navigationController pushViewController:userInfoVC animated:YES];
+    }
+}
 //微代言，微出镜，招商项目
 -(void)didClick1WithType:(NSInteger)type
 {

@@ -810,6 +810,25 @@
         cell.lookPicture = ^(WorksModel *workModel, NSInteger index) {
             [weakself lookPictureWuthModel:workModel andIndex:index];
         };
+        cell.actionType = ^(NSString *type) {
+            if ([type isEqualToString:@"认证"]) {
+                AuthBuyerVC *authVC=[[AuthBuyerVC alloc]init];
+                authVC.hidesBottomBarWhenPushed=YES;
+                [weakself.navigationController pushViewController:authVC animated:YES];
+            }else if ([type isEqualToString:@"查看价格"]){
+                UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
+                userInfoVC.hidesBottomBarWhenPushed=YES;
+                UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
+                uInfo.actorId = info.actorId;
+                uInfo.nickName = info.nickName;
+                uInfo.sex = info.sex;
+                uInfo.region = info.region;
+                uInfo.avatar = info.actorHeadMini;
+                userInfoVC.info =uInfo;
+                userInfoVC.isCheckPrice = YES;
+                [weakself.navigationController pushViewController:userInfoVC animated:YES];
+            }
+        };
     }
     return cell;
 }

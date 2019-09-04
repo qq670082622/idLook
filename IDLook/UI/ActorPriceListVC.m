@@ -553,6 +553,10 @@
 }
 
 - (IBAction)ensure:(id)sender {
+    if ([UserInfoManager getUserAuthState_wm]!=1 &&  [UserInfoManager getUserLoginType] != UserLoginTypeTourist) {
+        [SVProgressHUD showErrorWithStatus:@"未认证用户不能进行此操作"];
+        return;
+    }
 //     if (self.year>0 && self.region>0 && self.yidi>0 && _selectPrice.count>0)
     if(_year == 0){
         [SVProgressHUD showErrorWithStatus:@"请选择肖像使用年限"];

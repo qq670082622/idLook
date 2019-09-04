@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UnAuthLookCountView : UIView
-
+-(void)showWithString:(NSString *)tipStr andCanLook:(BOOL)canLook;
+@property(nonatomic,copy)void(^actionType)(NSString *type);
 @end
 
 NS_ASSUME_NONNULL_END

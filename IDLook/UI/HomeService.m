@@ -139,8 +139,9 @@
     ActorCell *cell = [ActorCell cellWithTableView:tableView];
     WeakSelf(self);
     WeakSelf(cell);
+    
     if (tableView.animatedStyle != TABTableViewAnimationStart) {
-        __block  UserModel *userModel = self.dsm.ds[indexPath.row];
+      __block  UserModel *userModel = self.dsm.ds[indexPath.row];
                 cell.model = userModel;
         cell.index_row = indexPath.row;
         cell.clickUserInfo = ^{
@@ -178,6 +179,11 @@
         };
         cell.selectType =^(NSString *typeString){
 
+        };
+        cell.actionType = ^(NSString *type) {
+            if (weakself.delegate && [weakself.delegate respondsToSelector:@selector(actionType:andUserInfo:)]) {
+                [weakself.delegate actionType:type andUserInfo:userModel];
+            }
         };
         cell.lookPicture = ^(WorksModel *workModel, NSInteger index) {
 //            NSMutableArray *dataS = [NSMutableArray new];

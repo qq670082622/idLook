@@ -16,6 +16,7 @@
 @property(nonatomic,copy)void(^playVideWithUrl)(WorksModel *workModel,NSInteger videoPage);  //播放视频
 @property(nonatomic,copy)void(^lookPicture)(WorksModel *workModel,NSInteger index);  //查看大图
 @property(nonatomic,copy)void(^endDeceleratingBlock)(void);  //停止滑动
+@property(nonatomic,copy)void(^actionType)(NSString *type);  //认证或查看价格
 @property(nonatomic,copy)NSString *typeContent;
 @property(nonatomic,strong) UserModel *model;
 //-(void)reloadUIWithModel:(UserInfoM *)model withSelect:(NSString*)select;

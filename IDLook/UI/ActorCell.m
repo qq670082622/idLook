@@ -11,6 +11,7 @@
 #import "ActorVideoViewModel.h"
 #import "AskPriceView.h"
 #import "WriteFileManager.h"
+#import "UnAuthLookCountView.h"
 @interface ActorCell()
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
 @property (weak, nonatomic) IBOutlet UILabel *name;
@@ -400,10 +401,29 @@
 }
 
 - (IBAction)authAction:(id)sender {
-  
+    WeakSelf(self);
     if ([UserInfoManager getUserAuthState_wm]!=1) {
 //        [SVProgressHUD showImage:nil status:@"认证后可查看报价！"];
-//        弹窗
+        NSDictionary *arg = @{
+           @"actorId":@(_model.actorId),
+           @"query":@(YES)
+           };
+        [AFWebAPI_JAVA canLookPriceWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            if (success) {
+                NSDictionary *body = object[@"body"];
+                NSString *message = body[@"message"];
+                BOOL consultPrice = [body[@"consultPrice"] boolValue];
+                //        弹窗
+                                UnAuthLookCountView *ualcv = [[UnAuthLookCountView alloc] init];
+                ualcv.actionType = ^(NSString * _Nonnull type) {
+                    
+                    weakself.actionType(type);
+                    
+                };
+                [ualcv showWithString:message andCanLook:consultPrice];
+            }
+        }];
+
         }
     if( [UserInfoManager getUserLoginType] == UserLoginTypeTourist){
         [SVProgressHUD showImage:nil status:@"登录后可查看报价！"];

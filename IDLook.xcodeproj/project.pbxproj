@@ -572,6 +572,7 @@
 		7C8B529722E55AF900706E7C /* PortraitSignVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C8B529522E55AF800706E7C /* PortraitSignVC.xib */; };
 		7CA307752318D4300036F8A6 /* UnAuthLookCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA307742318D4300036F8A6 /* UnAuthLookCountView.m */; };
 		7CA307772318D4410036F8A6 /* UnAuthLookCountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CA307762318D4410036F8A6 /* UnAuthLookCountView.xib */; };
+		7CA3077A231D14C30036F8A6 /* VersionPopv.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA30779231D14C30036F8A6 /* VersionPopv.m */; };
 		7CA985FA2293A7990048C5F9 /* NoticeActorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA985F92293A7990048C5F9 /* NoticeActorModel.m */; };
 		7CAAAAD821F5A19800420695 /* PublishGradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CAAAAD621F5A19800420695 /* PublishGradeViewController.m */; };
 		7CAAAAD921F5A19800420695 /* PublishGradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CAAAAD721F5A19800420695 /* PublishGradeViewController.xib */; };
@@ -774,6 +775,7 @@
 		7CDF97A321F8389400E06E42 /* OrderDetialScriptVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDF97A221F8389400E06E42 /* OrderDetialScriptVC.m */; };
 		7CDF97A621F838D600E06E42 /* ScriptCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDF97A521F838D500E06E42 /* ScriptCell.m */; };
 		7CDF97A921F838EB00E06E42 /* ScriptModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDF97A721F838EB00E06E42 /* ScriptModel.m */; };
+		7CE4F209231E04ED00AAF2A2 /* VersionPopv.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CE4F208231E04ED00AAF2A2 /* VersionPopv.xib */; };
 		7CE874DC22EACEA600BBC047 /* CitySelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE874DB22EACEA600BBC047 /* CitySelectView.m */; };
 		7CE874DF22EAF24300BBC047 /* CitiesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE874DE22EAF24300BBC047 /* CitiesView.m */; };
 		7CE874E122EAF2FE00BBC047 /* CitiesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7CE874E022EAF2FE00BBC047 /* CitiesView.xib */; };
@@ -2315,6 +2317,8 @@
 		7CA307732318D4300036F8A6 /* UnAuthLookCountView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnAuthLookCountView.h; sourceTree = "<group>"; };
 		7CA307742318D4300036F8A6 /* UnAuthLookCountView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnAuthLookCountView.m; sourceTree = "<group>"; };
 		7CA307762318D4410036F8A6 /* UnAuthLookCountView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnAuthLookCountView.xib; sourceTree = "<group>"; };
+		7CA30778231D14C30036F8A6 /* VersionPopv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VersionPopv.h; sourceTree = "<group>"; };
+		7CA30779231D14C30036F8A6 /* VersionPopv.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VersionPopv.m; sourceTree = "<group>"; };
 		7CA985F82293A7990048C5F9 /* NoticeActorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoticeActorModel.h; sourceTree = "<group>"; };
 		7CA985F92293A7990048C5F9 /* NoticeActorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoticeActorModel.m; sourceTree = "<group>"; };
 		7CAAAAD521F5A19800420695 /* PublishGradeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishGradeViewController.h; sourceTree = "<group>"; };
@@ -2800,6 +2804,7 @@
 		7CDF97A521F838D500E06E42 /* ScriptCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptCell.m; sourceTree = "<group>"; };
 		7CDF97A721F838EB00E06E42 /* ScriptModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptModel.m; sourceTree = "<group>"; };
 		7CDF97A821F838EB00E06E42 /* ScriptModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptModel.h; sourceTree = "<group>"; };
+		7CE4F208231E04ED00AAF2A2 /* VersionPopv.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VersionPopv.xib; sourceTree = "<group>"; };
 		7CE874DA22EACEA600BBC047 /* CitySelectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CitySelectView.h; sourceTree = "<group>"; };
 		7CE874DB22EACEA600BBC047 /* CitySelectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CitySelectView.m; sourceTree = "<group>"; };
 		7CE874DD22EAF24300BBC047 /* CitiesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CitiesView.h; sourceTree = "<group>"; };
@@ -6419,6 +6424,9 @@
 				99429CBC204FBE4A009EC7D5 /* AppDelegate.m */,
 				997ED862209178300093F1DA /* AppDelegate+UI.h */,
 				997ED863209178300093F1DA /* AppDelegate+UI.m */,
+				7CA30778231D14C30036F8A6 /* VersionPopv.h */,
+				7CA30779231D14C30036F8A6 /* VersionPopv.m */,
+				7CE4F208231E04ED00AAF2A2 /* VersionPopv.xib */,
 				7C568B6B221562AF006F9302 /* QN */,
 				99429CFC204FC227009EC7D5 /* UI */,
 				99429D3D204FD2BA009EC7D5 /* Tools */,
@@ -8974,6 +8982,7 @@
 				9959BBF820ECE6BF00E5F894 /* price_icon_34@3x.png in Resources */,
 				7C69382121F9BF2B00A515A2 /* GradeEnsureCell.xib in Resources */,
 				99627EC820BE4D4F009F18FE /* works_choose@2x.png in Resources */,
+				7CE4F209231E04ED00AAF2A2 /* VersionPopv.xib in Resources */,
 				38323B4521AFE6850074FF89 /* works_model_icon@2x.png in Resources */,
 				9935E80520B51B230018929C /* certif_upload_icon@3x.png in Resources */,
 				7CBAEC28226745A8000EA048 /* MyInsuranceVC.xib in Resources */,
@@ -9190,6 +9199,7 @@
 				3819D3122255A94600CCC100 /* ScheduleLockVC.m in Sources */,
 				7CA985FA2293A7990048C5F9 /* NoticeActorModel.m in Sources */,
 				7C7C3242225B44E1009E1864 /* AskOtherCell.m in Sources */,
+				7CA3077A231D14C30036F8A6 /* VersionPopv.m in Sources */,
 				7CDF973521F82E0900E06E42 /* VICacheSessionManager.m in Sources */,
 				3884958F2264AD1100A8A097 /* PlayRoleView.m in Sources */,
 				7CF320EF2240C1E4004043CB /* StoreCell.m in Sources */,
