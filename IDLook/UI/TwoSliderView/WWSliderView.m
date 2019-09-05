@@ -177,6 +177,8 @@
     CGFloat mergion = 10;
     if ([_type isEqualToString:@"元"]) {
         mergion = 13;
+        rightLabel.width+=20;
+        leftLabel.width+=20;
     }
     if (rightLabel.x<leftLabel.right) {//两个挤在一起了
         leftLabel.center = CGPointMake(lowerKnobLayer.frame.origin.x  + lowerKnobLayer.frame.size.width * 0.5 - mergion, lowerKnobLayer.frame.origin.y - 14);

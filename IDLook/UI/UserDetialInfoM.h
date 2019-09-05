@@ -58,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString *bankCardNo;  //银行卡号
 @property (nonatomic,copy) NSString *bankName;  //银行名
 
+@property(nonatomic,assign)BOOL unlockingPrice;//是否解锁 yes解锁 no未解锁
 
 -(id)initWithDic:(NSDictionary *)dic;
 

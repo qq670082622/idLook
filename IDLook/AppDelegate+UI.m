@@ -354,6 +354,7 @@
                             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/cn/app/id%@?mt=8",STORE_APPID]];
                             [[UIApplication sharedApplication] openURL:url];
                         };
+                
             }
         }
     }];

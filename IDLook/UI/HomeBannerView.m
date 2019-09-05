@@ -167,7 +167,7 @@
 - (HQFlowView *)pageFlowView
 {
     if (!_pageFlowView) {
-        CGFloat flowHeight = (UI_SCREEN_WIDTH-30)*0.3768;
+        CGFloat flowHeight = UI_SCREEN_WIDTH*0.6;
         _pageFlowView = [[HQFlowView alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, flowHeight)];
         _pageFlowView.delegate = self;
         _pageFlowView.dataSource = self;

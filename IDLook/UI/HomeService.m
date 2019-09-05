@@ -146,7 +146,7 @@
         cell.index_row = indexPath.row;
         cell.clickUserInfo = ^{
               UserModel *info = self.dsm.ds[indexPath.row];//此处转info
-             [weakself.delegate didClickUser:info withSelect:weakcell.typeContent];
+             [weakself.delegate didClickUser:info withSelect:weakcell.typeContent andiIndexPath:indexPath];
         };
         cell.playVideWithUrl = ^(WorksModel *workModel, NSInteger videoPage){
             if ([[NetworkNoti shareInstance]getNetworkStatus]==AFNetworkReachabilityStatusReachableViaWWAN && [UserInfoManager getWWanAuthPlay]==NO) {
@@ -181,8 +181,8 @@
 
         };
         cell.actionType = ^(NSString *type) {
-            if (weakself.delegate && [weakself.delegate respondsToSelector:@selector(actionType:andUserInfo:)]) {
-                [weakself.delegate actionType:type andUserInfo:userModel];
+            if (weakself.delegate && [weakself.delegate respondsToSelector:@selector(actionType:andUserInfo:andIndexPath:)]) {
+                [weakself.delegate actionType:type andUserInfo:userModel andIndexPath:indexPath];
             }
         };
         cell.lookPicture = ^(WorksModel *workModel, NSInteger index) {
@@ -215,8 +215,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UserModel *info = self.dsm.ds[indexPath.row];
     HomeMainCellD *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickUser:withSelect:)]) {
-        [self.delegate didClickUser:info withSelect:cell.typeContent];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didClickUser:withSelect:andiIndexPath:)]) {
+        [self.delegate didClickUser:info withSelect:cell.typeContent andiIndexPath:indexPath];
     }
 }
 

@@ -146,8 +146,11 @@
             _conditionModel.price_min = pricestar>0?pricestar:0;
         }
         //性别
-        NSInteger sex = [[_screenConditionDic objectForKey:@"sex"] integerValue];
-        _conditionModel.sex = sex;
+        NSString *sex = [_screenConditionDic objectForKey:@"sex"];
+        if (sex && sex.length>0) {
+              _conditionModel.sex = [sex integerValue];
+        }
+      
          // 点击的年龄
        NSArray *ages = @[@"0-11",@"12-19",@"20-29",@"30-39",@"40-100"];
         NSString *ageStr = [_screenConditionDic objectForKey:@"age"];
@@ -816,17 +819,27 @@
                 authVC.hidesBottomBarWhenPushed=YES;
                 [weakself.navigationController pushViewController:authVC animated:YES];
             }else if ([type isEqualToString:@"查看价格"]){
-                UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
-                userInfoVC.hidesBottomBarWhenPushed=YES;
-                UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
-                uInfo.actorId = info.actorId;
-                uInfo.nickName = info.nickName;
-                uInfo.sex = info.sex;
-                uInfo.region = info.region;
-                uInfo.avatar = info.actorHeadMini;
-                userInfoVC.info =uInfo;
-                userInfoVC.isCheckPrice = YES;
-                [weakself.navigationController pushViewController:userInfoVC animated:YES];
+                NSDictionary *arg = @{
+                                      @"actorId":@(info.actorId),
+                                      @"query":@(NO)
+                                      };
+                [AFWebAPI_JAVA canLookPriceWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+                    NSLog(@"确认查看报价后的回调%@",object);
+                    UserModel *userModel = self.dataSource[indexPath.row];
+                    userModel.unlockingPrice = YES;
+                    [self.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:(UITableViewRowAnimationFade)];
+                }];
+//                UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
+//                userInfoVC.hidesBottomBarWhenPushed=YES;
+//                UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
+//                uInfo.actorId = info.actorId;
+//                uInfo.nickName = info.nickName;
+//                uInfo.sex = info.sex;
+//                uInfo.region = info.region;
+//                uInfo.avatar = info.actorHeadMini;
+//                userInfoVC.info =uInfo;
+//                userInfoVC.isCheckPrice = YES;
+//                [weakself.navigationController pushViewController:userInfoVC animated:YES];
             }
         };
     }
@@ -863,13 +876,20 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    WeakSelf(self);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ActorCell *cell = [self.tableV cellForRowAtIndexPath:indexPath];
     UserModel *model = self.dataSource[indexPath.row];
     UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
     UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
     uInfo.actorId =model.actorId;
+    uInfo.unlockingPrice = model.unlockingPrice;
     userInfoVC.info =uInfo;
+    userInfoVC.hadCheckUserPrice = ^{
+        UserModel *model = weakself.dataSource[indexPath.row];
+        model.unlockingPrice = YES;
+        [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:(UITableViewRowAnimationFade)];
+    };
     [self.navigationController pushViewController:userInfoVC animated:YES];
 }
 -(void)lookPictureWuthModel:(WorksModel *)model andIndex:(NSInteger)index

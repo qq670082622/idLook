@@ -19,6 +19,10 @@
 @property(nonatomic,assign)NSInteger wei_high;
 @property(nonatomic, strong)WWSliderView *hei_rangeSlider;
 @property(nonatomic, strong)WWSliderView *wei_rangeSlider;
+@property(nonatomic,assign)NSInteger resetHei_low;
+@property(nonatomic,assign)NSInteger resetHei_high;
+@property(nonatomic,assign)NSInteger resetwei_low;
+@property(nonatomic,assign)NSInteger resetwei_high;
 @end
 @implementation HeiWeiPopV
 - (id)init
@@ -49,6 +53,10 @@
     self.hei_high = highHei==0?200:highHei;
     self.wei_low = lowWei;
     self.wei_high = highWei==0?120:highWei;
+    self.resetHei_low = _hei_low;
+    self.resetHei_high = _hei_high;
+    self.resetwei_low = _wei_low;
+    self.resetwei_high = _wei_high;
     UIView *maskV = [[UIView alloc] initWithFrame:showWindow.bounds];
     maskV.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.5f];
     maskV.alpha = 0.f;
@@ -219,6 +227,7 @@ _wei_rangeSlider = [[WWSliderView alloc] initWithFrame:sliderFrame
     resetBtn.frame = CGRectMake(0, Vheight-48, 133, 48);
     resetBtn.layer.borderColor = [UIColor colorWithHexString:@"f2f2f2"].CGColor;
     resetBtn.layer.borderWidth = 0.5;
+    [resetBtn addTarget:self action:@selector(resetRangeValue) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:resetBtn];
 
     UIButton *sureBtn = [UIButton buttonWithType:0];
@@ -256,8 +265,23 @@ _wei_rangeSlider = [[WWSliderView alloc] initWithFrame:sliderFrame
 
 -(void)sureAction
 {
+    _hei_low = _hei_rangeSlider.lowerValue;
+    _hei_high = _hei_rangeSlider.upperValue;
+    _wei_low = _wei_rangeSlider.lowerValue;
+    _wei_high = _wei_rangeSlider.upperValue;
     self.selectNum(_hei_low, _hei_high, _wei_low, _wei_high);
     [self hide];
+}
+-(void)resetRangeValue
+{
+    _hei_low =  self.resetHei_low;
+ _hei_high = self.resetHei_high;
+   _wei_low = self.resetwei_low;
+     _wei_high = self.resetwei_high;
+    [_hei_rangeSlider resetLeftValue:_hei_low rightValue:_hei_high];
+    [_hei_rangeSlider resetLeftAndRightLabel];
+    [_wei_rangeSlider resetLeftValue:_wei_low rightValue:_wei_high];
+    [_wei_rangeSlider resetLeftAndRightLabel];
 }
 - (void)hide
 {

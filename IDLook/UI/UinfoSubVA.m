@@ -281,6 +281,9 @@
         if ([UserInfoManager getUserAuthState]!=1) {
             self.salePriceVipLab.text=@"查看报价";
             self.salePriceLab.text=@"";
+            if (info.unlockingPrice) {
+                self.salePriceVipLab.text= [NSString stringWithFormat:@"￥%ld起/天",[info.priceInfo[@"startPriceVip"]integerValue]];
+            }
         }
         else
         {

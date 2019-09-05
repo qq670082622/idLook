@@ -124,8 +124,8 @@
 -(HomeTopV*)topV
 {
     if (!_topV) {
-        CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?10:0; //30
-        CGFloat height = [UIApplication sharedApplication].statusBarFrame.size.height==20?48:82;
+        CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?0:0; //30
+        CGFloat height = [UIApplication sharedApplication].statusBarFrame.size.height==20?68:82;
         _topV=[[HomeTopV alloc]initWithFrame:CGRectMake(0, y, UI_SCREEN_WIDTH, height)];
         [self.view addSubview:_topV];
         WeakSelf(self);
@@ -174,8 +174,9 @@
 -(CustomTableV*)tableV
 {
     if (!_tableV) {
-        CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?-20:-10;
-        _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,y,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT+10) style:UITableViewStyleGrouped];
+        CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?-20:-44;
+        CGFloat hei = [UIApplication sharedApplication].statusBarFrame.size.height==20?20:44;
+        _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,y,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT+hei) style:UITableViewStyleGrouped];
         _tableV.delegate = self.service;
         _tableV.dataSource = self.service;
         _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -199,7 +200,7 @@
 
 -(UIView*)tableHeadV
 {
-    CGFloat flowHeight = (UI_SCREEN_WIDTH-30)*0.3768;
+    CGFloat flowHeight = UI_SCREEN_WIDTH*0.6;//(UI_SCREEN_WIDTH-30)*0.3768;
     CGFloat searchHeight = 280;
     CGFloat bgHeight = searchHeight+flowHeight*0.7;
     UIView *bg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, bgHeight+10)];//300是搜索框高度 72是重合高度
@@ -361,24 +362,34 @@
 }
 
 #pragma mark---HomeServiceDelegate
--(void)actionType:(NSString *)type andUserInfo:(UserModel *)info
+-(void)actionType:(NSString *)type andUserInfo:(UserModel *)info andIndexPath:(NSIndexPath *)indexPath
 {
     if ([type isEqualToString:@"认证"]) {
         AuthBuyerVC *authVC=[[AuthBuyerVC alloc]init];
         authVC.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:authVC animated:YES];
     }else if ([type isEqualToString:@"查看价格"]){
-        UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
-        userInfoVC.hidesBottomBarWhenPushed=YES;
-        UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
-        uInfo.actorId = info.actorId;
-        uInfo.nickName = info.nickName;
-        uInfo.sex = info.sex;
-        uInfo.region = info.region;
-        uInfo.avatar = info.actorHeadMini;
-        userInfoVC.info =uInfo;
-        userInfoVC.isCheckPrice = YES;
-        [self.navigationController pushViewController:userInfoVC animated:YES];
+//        UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
+//        userInfoVC.hidesBottomBarWhenPushed=YES;
+//        UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
+//        uInfo.actorId = info.actorId;
+//        uInfo.nickName = info.nickName;
+//        uInfo.sex = info.sex;
+//        uInfo.region = info.region;
+//        uInfo.avatar = info.actorHeadMini;
+//        userInfoVC.info =uInfo;
+//        userInfoVC.isCheckPrice = YES;
+//        [self.navigationController pushViewController:userInfoVC animated:YES];
+        NSDictionary *arg = @{
+                              @"actorId":@(info.actorId),
+                              @"query":@(NO)
+                              };
+        [AFWebAPI_JAVA canLookPriceWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            NSLog(@"确认查看报价后的回调%@",object);
+           UserModel *userModel = self.service.dsm.ds[indexPath.row];
+            userModel.unlockingPrice = YES;
+            [self.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:(UITableViewRowAnimationFade)];
+        }];
     }
 }
 //微代言，微出镜，招商项目
@@ -520,8 +531,9 @@
 }
 
 //进入艺人主页
--(void)didClickUser:(UserModel *)info withSelect:(NSString *)select
+-(void)didClickUser:(UserModel *)info withSelect:(NSString *)select andiIndexPath:(NSIndexPath *)indexPath
 {
+    WeakSelf(self);
     UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
     userInfoVC.hidesBottomBarWhenPushed=YES;
     UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
@@ -530,7 +542,13 @@
     uInfo.sex = info.sex;
     uInfo.region = info.region;
     uInfo.avatar = info.actorHeadMini;
+    uInfo.unlockingPrice = info.unlockingPrice;
     userInfoVC.info =uInfo;
+    userInfoVC.hadCheckUserPrice = ^{
+        UserModel *model = weakself.service.dsm.ds[indexPath.row];
+        model.unlockingPrice = YES;
+        [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:(UITableViewRowAnimationFade)];
+    };
     [self.navigationController pushViewController:userInfoVC animated:YES];
 }
 

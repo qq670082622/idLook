@@ -64,7 +64,7 @@
         self.aliPayId    = (NSString *)safeObjectForKey(accountInfo, @"aliPayId");
         self.bankCardNo    = (NSString *)safeObjectForKey(accountInfo, @"bankCardNo");
         self.bankName    = (NSString *)safeObjectForKey(accountInfo, @"bankName");
-        
+        self.unlockingPrice = [(NSNumber *)safeObjectForKey(dic, @"unlockingPrice") boolValue];
     }
     return self;
 }

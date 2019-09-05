@@ -16,6 +16,8 @@
 @property(nonatomic,assign)NSInteger price_High;
 @property(nonatomic,assign)NSInteger price_Low;
 @property(nonatomic, strong)WWSliderView *rangeSlider;
+@property(nonatomic,assign)NSInteger reset_low;
+@property(nonatomic,assign)NSInteger reset_high;
 @end
 @implementation PricePopV
 - (id)init
@@ -48,6 +50,8 @@
         _price_Low = 3000;
         _price_High = 5000;
     }
+    _reset_low = _price_Low;
+    _reset_high = _price_High;
     UIView *maskV = [[UIView alloc] initWithFrame:showWindow.bounds];
     maskV.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.5f];
     maskV.alpha = 0.f;
@@ -132,6 +136,7 @@
     resetBtn.frame = CGRectMake(0, Vheight-48, 133, 48);
     resetBtn.layer.borderColor = [UIColor colorWithHexString:@"f2f2f2"].CGColor;
     resetBtn.layer.borderWidth = 0.5;
+     [resetBtn addTarget:self action:@selector(resetRangeValue) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:resetBtn];
     
     UIButton *sureBtn = [UIButton buttonWithType:0];
@@ -159,8 +164,17 @@
 }
 -(void)sureAction
 {
+    _price_Low = _rangeSlider.lowerValue;
+    _price_High = _rangeSlider.upperValue;
     self.selectNum(_price_Low,_price_High);
     [self hide];
+}
+-(void)resetRangeValue
+{
+    _price_Low =  self.reset_low;
+    _price_High = self.reset_high;
+  [_rangeSlider resetLeftValue:_price_Low rightValue:_price_High];
+    [_rangeSlider resetLeftAndRightLabel];
 }
 - (void)hide
 {

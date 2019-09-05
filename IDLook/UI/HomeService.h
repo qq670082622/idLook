@@ -14,9 +14,9 @@
 -(void)didClick1WithType:(NSInteger)type;
 -(void)didClick2WithType:(NSInteger)type;
 
--(void)actionType:(NSString *)type andUserInfo:(UserModel *)info;//认证或者继续查看价格的弹窗
+-(void)actionType:(NSString *)type andUserInfo:(UserModel *)info andIndexPath:(NSIndexPath *)indexPath;//认证或者继续查看价格的弹窗
 //进入用户主页
--(void)didClickUser:(UserModel*)info withSelect:(NSString*)select;
+-(void)didClickUser:(UserModel*)info withSelect:(NSString*)select andiIndexPath:(NSIndexPath *)indexPath;
 
 //更多推荐
 -(void)entryMoreRecommend;

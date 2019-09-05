@@ -95,7 +95,8 @@
          self.authBtn.hidden = YES;
         }
     }
-    NSInteger status = 201;//[UserInfoManager getUserStatus];
+    
+ NSInteger status = 201;//[UserInfoManager getUserStatus];
     if (status>200 &&model.startPrice!=0) {
         self.vipView.hidden = NO;
         self.vipPrice.text = [NSString stringWithFormat:@"¥ %ld起/天",model.startPriceVip];;
@@ -116,10 +117,23 @@
     }
     if ([UserInfoManager getUserAuthState_wm]!=1 &&  [UserInfoManager getUserLoginType] != UserLoginTypeTourist) {
      //   [self.authBtn setTitle:@"认证后查看报价" forState:0];//认证提示提示
-        [self.authBtn setTitle:@"查看价格" forState:0];
-        self.price.textColor = [UIColor clearColor];
-         self.vipView.hidden = YES;
-    }
+        if (model.unlockingPrice == YES) {//解锁
+            self.vipView.hidden = NO;
+            self.vipPrice.text = [NSString stringWithFormat:@"¥ %ld起/天",model.startPriceVip];;
+            self.normalPrice.text = [NSString stringWithFormat:@"¥ %ld/天",model.startPrice];
+            [self.vipPrice sizeToFit];
+            [self.normalPrice sizeToFit];
+            self.vipPrice.frame = CGRectMake(33, 0, _vipPrice.width, 29);
+            self.normalPrice.frame =  CGRectMake(_vipPrice.right+6,0,_normalPrice.width,29);
+            self.offLine.x = _normalPrice.x-3;
+            self.offLine.width = _normalPrice.width+6;
+        }else{
+                    [self.authBtn setTitle:@"查看价格" forState:0];
+                    self.price.textColor = [UIColor clearColor];
+                    self.vipView.hidden = YES;
+        }
+        
+     }
     
     if( [UserInfoManager getUserLoginType] == UserLoginTypeTourist){
         [self.authBtn setTitle:@"登录后查看报价" forState:0];//游客提示

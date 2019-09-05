@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)NSArray *showList;
 @property(nonatomic,assign)NSInteger mastery;
 @property(nonatomic,assign)NSInteger actorOccupation;
+@property(nonatomic,assign)BOOL unlockingPrice;
 @end
 
 NS_ASSUME_NONNULL_END

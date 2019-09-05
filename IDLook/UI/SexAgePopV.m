@@ -17,6 +17,8 @@
 @property(nonatomic,assign)NSInteger age_High;
 @property(nonatomic,assign)NSInteger age_Low;
 @property(nonatomic, strong)WWSliderView *rangeSlider;
+@property(nonatomic,assign)NSInteger resetage_low;
+@property(nonatomic,assign)NSInteger resetage_high;
 @end
 @implementation SexAgePopV
 - (id)init
@@ -50,6 +52,8 @@
         _age_Low = 20;
         _age_High = 40;
     }
+    self.resetage_low = _age_Low;
+    self.resetage_high = _age_High;
     UIView *maskV = [[UIView alloc] initWithFrame:showWindow.bounds];
     maskV.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.5f];
     maskV.alpha = 0.f;
@@ -160,6 +164,7 @@
     resetBtn.frame = CGRectMake(0, Vheight-48, 133, 48);
     resetBtn.layer.borderColor = [UIColor colorWithHexString:@"f2f2f2"].CGColor;
     resetBtn.layer.borderWidth = 0.5;
+     [resetBtn addTarget:self action:@selector(resetRangeValue) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:resetBtn];
     
     UIButton *sureBtn = [UIButton buttonWithType:0];
@@ -204,8 +209,19 @@
 
 -(void)sureAction
 {
+    _age_High = _rangeSlider.upperValue;
+    _age_Low = _rangeSlider.lowerValue;
     self.selectNum(_sex,_age_High,_age_Low);
     [self hide];
+}
+-(void)resetRangeValue
+{
+    _age_Low =  self.resetage_low;
+    _age_High = self.resetage_high;
+   
+    [_rangeSlider resetLeftValue:_age_Low rightValue:_age_High];
+    [_rangeSlider resetLeftAndRightLabel];
+  
 }
 - (void)hide
 {

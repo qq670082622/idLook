@@ -510,38 +510,50 @@
     }
     
     //未认证成功，弹窗
-    if ([UserInfoManager getUserAuthState]!=1) {
-       // [SVProgressHUD showImage:nil status:@"认证后可查看报价！"];
+    if (_info.unlockingPrice==NO) {
         NSDictionary *arg = @{
-                              @"actorId":@(_info.actorId),
-                              @"query":@(YES)
-                              };
-        [AFWebAPI_JAVA canLookPriceWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
-            if (success) {
-                NSDictionary *body = object[@"body"];
-                NSString *message = body[@"message"];
-                BOOL consultPrice = [body[@"consultPrice"] boolValue];
-                //        弹窗
-                UnAuthLookCountView *ualcv = [[UnAuthLookCountView alloc] init];
-                ualcv.actionType = ^(NSString * _Nonnull type) {
-                    if ([type isEqualToString:@"认证"]) {
-                        AuthBuyerVC *authVC=[[AuthBuyerVC alloc]init];
-                        authVC.hidesBottomBarWhenPushed=YES;
-                        [self.navigationController pushViewController:authVC animated:YES];
-                    }else if ([type isEqualToString:@"查看价格"]){
-                        [self lookPrice2];
-                    }
-                    
-                };
-                [ualcv showWithString:message andCanLook:consultPrice];
-            }
-        }];
-    
-        return;
-    }
+                                                            @"actorId":@(_info.actorId),
+                                                            @"query":@(YES)
+                                                            };
+                                      [AFWebAPI_JAVA canLookPriceWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+                                          if (success) {
+                                              NSDictionary *body = object[@"body"];
+                                              NSString *message = body[@"message"];
+                                              BOOL consultPrice = [body[@"consultPrice"] boolValue];
+                                              //        弹窗
+                                              UnAuthLookCountView *ualcv = [[UnAuthLookCountView alloc] init];
+                                              ualcv.actionType = ^(NSString * _Nonnull type) {
+                                                  if ([type isEqualToString:@"认证"]) {
+                                                      AuthBuyerVC *authVC=[[AuthBuyerVC alloc]init];
+                                                      authVC.hidesBottomBarWhenPushed=YES;
+                                                      [self.navigationController pushViewController:authVC animated:YES];
+                                                  }else if ([type isEqualToString:@"查看价格"]){
+                                                  
+                                                      NSDictionary *arg = @{
+                                                                            @"actorId":@(_info.actorId),
+                                                                            @"query":@(NO)
+                                                                            };
+                                                      [AFWebAPI_JAVA canLookPriceWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+                                                          NSLog(@"确认查看报价后的回调%@",object);
+                                                          _info.unlockingPrice = YES;
+                                                          self.dataM.info.unlockingPrice = YES;
+                                                          [self.topV reloadUIWithInfo:self.dataM.info];
+                                                          self.hadCheckUserPrice();
+                                                          [self lookPrice2];
+//                                                          [self.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:<#(NSInteger)#> inSection:<#(NSInteger)#>]] withRowAnimation:(UITableViewRowAnimationFade)];
+                                                      }];
+
+                                                  }
+                              
+                                              };
+                                              [ualcv showWithString:message andCanLook:consultPrice];
+                                          }
+                                      }];
+    }else{
+
     
     [self lookPrice2];
-
+    }
     
 //    WeakSelf(self);
 //    UserInfoM *info = [[UserInfoM alloc]init];

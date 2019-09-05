@@ -87,7 +87,7 @@
         [tip sizeToFit];
         [tipView addSubview:tip];
         
-        tipView.frame = CGRectMake(0, tipsBottom+1*14, 280, tip.bottom);
+        tipView.frame = CGRectMake(0, tipsBottom+14, 280, tip.bottom);
        [self.contentView addSubview:tipView];
         tipsBottom = tipView.bottom;
     }
