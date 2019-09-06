@@ -255,7 +255,7 @@
     self.bannerView=bannerView;
     return bg;
 }
-#pragma -mark homebannerDelegate(搜索框方法回调)
+#pragma -mark homebannerDelegate(搜索框方法回调) 
 -(void)searchViewInBannerViewWithActionType:(conditionType)type
 {
     WeakSelf(self);

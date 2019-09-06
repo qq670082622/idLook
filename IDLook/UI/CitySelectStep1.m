@@ -50,9 +50,9 @@
 -(void)finish
 {
     if (self.selectArray.count==0) {
-        [SVProgressHUD showErrorWithStatus:@"请选择城市"];
-        return;
-    }
+       // [SVProgressHUD showErrorWithStatus:@"请选择城市"];
+         self.selectCity(@"");
+    }else{
     NSMutableArray *array=[NSMutableArray new];
     for (int i =0; i<self.selectArray.count; i++) {
         CityModel *model=self.selectArray[i];
@@ -60,6 +60,7 @@
     }
     NSString *str = [array componentsJoinedByString:@"、"];
     self.selectCity(str);
+    }
     [self onGoback];
 }
 

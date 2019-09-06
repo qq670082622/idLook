@@ -60,7 +60,7 @@
     
     self.view.backgroundColor=Public_Background_Color;
 
-    [self.navigationController setNavigationBarHidden:YES];
+   // [self.navigationController setNavigationBarHidden:YES animated:animated];
     
     [self tableV];
     
@@ -76,7 +76,7 @@
 //    //去掉透明后导航栏下边的黑边
 //    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
     
-    [self.navigationController setNavigationBarHidden:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 
 }
 
@@ -91,7 +91,7 @@
 //    //    如果不想让其他页面的导航栏变为透明 需要重置
 //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
 //    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 
 }
 

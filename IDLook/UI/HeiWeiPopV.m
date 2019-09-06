@@ -141,7 +141,7 @@
         NSString *title = heightArr[i];
        [btn setTitle:title forState:0];
         [btn setTitleColor:[UIColor colorWithHexString:@"464646"] forState:0];
-        btn.layer.borderColor = [UIColor colorWithHexString:@"464646"].CGColor;
+        btn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
         btn.layer.borderWidth = 0.5;
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
         btn.layer.cornerRadius = 4;
@@ -211,7 +211,7 @@ _wei_rangeSlider = [[WWSliderView alloc] initWithFrame:sliderFrame
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
         btn.layer.cornerRadius = 4;
         btn.layer.masksToBounds = YES;
-        btn.layer.borderColor = [UIColor colorWithHexString:@"464646"].CGColor;
+        btn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
         btn.layer.borderWidth = 0.5;
         [btn setTag:i+100];
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];

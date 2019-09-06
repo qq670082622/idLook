@@ -42,7 +42,7 @@
 //    searchView.model = _conditionModel;
     searchView.layer.borderColor = [UIColor colorWithHexString:@"#f0f0f0"].CGColor;
     searchView.layer.borderWidth= 1 ;
-    searchView.layer.cornerRadius = 18;
+    searchView.layer.cornerRadius = 10;
 //    searchView.layer.masksToBounds = YES;
         searchView.layer.shadowOffset = CGSizeMake(5,5);
         searchView.layer.shadowOpacity = 0.3;

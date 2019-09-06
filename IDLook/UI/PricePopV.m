@@ -119,7 +119,7 @@
         NSString *title = priceArr[i];
         [btn setTitle:title forState:0];
         [btn setTitleColor:[UIColor colorWithHexString:@"464646"] forState:0];
-        btn.layer.borderColor = [UIColor colorWithHexString:@"464646"].CGColor;
+        btn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
         btn.layer.borderWidth = 0.5;
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
         btn.layer.cornerRadius = 4;
