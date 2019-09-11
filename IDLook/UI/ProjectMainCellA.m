@@ -142,7 +142,7 @@
     }
     else if (info.orderType==6)  //授权书
     {
-        self.infoLab1.text=[NSString stringWithFormat:@"授权书有效期：%@",@""];
+        self.infoLab1.text=[NSString stringWithFormat:@"授权书有效期：%@至%@",info.authStart,info.authEnd];
         self.infoLab2.text=@"";
         self.infoLab3.text=@"";
     }

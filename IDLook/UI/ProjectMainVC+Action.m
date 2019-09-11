@@ -20,6 +20,8 @@
 #import "PortraitSignVC.h"
 #import "BirthSelectV.h"
 #import <AVFoundation/AVFoundation.h>
+#import "PublicWebVC.h"
+#import "PortraitDownLoadView.h"
 @implementation ProjectMainVC (Action)
 
 #pragma mark --button action
@@ -372,23 +374,84 @@
     }
     else if (type==ProjectBtnTypePortraitApply)  //填写授权书
     {
-//        PortraitSignVC *psvc = [PortraitSignVC new];
-//        psvc.actorNametr = info.actorInfo[@"actorName"];
-//        psvc.actiorHeadStr = info.actorInfo[@"actorHead"];
-//        psvc.roleNametr = info.roleInfo[@"roleName"];
-//        [self.navigationController pushViewController:psvc animated:YES];
+        PortraitSignVC *psvc = [PortraitSignVC new];
+        psvc.actorNametr = info.actorInfo[@"actorName"];
+        psvc.actiorHeadStr = info.actorInfo[@"actorHead"];
+        psvc.roleNametr = info.roleInfo[@"roleName"];
+        if (info.authShotOrderId && info.authShotOrderId.length>0) {
+             psvc.orderId = info.authShotOrderId;
+        }else{
+        psvc.orderId = info.orderId;
+        }
+        psvc.roleId = [info.roleInfo[@"roleId"] integerValue];
+        psvc.created = ^{
+          [weakself.dsm getNewProjectWithProjectId:weakself.dsm.projectInfo[@"projectId"]];
+        };
+        [self.navigationController pushViewController:psvc animated:YES];
     }
     else if (type==ProjectBtnTypePortraitLook)  //预览
     {
-        
+        NSDictionary *arg = @{
+                              @"orderId":info.orderId,
+                              @"userType":@(1)
+                              };
+        [AFWebAPI_JAVA lookPortraitWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            if (success) {
+                NSDictionary *body = object[JSON_body];
+                NSString *renderUrl = body[@"renderUrl"];
+                PublicWebVC * webVC = [[PublicWebVC alloc] initWithTitle:@"肖像授权" url:renderUrl];
+                webVC.hidesBottomBarWhenPushed=YES;
+                [weakself.navigationController pushViewController:webVC animated:YES];
+            }
+        }];
+    }
+    else if (type==ProjectBtnTypePortraitCancel)//取消授权
+    {
+        NSDictionary *arg = @{
+                              @"orderId":info.orderId,
+                              @"userId":@([[UserInfoManager getUserUID] integerValue])
+                              };
+        [AFWebAPI_JAVA portraitCancelWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            if (success) {
+                  [self.dsm getNewProjectWithProjectId:self.dsm.projectInfo[@"projectId"]];
+            }else{
+                [SVProgressHUD showErrorWithStatus:(NSString *)object];
+            }
+        }];
     }
     else if (type==ProjectBtnTypePortraitQuickly)  //崔签字
     {
-        
+  
+        NSDictionary *arg = @{
+                              @"orderId":info.orderId,
+                              @"userId":@([[UserInfoManager getUserUID] integerValue])
+                              };
+        [AFWebAPI_JAVA portraitQuikWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            if (success) {
+                [SVProgressHUD showImage:nil status:@"收到您的催签字通知，已提醒该演员尽快签字"];
+            }else{
+                [SVProgressHUD showErrorWithStatus:(NSString *)object];
+            }
+        }];
     }
     else if (type==ProjectBtnTypePortraitDownLoad)  //授权书下载
     {
-        
+        PortraitDownLoadView *pdv = [[PortraitDownLoadView alloc] init];
+        pdv.download = ^(NSString * _Nonnull email) {
+            NSDictionary *dig = @{
+                                  @"email":email,
+                                  @"userId":@([[UserInfoManager getUserUID] integerValue]),
+                                  @"orderId":info.authShotOrderId
+                                  };
+            [AFWebAPI_JAVA portraitDownloadWithArg:dig callBack:^(BOOL success, id  _Nonnull object) {
+                if (success) {
+                    [SVProgressHUD showSuccessWithStatus:@"授权书将会以PDF形式发送至邮箱"];
+                }else{
+                    
+                }
+            }];
+        };
+        [pdv show];
     }
     else if (type==ProjectBtnTypeMore)  //更多
     {
@@ -471,16 +534,16 @@
     }
     
     
-    PayWaysVC *payVC=[[PayWaysVC alloc]init];
-    payVC.orderids=info.orderId;
-    payVC.totalPrice=price;
-    payVC.hidesBottomBarWhenPushed=YES;
-    WeakSelf(self);
-    payVC.refreshData = ^{
-        [weakself paySuccessBack:info withType:type];
-    };
-    [self.navigationController pushViewController:payVC animated:YES];
-//    [self paySuccessBack:info withType:type];
+//    PayWaysVC *payVC=[[PayWaysVC alloc]init];
+//    payVC.orderids=info.orderId;
+//    payVC.totalPrice=price;
+//    payVC.hidesBottomBarWhenPushed=YES;
+//    WeakSelf(self);
+//    payVC.refreshData = ^{
+//        [weakself paySuccessBack:info withType:type];
+//    };
+//    [self.navigationController pushViewController:payVC animated:YES];
+    [self paySuccessBack:info withType:type];
 }
 
 //支付成功回掉

@@ -16,6 +16,7 @@
 #import "OrderBargainPopV.h"
 #import "LookAnnunciatePopV.h"
 #import "QNTestVC.h"
+#import "PublicWebVC.h"
 @implementation MyOrderMainVC (Action)
 
 #pragma mark --button action
@@ -163,6 +164,38 @@
             [self playVideoWithUrl:url];
         }
  
+    }else if (type==OrderBtnTypePortraitSign){
+        NSDictionary *arg = @{
+                              @"orderId":info.orderId,
+                              @"userId":@([[UserInfoManager getUserUID] integerValue])
+                              };
+        [AFWebAPI_JAVA getPortraitUrlWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            if (success) {
+                NSDictionary *body = object[JSON_body];
+                NSString *signShortUrl = body[@"signShortUrl"];
+                PublicWebVC * webVC = [[PublicWebVC alloc] initWithTitle:@"肖像授权" url:signShortUrl];
+                webVC.hidesBottomBarWhenPushed=YES;
+                webVC.refereshIfPortrait = ^{
+                  [weakself refreshData];
+                };
+                [weakself.navigationController pushViewController:webVC animated:YES];
+            }
+        }];
+    }else if (type==ProjectBtnTypePortraitLook){
+       // 预览
+        NSDictionary *arg = @{
+                              @"orderId":info.orderId,
+                              @"userType":@(2)
+                              };
+        [AFWebAPI_JAVA lookPortraitWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+            if (success) {
+                NSDictionary *body = object[JSON_body];
+                NSString *renderUrl = body[@"renderUrl"];
+                PublicWebVC * webVC = [[PublicWebVC alloc] initWithTitle:@"肖像授权" url:renderUrl];
+                webVC.hidesBottomBarWhenPushed=YES;
+            [weakself.navigationController pushViewController:webVC animated:YES];
+            }
+        }];
     }
     
 }

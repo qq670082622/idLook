@@ -205,8 +205,9 @@
     }
     else if (info.orderType==6)  //授权书
     {
-        self.desc1.text=[NSString stringWithFormat:@"授权书有效期：%@",@""];
-        self.desc2.text=@"";
+         self.desc1.text=[NSString stringWithFormat:@"饰演角色：%@",info.roleInfo[@"roleName"]];
+        self.desc2.text=[NSString stringWithFormat:@"授权书有效期：%@",@""];
+      
     }
     NSString *str=[NSString stringWithFormat:@"总价：￥%ld",info.totalPrice];
     NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc] initWithString:str];

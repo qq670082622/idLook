@@ -39,6 +39,9 @@
 
 - (void)processLinkUrl
 {
+    if ([self.url containsString:@"sign"]) {//签名的链接不要搞下面的事情了
+        return;
+    }
     if([self.url rangeOfString:@"user_protocol"].length)
     {
         return;
@@ -116,7 +119,9 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+    if (_refereshIfPortrait) {
+        self.refereshIfPortrait();
+    }
 //    if(self.hideNavBar)
 //        [self.navigationController setNavigationBarHidden:NO animated:YES];
 }

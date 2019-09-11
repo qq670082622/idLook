@@ -19,7 +19,7 @@
     }
     return self;
 }
-
+//订单cell和项目cell共用
 -(void)setStateTitle
 {
     if (self.orderType==0) {  //询档订单
@@ -203,6 +203,25 @@
     }
     else if (self.orderType==6)  //授权书订单
     {
+        if([self.subState isEqualToString:@"wait_admin_audit"])
+        {
+            self.subStateName=@"等待脸探审核";
+        }
+        else if([self.subState isEqualToString:@"wait_actor_author"])
+        {
+           self.subStateName=@"等待演员签字";
+        }
+        else if([self.subState isEqualToString:@"admin_audit_failure"])
+        {
+            self.subStateName=@"审核未通过";
+        }
+        else if([self.subState isEqualToString:@"finish"])
+        {
+             self.subStateName=@"演员已签字";
+        }else if([self.subState isEqualToString:@"cancel"])
+        {
+            self.subStateName=@"已取消";
+        }
         self.orderTypeName=@"授权书订单";
     }
 }
@@ -417,20 +436,26 @@
     }
     else if (info.orderType==6)  //授权书订单
     {
-        if([info.subState isEqualToString:@"等待脸探审核"])
+        if([info.subState isEqualToString:@"wait_admin_audit"])
         {
             array=@[@{@"title":@"预览",@"width":@(44),@"type":@(ProjectBtnTypePortraitLook)},
+                    @{@"title":@"取消",@"width":@(44),@"type":@(ProjectBtnTypePortraitCancel)},
+                    @{@"title":@"联系脸探",@"width":@(68),@"type":@(ProjectBtnTypeContact)}];
+        } else if([info.subState isEqualToString:@"admin_audit_failure"])
+        {
+            array=@[@{@"title":@"重填授权书",@"width":@(92),@"type":@(ProjectBtnTypePortraitApply)},
                     @{@"title":@"联系脸探",@"width":@(68),@"type":@(ProjectBtnTypeContact)}];
         }
-        else if([info.subState isEqualToString:@"等待演员签字"])
+        else if([info.subState isEqualToString:@"wait_actor_author"])
         {
             array=@[@{@"title":@"催签字",@"width":@(56),@"type":@(ProjectBtnTypePortraitQuickly)},
                     @{@"title":@"联系脸探",@"width":@(68),@"type":@(ProjectBtnTypeContact)}];
         }
-        else if([info.subState isEqualToString:@"演员已签字"])
+        else if([info.subState isEqualToString:@"finish"])
         {
             array=@[
                     @{@"title":@"下载",@"width":@(44),@"type":@(ProjectBtnTypePortraitDownLoad)},
+                    @{@"title":@"查看",@"width":@(44),@"type":@(ProjectBtnTypePortraitLook)},
                     @{@"title":@"联系脸探",@"width":@(68),@"type":@(ProjectBtnTypeContact)}
                      ];
         }
@@ -481,6 +506,10 @@
             if (auditionMode==2||auditionMode==3) {  //手机，影棚试镜
                 array=@[@{@"title":@"查看视频",@"width":@(68),@"type":@(OrderBtnTypeLookVideo)}];
             }
+        }else if (info.orderType==6){//授权书
+            array=@[
+                    @{@"title":@"预览",@"width":@(56),@"type":@(ProjectBtnTypePortraitLook)}
+                    ];
         }
     }
     else if ([info.subState isEqualToString:@"actor_accept"])
@@ -498,9 +527,11 @@
     {
         array=@[@{@"title":@"查看通告",@"width":@(68),@"type":@(OrderBtnTypeLookAnnunciate)}];
     }
-    else if ([info.subState isEqualToString:@"肖像签字"])
+    else if ([info.subState isEqualToString:@"wait_actor_author"])
     {
-        array=@[@{@"title":@"去签字",@"width":@(56),@"type":@(OrderBtnTypePortraitSign)}];
+        array=@[@{@"title":@"去签字",@"width":@(56),@"type":@(OrderBtnTypePortraitSign)},
+                @{@"title":@"预览",@"width":@(56),@"type":@(ProjectBtnTypePortraitLook)}
+                ];
     }
     return array;
 }

@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString  *actiorHeadStr;
 @property (copy, nonatomic) NSString  *actorNametr;
 @property (copy, nonatomic) NSString  *roleNametr;
+@property(nonatomic,assign)NSInteger roleId;
+@property(nonatomic,copy)NSString *orderId;
+@property(nonatomic,copy)void(^created)(void);
 @end
 
 NS_ASSUME_NONNULL_END

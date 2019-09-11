@@ -13,4 +13,5 @@
                 url:(NSString *)url;
 
 @property (nonatomic,assign) BOOL hideNavBar;
+@property(nonatomic,copy)void(^refereshIfPortrait)(void);
 @end

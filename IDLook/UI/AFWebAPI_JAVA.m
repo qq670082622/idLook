@@ -1354,4 +1354,58 @@ callBack(YES,contentDic);
     callBack(NO,errorStr);
 }];
 }
+//创建一个授权书申请
++(void)createPortraitsignWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"portrait/auth/create" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//获取授权书url
++(void)getPortraitUrlWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"portrait/auth/person/sign" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//预览授权书的url
++(void)lookPortraitWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"portrait/auth/preview" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//崔签字
++(void)portraitQuikWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"portrait/auth/press" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//取消授权书操作
++(void)portraitCancelWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"portrait/authbuyer/cancel" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//授权书下载
++(void)portraitDownloadWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"portrait/auth/download/email" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
 @end

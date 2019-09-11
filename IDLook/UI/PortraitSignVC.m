@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *guangGaoMingField;
 @property (weak, nonatomic) IBOutlet UIButton *ensureBtn;
 - (IBAction)ensure:(id)sender;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -43,7 +44,8 @@
     self.actorName.text = _actorNametr;
     self.roleName.text = _roleNametr;
     [self.actiorHead sd_setImageWithUrlStr:_actiorHeadStr placeholderImage:[UIImage imageNamed:@"default_home"]];
-    
+    self.actiorHead.layer.cornerRadius = 22;
+    self.actiorHead.layer.masksToBounds = YES;
     //注册键盘出现的通知
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -56,10 +58,32 @@
 
 
 - (IBAction)ensure:(id)sender {
-    if (_daiLiFangField.text.length==0 ||_zhiZuoFangField.text.length==0 ||_shiYongFangField.text.length==0 ||_keHuFangField.text.length==0 ||_pinPaiChanPinField.text.length==0 ||_guangGaoMingField.text.length==0 ) {
+    if (_shiYongFangField.text.length==0 ||_keHuFangField.text.length==0 ||_pinPaiChanPinField.text.length==0 ||_guangGaoMingField.text.length==0 ) {
         [SVProgressHUD showImage:nil status:@"请完整填写授权书信息"];
         return;
     }
+     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    NSDictionary *arg = @{
+                          @"adTopic":self.guangGaoMingField.text,//广告篇名
+                          @"agency":self.daiLiFangField.text.length>0?self.daiLiFangField.text:@"",//代理方
+                          @"company":self.keHuFangField.text,//企业客户方
+                          @"portraitUser":self.shiYongFangField.text,//肖像使用方
+                          @"producer":self.zhiZuoFangField.text.length>0?self.zhiZuoFangField.text:@"",//制作方
+                          @"product":self.pinPaiChanPinField.text,//品牌产品
+                          @"shotId":_orderId,//拍摄订单主键ID
+                          @"userId":@([[UserInfoManager getUserUID] integerValue]),
+                          @"roleId":@(_roleId)
+                          };
+    [AFWebAPI_JAVA createPortraitsignWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
+        if (success) {
+            [SVProgressHUD dismiss];
+            self.created();
+            [SVProgressHUD showImage:nil status:@"已发送，请等待审核"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [SVProgressHUD showErrorWithStatus:(NSString *)object];
+        }
+    }];
     
 }
 
@@ -77,26 +101,12 @@
 
 ///键盘显示事件
 - (void)keyboardWillShow:(NSNotification *)notification {
-    
-    
-    // 取得键盘的动画时间，这样可以在视图上移的时候更连贯
-    double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-   
-        [UIView animateWithDuration:duration animations:^{
-            self.view.frame = CGRectMake(0.0f, -120, self.view.frame.size.width, self.view.frame.size.height);
-      
-        }];
+  self.scrollView.contentOffset = CGPointMake(0, 120);
 }
 
 ///键盘消失事件
 - (void) keyboardWillHide:(NSNotification *)notify {
-    // 键盘动画时间
-    double duration = [[notify.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-   
-        //    //视图下沉恢复原状
-        [UIView animateWithDuration:duration animations:^{
-            self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        }];
+  self.scrollView.contentOffset = CGPointMake(0, 0);
 }
 
 -(void)onGoback

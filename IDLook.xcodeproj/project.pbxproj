@@ -466,6 +466,8 @@
 		7C3199C421F9DCB100FA7350 /* CheckGradeSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3199C321F9DCB100FA7350 /* CheckGradeSectionView.m */; };
 		7C3199C621F9DCBE00FA7350 /* CheckGradeSectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C3199C521F9DCBE00FA7350 /* CheckGradeSectionView.xib */; };
 		7C3199C921F9DD1700FA7350 /* CheckGradeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3199C821F9DD1700FA7350 /* CheckGradeModel.m */; };
+		7C3777E2232791ED00AFCC2E /* PortraitDownLoadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3777E1232791EC00AFCC2E /* PortraitDownLoadView.m */; };
+		7C3777E4232791F800AFCC2E /* PortraitDownLoadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C3777E3232791F800AFCC2E /* PortraitDownLoadView.xib */; };
 		7C3907E522CF483F005BC899 /* QNRTCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C3907E422CF483E005BC899 /* QNRTCKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7C3907E622CF4855005BC899 /* QNRTCKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7C3907E422CF483E005BC899 /* QNRTCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7C39082E22D756BD005BC899 /* LJYDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C39082B22D756BC005BC899 /* LJYDatePicker.m */; };
@@ -2156,6 +2158,9 @@
 		7C3199C521F9DCBE00FA7350 /* CheckGradeSectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckGradeSectionView.xib; sourceTree = "<group>"; };
 		7C3199C721F9DD1700FA7350 /* CheckGradeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckGradeModel.h; sourceTree = "<group>"; };
 		7C3199C821F9DD1700FA7350 /* CheckGradeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckGradeModel.m; sourceTree = "<group>"; };
+		7C3777E0232791EC00AFCC2E /* PortraitDownLoadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PortraitDownLoadView.h; sourceTree = "<group>"; };
+		7C3777E1232791EC00AFCC2E /* PortraitDownLoadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PortraitDownLoadView.m; sourceTree = "<group>"; };
+		7C3777E3232791F800AFCC2E /* PortraitDownLoadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PortraitDownLoadView.xib; sourceTree = "<group>"; };
 		7C3907E422CF483E005BC899 /* QNRTCKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QNRTCKit.framework; sourceTree = "<group>"; };
 		7C39082A22D756BC005BC899 /* NSDate+Calendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Calendar.h"; sourceTree = "<group>"; };
 		7C39082B22D756BC005BC899 /* LJYDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJYDatePicker.m; sourceTree = "<group>"; };
@@ -4744,6 +4749,9 @@
 				7C8B529322E55AF800706E7C /* PortraitSignVC.h */,
 				7C8B529422E55AF800706E7C /* PortraitSignVC.m */,
 				7C8B529522E55AF800706E7C /* PortraitSignVC.xib */,
+				7C3777E0232791EC00AFCC2E /* PortraitDownLoadView.h */,
+				7C3777E1232791EC00AFCC2E /* PortraitDownLoadView.m */,
+				7C3777E3232791F800AFCC2E /* PortraitDownLoadView.xib */,
 			);
 			name = PortraitSign;
 			sourceTree = "<group>";
@@ -9029,6 +9037,7 @@
 				384F5E2F216CB7D100274FDE /* idcard_model_1@2x.png in Resources */,
 				99BDE8C120CE13DA00A81E9D /* msg_auth@3x.png in Resources */,
 				7CAAAAD921F5A19800420695 /* PublishGradeViewController.xib in Resources */,
+				7C3777E4232791F800AFCC2E /* PortraitDownLoadView.xib in Resources */,
 				997ED8902091D5190093F1DA /* icon_usertype@2x.png in Resources */,
 				7C7C321F22560890009E1864 /* AskCalendarVC.xib in Resources */,
 				99AB18702100C45700C7B6EB /* home_postion_white@2x.png in Resources */,
@@ -9840,6 +9849,7 @@
 				7CDF972821F82E0900E06E42 /* TZPhotoPreviewCell.m in Sources */,
 				3837C42E215E02C700FB240F /* OrderDetialCellM.m in Sources */,
 				3893ABF9225CA54D00160667 /* RoleServiceApplyVC.m in Sources */,
+				7C3777E2232791ED00AFCC2E /* PortraitDownLoadView.m in Sources */,
 				998B8DF720A9688800ED9EA5 /* MyCertificateVC.m in Sources */,
 				3805B89521D7631E00DCD0AA /* PlaceAuditItemCellB.m in Sources */,
 				387C2F9A218169D700DA6224 /* ShareManager.m in Sources */,

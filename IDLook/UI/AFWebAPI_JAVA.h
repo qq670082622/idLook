@@ -292,6 +292,18 @@ typedef void (^HttpCallBackWithObject)(BOOL success,id object);
 +(void)askRoomInviteWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 //13 房间操作
 +(void)roomOperationWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//创建一个授权书申请
++(void)createPortraitsignWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//获取授权书url
++(void)getPortraitUrlWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//预览授权书的url
++(void)lookPortraitWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//崔签字
++(void)portraitQuikWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//取消授权书操作
++(void)portraitCancelWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//授权书下载
++(void)portraitDownloadWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 @end
 
 NS_ASSUME_NONNULL_END

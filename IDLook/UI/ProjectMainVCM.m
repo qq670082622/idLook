@@ -89,6 +89,9 @@
         if([info.subState isEqualToString:@"pay_done"])
         {
             height=160;
+        }else if ([info.subState isEqualToString:@"finish"])
+        {
+            height = 160;
         }
     }
     else if (info.orderType==6)  //授权书

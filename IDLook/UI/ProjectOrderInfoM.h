@@ -43,6 +43,7 @@ typedef NS_ENUM(NSInteger,ProjectBtnType)
     ProjectBtnTypeShotFinish,       //拍摄确认完成
     ProjectBtnTypePortraitApply,        //发起肖像授权书
     ProjectBtnTypePortraitLook,      //预览肖像授权书
+    ProjectBtnTypePortraitCancel,  //取消授权书
     ProjectBtnTypePortraitQuickly,    //催签字
     ProjectBtnTypePortraitDownLoad,   //下载肖像授权书
     ProjectBtnTypeMore,          //更多
@@ -197,6 +198,15 @@ typedef NS_ENUM(NSInteger,ProjectBtnType)
  试镜信息
  */
 @property (nonatomic,strong) NSDictionary *tryVideoInfo;
+
+//授权书开始时间
+@property (nonatomic,copy)NSString  *authStart;
+
+//授权书结束时间
+@property (nonatomic,copy)NSString  *authEnd;
+
+//授权书id
+@property (nonatomic,copy)NSString  *authShotOrderId;
 
 -(id)initWithDic:(NSDictionary *)dic;
 
