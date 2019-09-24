@@ -84,9 +84,16 @@
     [self dsm];
     [self tableV];
      [self backTopBtn];
+    
+      NSNotificationCenter *notiCenter = [NSNotificationCenter defaultCenter];
     //收听appdelegate的push通知
-    NSNotificationCenter *notiCenter = [NSNotificationCenter defaultCenter];
-    [notiCenter addObserver:self selector:@selector(getUserInfoWhenAppLauchFromForeignWithActorId:) name:@"HomeVCPush" object:nil];//此分享作app唤醒时的通知进指定页面。包含演员主页，优惠券兑换页，通告详情页
+    NSString *userType = [WriteFileManager userDefaultForKey:@"userType"];
+    //    userType 户自定义类型 0=未选择 1=电商 2=制片 3=演员
+ if ([userType isEqualToString:@"2"]) {
+   [notiCenter addObserver:self selector:@selector(getUserInfoWhenAppLauchFromForeignWithActorId:) name:@"HomeVCPush" object:nil];//此分享作app唤醒时的通知进指定页面。包含演员主页，优惠券兑换页，通告详情页
+ }
+  
+  
      [notiCenter addObserver:self selector:@selector(HomeVCReload) name:@"HomeVCReload" object:nil];//annuciatePush
    
     

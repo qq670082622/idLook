@@ -13,6 +13,11 @@
 #import "BuyerHomeCell.h"
 #import "ActorTopListVC.h"
 #import "ActorSearchListvc.h"
+#import "ReturnKeyShareVC.h"
+#import "CouponVC.h"
+#import "AnnunciateVC.h"
+#import "AnnunciateModel.h"
+#import "AnnunDetailVC.h"
 @interface BuyerHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 //@property(nonatomic,strong)CustomTableV *tableV;
 
@@ -44,6 +49,14 @@
     _tableV.backgroundColor=[UIColor clearColor];
     _tableV.tableHeaderView=[self tableHeadV];
     [self getData];
+    
+    NSNotificationCenter *notiCenter = [NSNotificationCenter defaultCenter];
+    //收听appdelegate的push通知
+    NSString *userType = [WriteFileManager userDefaultForKey:@"userType"];
+    //    userType 户自定义类型 0=未选择 1=电商 2=制片 3=演员
+    if ([userType isEqualToString:@"1"]) {
+        [notiCenter addObserver:self selector:@selector(getUserInfoWhenAppLauchFromForeignWithActorId:) name:@"HomeVCPush" object:nil];//此分享作app唤醒时的通知进指定页面。包含演员主页，优惠券兑换页，通告详情页
+    }
   //  self.tableV.animatedStyle = TABTableViewAnimationStart;
 }
 -(void)getData
@@ -170,6 +183,89 @@ bannerView.clickBannerWithDictionary = ^(NSDictionary * _Nonnull dic) {
 //{
 //
 //}
+-(void)getUserInfoWhenAppLauchFromForeignWithActorId:(NSNotification *)noti
+{
+  //  WeakSelf(self);
+    NSString *UID = noti.object;
+    if ([UID containsString:@"returnCode"]) {
+        if ([UserInfoManager getUserLoginType]==UserLoginTypeTourist) {   //游客模式
+            LoginAndRegistVC *login=[[LoginAndRegistVC alloc]init];
+            [self presentViewController:login animated:YES completion:nil];
+            return ;
+        }
+        if ([UserInfoManager getUserType]==2) {
+            ReturnKeyShareVC *rkvc = [ReturnKeyShareVC new];
+            rkvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:rkvc animated:YES];
+            return;
+        }
+        [self.tabBarController setSelectedIndex:0];
+        NSString *returnCode = [UID stringByReplacingOccurrencesOfString:@"returnCode=" withString:@""];
+        
+        CouponVC *couponVC = [[CouponVC alloc]init];
+        couponVC.hidesBottomBarWhenPushed=YES;
+        couponVC.returnCode = returnCode;
+        [self.navigationController pushViewController:couponVC animated:YES];
+        
+    }else if ([UID containsString:@"annunciateId"]){
+        if ([UserInfoManager getUserType]==1) {
+            return;
+        }//买家不能弹跳
+        
+        NSArray *vcs = self.navigationController.childViewControllers;//已经在通告不用弹跳
+        for (id controller in vcs) {
+            if ([controller isKindOfClass:[AnnunciateVC class]] || [controller isKindOfClass:[AnnunDetailVC class]]) {
+                return;
+            }
+        }
+        [self.tabBarController setSelectedIndex:0];
+        NSString *annunciateId = [UID stringByReplacingOccurrencesOfString:@"annunciateId=" withString:@""];
+        if (annunciateId.length>0) {
+            NSDictionary *dic = @{
+                                  @"id":@([annunciateId integerValue])
+                                  };
+            [AFWebAPI_JAVA getAnnunDetailWithArg:dic callBack:^(BOOL success, id  _Nonnull object) {
+                if (success) {
+                    NSDictionary *detailInfo = [object objectForKey:JSON_body][@"detailInfo"];
+                    AnnunciateModel *model = [AnnunciateModel yy_modelWithDictionary:detailInfo];
+                    
+                    AnnunDetailVC *detail = [AnnunDetailVC new];
+                    detail.model = model;
+                    detail.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:detail animated:YES];
+                    
+                }else{
+                    [SVProgressHUD showErrorWithStatus:object];
+                    
+                }
+            }];
+            return;
+        }
+        
+        
+        AnnunciateVC *anvc = [AnnunciateVC new];
+        anvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:anvc animated:YES];
+    }else if ([UID containsString:@"banner"]){
+        [self.tabBarController setSelectedIndex:0];
+        NSString *bannerStr = [UID stringByReplacingOccurrencesOfString:@"banner_" withString:@""];
+        NSArray *bannerArr = [bannerStr componentsSeparatedByString:@"+"];
+        NSString *bannerUrl = [bannerArr objectAtIndex:1];
+        NSString *bannerTitle = [bannerArr objectAtIndex:0];
+        PublicWebVC * webVC = [[PublicWebVC alloc] initWithTitle:bannerTitle url:bannerUrl];
+        webVC.hidesBottomBarWhenPushed=YES;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }else{
+        [self.tabBarController setSelectedIndex:0];
+        UserInfoVC *userInfoVC=[[UserInfoVC alloc]init];
+        userInfoVC.hidesBottomBarWhenPushed=YES;
+        UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
+        uInfo.actorId = [UID integerValue];
+        userInfoVC.info =uInfo;
+        [self.navigationController pushViewController:userInfoVC animated:YES];
+        
+    }
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

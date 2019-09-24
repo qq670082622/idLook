@@ -66,9 +66,9 @@
         self.region_daren.text = @"• 带货达人";
 }
     if (model.academy.length>0) {
-         self.community.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",model.academy];
+         self.community.text = [NSString stringWithFormat:@"%@毕业生",model.academy];
     }else{
-        self.community.text = @"带货达人";
+        self.community.text = @"";
     }
       self.collection.text=  [NSString stringWithFormat:@"%ld收藏  |  %ld点赞",model.collect,model.praise];
     CGFloat fanLbaelWid = UI_SCREEN_WIDTH/(model.fansInfo.count);
