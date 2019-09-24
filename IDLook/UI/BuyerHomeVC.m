@@ -36,7 +36,7 @@
     self.conditionModel = [BuyerConditionModel new];
     _conditionModel.tags = [NSMutableArray new];
     _conditionModel.regions = [NSMutableArray new];
-    _conditionModel.platType = @"";
+    _conditionModel.platTypes = [NSMutableArray new];
     _conditionModel.sex = -1;
     
     CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?-20:-44;

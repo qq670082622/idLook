@@ -9,6 +9,11 @@
 #import "BuyerHomeCell.h"
 #import "WWSliderView.h"
 @interface BuyerHomeCell()
+{
+    NSInteger tagLimit;
+    NSInteger locationLimit;
+    NSInteger platformLimit;
+}
 @property (weak, nonatomic) IBOutlet UIView *tagView;
 @property (weak, nonatomic) IBOutlet UILabel *tagLabel;
 @property (weak, nonatomic) IBOutlet UIView *platView;
@@ -45,6 +50,9 @@
 {
     _model = model;
     NSDictionary *config = [WriteFileManager readObject:@"homeConfig"];
+    tagLimit = [config[@"tagLimit"] integerValue];
+    locationLimit = [config[@"locationLimit"]integerValue];
+    platformLimit = [config[@"platformLimit"]integerValue];
     NSArray *tags = config[@"tag"];//@[@"美妆",@"旅游",@"数码",@"汽车",@"时尚",@"母婴",@"食品",@"家具",@"服装"];
     self.tags = [NSArray arrayWithArray:tags];
     NSArray *plats = config[@"platform"];//@[@"抖音",@"微博",@"小红书"];
@@ -110,7 +118,7 @@
         btn.layer.cornerRadius = 4;
         btn.layer.masksToBounds = YES;
         [btn setTag:i+200];
-        if ([_model.platType isEqualToString:title]) {
+        if ([_model.platTypes containsObject:title]) {
             [btn setTitleColor:Public_Red_Color forState:0];
             btn.layer.borderColor = Public_Red_Color.CGColor;
         }
@@ -118,7 +126,7 @@
         [self.platView addSubview:btn];
         platHei = btn.bottom+30;
     }
-    self.platLabel.text = _model.platType;
+    self.platLabel.text = [_model.platTypes componentsJoinedByString:@" "];
      self.platView.frame = CGRectMake(0, tagHei, UI_SCREEN_WIDTH, platHei);
     
     //所在地
@@ -247,6 +255,21 @@
         btn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
         [btn setTitleColor:Public_Text_Color forState:0];
     }else{//不包含
+        if (_model.tags.count==tagLimit) {
+            NSString *removeTitle = [_model.tags objectAtIndex:0];
+            [_model.tags removeObject:removeTitle];
+            for (id any in _tagView.subviews) {
+                if (![any isKindOfClass:[UIButton class]]) {
+                    continue;
+                }
+                UIButton *tagBtn = (UIButton *)any;
+                if ([tagBtn.titleLabel.text isEqualToString:removeTitle]) {
+                    tagBtn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
+                    [tagBtn setTitleColor:Public_Text_Color forState:0];
+                    break;
+                }
+            }
+        }
         [_model.tags addObject:btn.titleLabel.text];
         [btn setTitleColor:Public_Red_Color forState:0];
         btn.layer.borderColor = Public_Red_Color.CGColor;
@@ -256,23 +279,32 @@
 -(void)platBtnClick:(id)sender
 {
     UIButton *btn = (UIButton *)sender;
-    if ([_model.platType isEqualToString:btn.titleLabel.text]) {//包含
+    if ([_model.platTypes containsObject:btn.titleLabel.text]) {//包含
         return;
 //        [_model.platTypes removeObject:btn.titleLabel.text];
 //        btn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
 //        [btn setTitleColor:Public_Text_Color forState:0];
     }else{//不包含
-        for (id subview in self.platView.subviews) {
-            if ([subview isKindOfClass:[UIButton class]]) {
-                UIButton *platBtn = (UIButton *)subview;
-                platBtn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
-                        [platBtn setTitleColor:Public_Text_Color forState:0];
+        if (_model.platTypes.count==platformLimit) {
+            NSString *removeTitle = [_model.platTypes objectAtIndex:0];
+            [_model.platTypes removeObject:removeTitle];
+            for (UIButton *any in _platView.subviews) {
+                if (![any isKindOfClass:[UIButton class]]) {
+                    continue;
+                }
+                UIButton *tagBtn = (UIButton *)any;
+                if ([tagBtn.titleLabel.text isEqualToString:removeTitle]) {
+                    tagBtn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
+                    [tagBtn setTitleColor:Public_Text_Color forState:0];
+                }
             }
+         
         }
-        _model.platType = btn.titleLabel.text;
+
+        [_model.platTypes addObject:btn.titleLabel.text];
         [btn setTitleColor:Public_Red_Color forState:0];
         btn.layer.borderColor = Public_Red_Color.CGColor;
-         self.platLabel.text = _model.platType;
+         self.platLabel.text = [_model.platTypes componentsJoinedByString:@" "];
     }
     
 }
@@ -284,6 +316,20 @@
         btn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
         [btn setTitleColor:Public_Text_Color forState:0];
     }else{//不包含
+        if (_model.regions.count==locationLimit) {
+            NSString *removeTitle = [_model.regions objectAtIndex:0];
+            [_model.regions removeObject:removeTitle];
+            for (UIButton *any in _regionView.subviews) {
+                if (![any isKindOfClass:[UIButton class]]) {
+                    continue;
+                }
+                 UIButton *tagBtn = (UIButton *)any;
+                if ([tagBtn.titleLabel.text isEqualToString:removeTitle]) {
+                    tagBtn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
+                    [tagBtn setTitleColor:Public_Text_Color forState:0];
+                }
+            }
+        }
         [_model.regions addObject:btn.titleLabel.text];
         [btn setTitleColor:Public_Red_Color forState:0];
         btn.layer.borderColor = Public_Red_Color.CGColor;
