@@ -26,7 +26,7 @@
     {
         Vheight = 261;
         self.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF"];
-        self.frame=CGRectMake(0, UI_SCREEN_HEIGHT, UI_SCREEN_WIDTH, UI_SCREEN_HEIGHT);
+        self.frame=CGRectMake(0, UI_SCREEN_HEIGHT, UI_SCREEN_WIDTH, Vheight);
     }
     return self;
 }
@@ -61,14 +61,14 @@
     [showWindow addSubview:maskV];
     [showWindow addSubview:self];
     self.maskV=maskV;
-    
+    [self initUI];
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.25];
     [UIView setAnimationCurve:7];
     maskV.alpha = 1.f;
     self.frame = CGRectMake(0, UI_SCREEN_HEIGHT-Vheight, UI_SCREEN_WIDTH,Vheight);
-    [self initUI];
+    
     [UIView commitAnimations];
 }
 - (void)initUI

@@ -257,7 +257,7 @@
         //topselect 0 综合 1价格高到低
       
         NSDictionary *arg = @{
-                              @"ageMax":[ageMuStr copy],
+                              @"age":[ageMuStr copy],
                               @"height":[heiMuStr copy],
                               @"keyword":_conditionModel.keyWord,
                               @"occupation":@(0),

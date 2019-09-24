@@ -4,15 +4,15 @@
 //
 //  Created by Mr Hu on 2018/10/15.
 //  Copyright © 2018年 HYH. All rights reserved.
-//
+//[过往作品 和下面标签栏]
 
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol UserHeaderVDelegate <NSObject>
--(void)clickTypeViewWithIndex:(NSInteger)index;//类型视图点击回调
--(void)clickWorkWithIndex:(NSInteger)index;//作品切换
+-(void)clickTypeViewWithIndex:(NSInteger)index;//类型视图点击回调 下面小类型切换
+-(void)clickWorkWithIndex:(NSInteger)index;//作品切换 上面的大类型切换
 
 @end
 

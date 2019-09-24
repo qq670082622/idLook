@@ -103,6 +103,9 @@
             weakself.currIndexState=state;
             [weakself switProjectState];
         };
+        _topV.canelBlcok = ^{
+            [weakself.navigationController popViewControllerAnimated:YES];
+        };
         _topV.lookProjectdetialBlock = ^{  //查看项目
             NSDictionary *diaArg = @{
                                      @"projectId":weakself.dsm.projectInfo[@"projectId"],

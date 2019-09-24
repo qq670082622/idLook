@@ -53,6 +53,8 @@
                    @{@"title":@"我的评价",@"image":@"me_evaluate_icon",@"prompt":@"",@"type":@(CenterMainTypeGrade)},
                   @{@"title":@"联系脸探肖像",@"image":@"center_contact",@"prompt":@"",@"type":@(CenterMainTypeContact)},
                   @{@"title":@"分享脸探",@"image":@"center_share",@"prompt":@"",@"type":@(CenterMainTypeShare)},
+                   @{@"title":@"项目管理",@"image":@"common_me_pm_icon",@"prompt":@"",@"type":@(CenterMainTypeProjectManage)},
+                   @{@"title":@"带货达人订单",@"image":@"common_me_daren_icon",@"prompt":@"",@"type":@(CenterMainTypeCustomizedOrders)},
                   //@{@"title":@"子账号管理",@"image":@"center_subAcoount",@"prompt":@"",@"type":@(CenterMainTypeSubAccounts)},
 //                  @{@"title":@"脸探攻略",@"image":@"center_Strategy",@"prompt":@"",@"type":@(CenterMainTypeStrategy)}
                   ];

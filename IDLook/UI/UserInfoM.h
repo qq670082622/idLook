@@ -124,7 +124,7 @@
 
 @property (nonatomic,assign) NSInteger studio;      //1:工作室演员，没有或者为0则不是
 @property (nonatomic,assign) NSInteger status;      //1开头表示用户状态;* 100正常，101注销，102待审核，104黑名单;2开头表示用户等级;* 200普通用户，201vip用户，202超级vip,
-
+@property (nonatomic,assign) NSInteger vipLevel; //0=普通用户 301=电商vip
 @property (nonatomic,assign) float discount;      //vip折扣率
 
 @property (nonatomic,assign) CGFloat rate;      //组合报价折扣率

@@ -210,7 +210,12 @@ static CGFloat const playBtnSideLength = 60.0f;
     
     [self setStatusBarHidden:YES];
 }
-
+-(void)setTrillMode:(BOOL)trillMode
+{
+    _trillMode = trillMode;
+    
+    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
+}
 //下载视频
 -(void)downloadAction
 {
@@ -342,6 +347,7 @@ static CGFloat const playBtnSideLength = 60.0f;
 }
 
 - (void)actionFullScreen {
+    
     if (!self.isFullScreen) { //非全屏点击fullscrenn时，如竖直持握设备，画面不横转。当横向持握设备时且当前是大屏播放状态自动横转
         if (_landscapeHold) {//横向持握设备点击全屏播放
              [self orientationLeftFullScreen];
@@ -737,7 +743,10 @@ static CGFloat const playBtnSideLength = 60.0f;
     if ([self.superview isKindOfClass:[UIWindow class]]) return;
     self.smallWinPlaying = YES;
     self.playOrPauseBtn.hidden = YES;
-    self.bottomBar.hidden = YES;
+    if (!_trillMode) {
+         self.bottomBar.hidden = YES;
+    }
+   
     self.backBtn.hidden=YES;
 
     CGRect tableViewframe = [self.bindTableView convertRect:self.bindTableView.bounds toView:self.keyWindow];
@@ -759,7 +768,9 @@ static CGFloat const playBtnSideLength = 60.0f;
     if (![self.superview isKindOfClass:[UIWindow class]]) return;
     self.smallWinPlaying = NO;
     self.playOrPauseBtn.hidden = NO;
-    self.bottomBar.hidden = NO;
+    if (!_trillMode) {
+        self.bottomBar.hidden = NO;
+    }
     self.backBtn.hidden =NO;
 
     [UIView animateWithDuration:0.3 animations:^{
@@ -794,12 +805,17 @@ static CGFloat const playBtnSideLength = 60.0f;
         _bottomBar.backgroundColor = [UIColor blackColor];
         _bottomBar.layer.opacity = 0.0f;
         [self addSubview:_bottomBar];
+        if (_trillMode) {
+            _bottomBar.frame = CGRectMake(0, self.height-60, self.width, 40);
+        }else{
         [_bottomBar mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self);
             make.right.mas_equalTo(self);
-            make.bottom.mas_equalTo(self);
+           make.bottom.mas_equalTo(self);
             make.height.mas_equalTo(40);
         }];
+        }
+       
         
         UILabel *label1 = [[UILabel alloc] init];
         label1.translatesAutoresizingMaskIntoConstraints = NO;
@@ -821,7 +837,9 @@ static CGFloat const playBtnSideLength = 60.0f;
         [fullScreenBtn setImage:[UIImage imageNamed:@"u_screen"] forState:UIControlStateNormal];
         [fullScreenBtn setImage:[UIImage imageNamed:@"u_screen"] forState:UIControlStateSelected];
         [fullScreenBtn addTarget:self action:@selector(actionFullScreen) forControlEvents:UIControlEventTouchDown];
+
         [_bottomBar addSubview:fullScreenBtn];
+
         self.zoomScreenBtn = fullScreenBtn;
         [fullScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(_bottomBar);
@@ -835,13 +853,42 @@ static CGFloat const playBtnSideLength = 60.0f;
         [downloadBtn setImage:[UIImage imageNamed:@"u_download"] forState:UIControlStateNormal];
         [downloadBtn setImage:[UIImage imageNamed:@"u_download"] forState:UIControlStateSelected];
         [downloadBtn addTarget:self action:@selector(downloadAction) forControlEvents:UIControlEventTouchDown];
-        [_bottomBar addSubview:downloadBtn];
+
+             [_bottomBar addSubview:downloadBtn];
+
+       
         self.downloadBtn = downloadBtn;
         [downloadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(fullScreenBtn.mas_left);
             make.centerY.mas_equalTo(_bottomBar);
             make.size.mas_equalTo(CGSizeMake(30, 30));
         }];
+        
+        if (_trillMode) {
+            UIView *bg = [UIView new];
+            bg.backgroundColor = [UIColor blackColor];
+            [_bottomBar addSubview:bg];
+            [bg mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(downloadBtn);
+                make.right.mas_equalTo(fullScreenBtn);
+                make.top.mas_equalTo(fullScreenBtn);
+                make.bottom.mas_equalTo(fullScreenBtn);
+            }];
+            
+            UIButton *closeBtn = [UIButton buttonWithType:0];
+            [closeBtn setTitle:@"关闭" forState:0];
+            [closeBtn setTitleColor:[UIColor whiteColor] forState:0];
+            closeBtn.titleLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightMedium];
+            [closeBtn addTarget:self action:@selector(closePlayer) forControlEvents:UIControlEventTouchUpInside];
+            [bg addSubview:closeBtn];
+            [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(bg);
+                make.right.mas_equalTo(bg);
+                make.top.mas_equalTo(bg);
+                make.bottom.mas_equalTo(bg);
+                
+            }];
+        }
         
         UIButton *voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         voiceBtn.translatesAutoresizingMaskIntoConstraints = NO;
@@ -898,7 +945,10 @@ static CGFloat const playBtnSideLength = 60.0f;
     }
     return _bottomBar;
 }
-
+-(void)closePlayer
+{
+    self.completedPlayingBlock(self);
+}
 - (UIButton *)playOrPauseBtn {
     if (!_playOrPauseBtn) {
         _playOrPauseBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -908,11 +958,15 @@ static CGFloat const playBtnSideLength = 60.0f;
         [_playOrPauseBtn setBackgroundImage:[UIImage imageNamed:@"u_pause_big"] forState:UIControlStateSelected];
         [_playOrPauseBtn addTarget:self action:@selector(playOrPause:) forControlEvents:UIControlEventTouchDown];
         [self insertSubview:self.playOrPauseBtn aboveSubview:self.activityIndicatorView];
+        if (_trillMode) {
+            _playOrPauseBtn.frame = CGRectMake((self.width-playBtnSideLength)/2, (self.height-playBtnSideLength)/2, playBtnSideLength, playBtnSideLength);
+        }else{
         [_playOrPauseBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(self);
             make.centerY.mas_equalTo(self);
             make.size.mas_equalTo(CGSizeMake(playBtnSideLength, playBtnSideLength));
         }];
+        }
     }
     return _playOrPauseBtn;
 }

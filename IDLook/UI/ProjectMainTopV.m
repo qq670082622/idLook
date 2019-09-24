@@ -92,6 +92,7 @@
         make.edges.mas_equalTo(self).insets(UIEdgeInsetsZero);
     }];
     
+     BOOL isX = [UIApplication sharedApplication].statusBarFrame.size.height==20?NO:YES;
     //标题
     UILabel *titleLab=[[UILabel alloc]init];
     titleLab.textColor=[UIColor whiteColor];
@@ -99,7 +100,12 @@
     titleLab.userInteractionEnabled=YES;
     [bg addSubview:titleLab];
     [titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(bg).offset(15);
+        if (isX) {
+             make.left.mas_equalTo(bg).offset(15);
+        }else{
+             make.left.mas_equalTo(bg).offset(80);
+        }
+       
         make.top.mas_equalTo(bg).offset(SafeAreaTabBarHeight_IphoneX+30);
     }];
     if (@available(iOS 8.2, *)) {
@@ -110,7 +116,25 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(lookProjectDetial)];
     [titleLab addGestureRecognizer:tap];
     
-    
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+   
+    if (isX) {
+         cancelBtn.frame = CGRectMake(7,20, 80, 48);
+    }else{
+          cancelBtn.frame = CGRectMake(7,17, 80, 48);
+    }
+   
+    [cancelBtn setImage:[UIImage imageNamed:@"u_info_back_white"] forState:UIControlStateNormal];
+    [cancelBtn setImage:[UIImage imageNamed:@"u_info_back_white"] forState:UIControlStateHighlighted];
+    [cancelBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [cancelBtn setTitle:@"返回" forState:UIControlStateHighlighted];
+    [cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    cancelBtn.titleLabel.font=[UIFont systemFontOfSize:15.0];
+    [cancelBtn setImageEdgeInsets:UIEdgeInsetsMake(1, -13, -1, 13)];
+    [cancelBtn setTitleEdgeInsets:UIEdgeInsetsMake(0,-13, 0,13)];
+    [cancelBtn addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    [bg addSubview:cancelBtn];
     //箭头
     UIImageView *arrow= [[UIImageView alloc]init];
     [bg addSubview:arrow];
@@ -198,7 +222,10 @@
     self.slider=slider;
 
 }
-
+-(void)cancel
+{
+    self.canelBlcok();
+}
 //查看项目详情
 -(void)lookProjectDetial
 {

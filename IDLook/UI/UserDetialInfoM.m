@@ -19,7 +19,8 @@
         self.commentInfo =(NSDictionary*)safeObjectForKey(dic, @"commentInfo");
         self.lastComment =(NSDictionary*)safeObjectForKey(dic, @"lastComment");
         self.worksList    = (NSArray *)safeObjectForKey(dic, @"worksList");
-
+       self.fansInfo = (NSArray *)safeObjectForKey(dic, @"fansInfo");
+        
         NSDictionary *accountInfo = (NSDictionary*)safeObjectForKey(dic, @"accountInfo");
         NSDictionary *basicInfo = (NSDictionary*)safeObjectForKey(dic, @"basicInfo");
         NSDictionary *popularInfo = (NSDictionary*)safeObjectForKey(dic, @"popularInfo");

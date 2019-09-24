@@ -174,6 +174,7 @@
         self.mobile = (NSString *)safeObjectForKey(userBasicInfo, @"phone");
         self.type = [(NSNumber *)safeObjectForKey(userBasicInfo, @"userType") integerValue];
         self.status=[(NSNumber *)safeObjectForKey(userBasicInfo, @"status") integerValue];
+         self.vipLevel=[(NSNumber *)safeObjectForKey(userBasicInfo, @"vipLevel") integerValue];
         self.discount=[(NSNumber *)safeObjectForKey(userBasicInfo, @"discount") floatValue];
         
         if (self.type==1) {  //购买方

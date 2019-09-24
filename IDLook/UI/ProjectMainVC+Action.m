@@ -534,16 +534,16 @@
     }
     
     
-//    PayWaysVC *payVC=[[PayWaysVC alloc]init];
-//    payVC.orderids=info.orderId;
-//    payVC.totalPrice=price;
-//    payVC.hidesBottomBarWhenPushed=YES;
-//    WeakSelf(self);
-//    payVC.refreshData = ^{
-//        [weakself paySuccessBack:info withType:type];
-//    };
-//    [self.navigationController pushViewController:payVC animated:YES];
-    [self paySuccessBack:info withType:type];
+    PayWaysVC *payVC=[[PayWaysVC alloc]init];
+    payVC.orderids=info.orderId;
+    payVC.totalPrice=price;
+    payVC.hidesBottomBarWhenPushed=YES;
+    WeakSelf(self);
+    payVC.refreshData = ^{
+        [weakself paySuccessBack:info withType:type];
+    };
+    [self.navigationController pushViewController:payVC animated:YES];
+//    [self paySuccessBack:info withType:type];
 }
 
 //支付成功回掉

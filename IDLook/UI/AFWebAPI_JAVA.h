@@ -304,6 +304,34 @@ typedef void (^HttpCallBackWithObject)(BOOL success,id object);
 +(void)portraitCancelWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 //授权书下载
 +(void)portraitDownloadWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+/*******************************************账户细分角色相关***************************************/
+//查询用户角色
++(void)getUserTypeWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//给用户添加角色
++(void)setUserTypeWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+/*******************************************达人首页相关***************************************/
+//获取公告列表
++(void)getBulletinListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//获取达人首页配置信息
++(void)getBuyerHomeConfigWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//获取达人平台
++(void)getPlatformListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//获取某平台达人排行榜
++(void)getRangeListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//搜索达人
++(void)searchActorListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//达人首页详情
++(void)getActorInfoWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//查询定制服务标签
++(void)checkOrderTypeWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//查询网红收藏
++(void)checkCollectionActorsWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//新增网红定制订单
++(void)addCustomOrderWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//查询网红定制订单列表
++(void)getCustomizedOrderListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//查询网红定制订单详情
++(void)checkDetailCustomOrderWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 @end
 
 NS_ASSUME_NONNULL_END

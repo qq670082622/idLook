@@ -4,7 +4,7 @@
 //
 //  Created by Mr Hu on 2019/3/6.
 //  Copyright © 2019年 HYH. All rights reserved.
-//  个人主页子视图
+//  个人主页子视图 topV里分数到简介这一块
 
 #import <UIKit/UIKit.h>
 

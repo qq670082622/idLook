@@ -372,12 +372,16 @@
 //
 //    else
         if ([classStr isEqualToString:@"MyOrderListCellA"]) {//买家
-        MyOrderListCellA *cell = (MyOrderListCellA*)obj;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = [UIColor clearColor];
+       
         NSDictionary *dic = [(NSDictionary *)self.dsm.ds[self.currIndex][sec] objectForKey:kMyOrderVCMCellData];
-        [cell reloadUIWithDic:dic];
-        cell.buttonClickBlock = ^(NSInteger type, ProjectOrderInfoM * _Nonnull info) {
+//            if (dic) {
+//                <#statements#>
+//            }
+            MyOrderListCellA *cell = (MyOrderListCellA*)obj;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = [UIColor clearColor];
+            [cell reloadUIWithDic:dic];
+cell.buttonClickBlock = ^(NSInteger type, ProjectOrderInfoM * _Nonnull info) {
 //            [weakself BottomButtonAction:type withProjectInfo:info];
         };
         cell.MyOrderlookOrderDetialBlock = ^(ProjectOrderInfoM * _Nonnull info) {  //查看订单详情

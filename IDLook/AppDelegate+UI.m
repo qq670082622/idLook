@@ -14,6 +14,7 @@
 #import "AppUnablePopV.h"
 #import "JPUSHService.h"
 #import "VersionPopv.h"
+#import "TypeSelectVC.h"
 @implementation AppDelegate (UI)
 
 -(void)initializeUI
@@ -55,7 +56,7 @@
                 UserInfoM *uinfo = [[UserInfoM alloc] initJavaDataWithDic:[object objectForKey:JSON_body]];
                 [UserInfoManager setUserStatus:uinfo.status];
                 [UserInfoManager setUserDiscount:uinfo.discount];
-                
+                [UserInfoManager setUserVip:uinfo.vipLevel];
                 [self showRootVC];
                 [self processAutoLoginWithType:type];
                 NSString *userId = [UserInfoManager getUserUID];
@@ -103,19 +104,48 @@
 
 - (void)showRootVC
 {
+    WeakSelf(self);
+//查询用户type
+    [AFWebAPI_JAVA getUserTypeWithArg:[NSDictionary new] callBack:^(BOOL success, id  _Nonnull object) {
+        if (success) {
+            NSInteger userDefinedType = [object[@"body"][@"userDefinedType"] integerValue];//户自定义类型 0=未选择 1=电商 2=制片 3=演员
 
+            if (userDefinedType==0) {//没选择过
+                TypeSelectVC *tsvc = [TypeSelectVC new];
+                self.window.rootViewController = tsvc;
+                [self.window reloadInputViews];
+                [self.window makeKeyAndVisible];
+                tsvc.selectType = ^(NSInteger type) {
+                    NSDictionary * arg2 = @{@"userDefinedType":@(type)};
+                    [AFWebAPI_JAVA setUserTypeWithArg:arg2 callBack:^(BOOL success, id  _Nonnull object) {
+                        if (success) {
+                            [weakself tabbarRoot];
+                            [WriteFileManager userDefaultSetObj:[NSString stringWithFormat:@"%ld",type] WithKey:@"userType"];
+
+                        }
+                    }];
+                };
+            }else{
+                 [WriteFileManager userDefaultSetObj:[NSString stringWithFormat:@"%ld",userDefinedType] WithKey:@"userType"];
+                [self tabbarRoot];
+            }
+        }
+    }];
+   
+//    [self tabbarRoot];
+//
+//    RootTabbarVC *tabbarController =  (RootTabbarVC *)self.window.rootViewController;
+//    [[[tabbarController.tabBar items] objectAtIndex:3] setBadgeValue:@"100"];
+    
+    
+}
+-(void)tabbarRoot
+{
     RootTabbarVC *tabVC = [[RootTabbarVC alloc] init];
     self.window.rootViewController = tabVC;
     [self.window reloadInputViews];
     [self.window makeKeyAndVisible];
-    
-    
-   // RootTabbarVC *tabbarController =  (RootTabbarVC *)self.window.rootViewController;
-   // [[[tabbarController.tabBar items] objectAtIndex:3] setBadgeValue:@"100"];
-    
-    
 }
-
 - (void)showLRVC
 {
     LoginAndRegistVC *loginVC=[[LoginAndRegistVC alloc]init];

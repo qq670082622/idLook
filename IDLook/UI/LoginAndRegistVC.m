@@ -236,6 +236,7 @@
             
             UserInfoM *uinfo = [[UserInfoM alloc] initJavaDataWithDic:[object objectForKey:JSON_body]];
             [UserInfoManager setUserStatus:uinfo.status];
+            [UserInfoManager setUserVip:uinfo.vipLevel];
             [UserInfoManager setUserDiscount:uinfo.discount];
         }
     }];

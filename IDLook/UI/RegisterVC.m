@@ -203,6 +203,14 @@
     
     [AFWebAPI doRegistByMobile:dicArg callBack:^(BOOL success, id object) {
         if (success) {
+            NSString *ut = [WriteFileManager userDefaultForKey:@"userType"];
+            NSDictionary * arg2 = @{@"userDefinedType":@([ut integerValue])};
+            [AFWebAPI_JAVA setUserTypeWithArg:arg2 callBack:^(BOOL success, id  _Nonnull object) {
+                if (success) {
+                    
+                    
+                }
+            }];
             [SVProgressHUD showSuccessWithStatus:@"注册成功"];
             NSDictionary *dic = [object objectForKey:JSON_data];
             UserInfoM *uinfo = [[UserInfoM alloc] initWithDic:dic];
@@ -277,6 +285,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LoginCellStrutM *model= self.dataSource[indexPath.row];
+    NSString *userType = [WriteFileManager userDefaultForKey:@"userType"];
+    NSInteger usert = [userType integerValue];
+    //    userType 户自定义类型 0=未选择 1=电商 2=制片 3=演员
+    if (usert==1 || usert==2) {
+        model.userType = UserTypePurchaser;
+    }else if (usert==3){
+        model.userType = UserTypeResourcer;
+    }
     LRCellType cellType = model.cellType;
     if (cellType==LRCellTypeVerificationCode) {
         static NSString *identifer = @"LoginCodeCell";

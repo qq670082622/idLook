@@ -223,6 +223,12 @@
             self.subStateName=@"已取消";
         }
         self.orderTypeName=@"授权书订单";
+    }else if (self.orderType == 601)//定制订单
+    {
+        if([self.subState isEqualToString:@"pending_pay"])
+        {
+            self.subStateName=@"等待支付";
+        }
     }
 }
 

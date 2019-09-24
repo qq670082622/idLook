@@ -30,6 +30,8 @@ typedef NS_ENUM(NSInteger,CenterMainType)
     CenterMainTypeInsurance,        //我的保险
     CenterMainTypeAnnunciate,      //通告
     CenterMainTypeReturnShare,      //返现码分享
+    CenterMainTypeProjectManage,    //项目管理（原来的tabbar）
+    CenterMainTypeCustomizedOrders //网红定制订单
 };
 
 @interface CenterMainCell : UITableViewCell

@@ -36,7 +36,7 @@
                   moduleName = "IDLook"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wuming/idLook/IDLook/UI/AFWebAPI.m"
-                  timestampString = "589886811.9566"
+                  timestampString = "590987344.549354"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "549"
@@ -51,7 +51,7 @@
                   moduleName = "IDLook"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wuming/idLook/IDLook/UI/AFWebAPI.m"
-                  timestampString = "589886811.958084"
+                  timestampString = "590987344.550693"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "549"
@@ -66,7 +66,7 @@
                   moduleName = "IDLook"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wuming/idLook/IDLook/UI/AFWebAPI.m"
-                  timestampString = "589886811.959422"
+                  timestampString = "590987344.551916"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "549"
@@ -99,7 +99,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IDLook/UI/UserInfoManager.m"
-            timestampString = "586167166.669937"
+            timestampString = "590919167.830568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "347"
@@ -115,7 +115,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IDLook/UI/UserInfoManager.m"
-            timestampString = "586167166.6699851"
+            timestampString = "590919167.830616"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "335"
@@ -211,7 +211,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IDLook/UI/AFWebAPI_JAVA.m"
-            timestampString = "589886811.597748"
+            timestampString = "590997451.8165669"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "98"
@@ -227,7 +227,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IDLook/UI/AFWebAPI_JAVA.m"
-            timestampString = "589886811.597796"
+            timestampString = "590997451.8166521"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
@@ -249,6 +249,54 @@
             startingLineNumber = "253"
             endingLineNumber = "253"
             landmarkName = "-RTCEngine:didLeaveOfRemoteUserId:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IDLook/AppDelegate+UI.m"
+            timestampString = "590987343.734169"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "-initializeUI"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IDLook/AppDelegate+UI.m"
+            timestampString = "590987343.734205"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "-processAutoLoginWithType:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IDLook/AppDelegate+UI.m"
+            timestampString = "590987343.734236"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
+            landmarkName = "-processAutoLoginWithType:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -4,7 +4,7 @@
 //
 //  Created by Mr Hu on 2019/6/5.
 //  Copyright © 2019 HYH. All rights reserved.
-//
+//买家 订单cell
 
 #import <UIKit/UIKit.h>
 #import "ProjectOrderInfoM.h"

@@ -35,7 +35,7 @@ typedef void (^VideoCompletedPlayingBlock) (VideoPlayer *videoPlayer);
  video volume 是否静音 ,  列表播放时静音
  */
 @property (nonatomic,assign) BOOL isMute;
-
+@property(nonatomic,assign)BOOL trillMode;//抖音模式 全屏按钮变关闭按钮
 /**
  *  play or pause
  */

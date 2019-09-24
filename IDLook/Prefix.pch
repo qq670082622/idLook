@@ -44,6 +44,7 @@
 #import "UIView+Extension.h"
 #import "TABAnimated.h"
 #import "YYModel.h"
+#import "WriteFileManager.h"
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
@@ -80,6 +81,7 @@
 #define SafeAreaTabBarHeight  (UI_SCREEN_HEIGHT == 812.0 ? 83 : 49)  //tabBar安全高度
 
 #define SafeAreaTabBarHeight_IphoneX  (SafeAreaTabBarHeight-UI_TAB_BAR_HEIGHT)
+#define public_isX ([UIApplication sharedApplication].statusBarFrame.size.height==20?NO:YES)
 
 /**
  UI_COLOR

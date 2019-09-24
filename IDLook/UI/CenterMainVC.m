@@ -40,6 +40,8 @@
 #import "AnnunciateListVC.h"
 #import "CheckGradeViewController.h"
 #import "ReturnKeyShareVC.h"
+#import "ProjectMainVC.h"
+#import "CustomzOrderListVC.h"
 @interface CenterMainVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UIImageView *bg;
 @property (nonatomic,strong)UIImageView *head;
@@ -653,6 +655,19 @@
         };
         
         [pop showBottomShare];
+    }
+    //项目管理
+    else if (type==CenterMainTypeProjectManage)
+    {
+        ProjectMainVC *pmvc = [ProjectMainVC new];
+        pmvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:pmvc animated:YES];
+    }
+    else if (type==CenterMainTypeCustomizedOrders)
+    {
+        CustomzOrderListVC *listVC = [CustomzOrderListVC new];
+        listVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:listVC animated:YES];
     }
     //积分商城
     else if (type==CenterMainTypeStore)

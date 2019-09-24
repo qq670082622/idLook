@@ -1408,4 +1408,123 @@ callBack(YES,contentDic);
         callBack(NO,errorStr);
     }];
 }
+//查询用户角色
++(void)getUserTypeWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"user/defined/type/query" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//给用户添加角色
++(void)setUserTypeWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"user/defined/type/add" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+/*******************************************达人首页相关***************************************/
+//获取公告列表
++(void)getBulletinListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"bulletin/list" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//获取达人首页配置信息
++(void)getBuyerHomeConfigWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"config/data/list/expert/search" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//获取达人平台
++(void)getPlatformListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"platform/list/usable" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//获取达人排行榜
++(void)getRangeListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"actor/expert/ranking/list" params:arg success:^(NSDictionary *contentDic) {
+    callBack(YES,contentDic);
+} failure:^(NSString *errorStr) {
+    callBack(NO,errorStr);
+}];
+    
+}
+//搜索达人
++(void)searchActorListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"actor/expert/search/list" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//达人首页详情
++(void)getActorInfoWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"actor/expert/detail" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//查询定制服务标签
++(void)checkOrderTypeWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"customized/service/tags" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//查询网红收藏
++(void)checkCollectionActorsWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"collect/expert/list" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//新增网红定制订单
++(void)addCustomOrderWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"customized/service/add" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//查询网红定制订单列表
++(void)getCustomizedOrderListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"customized/service/list" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//查询网红定制订单详情
++(void)checkDetailCustomOrderWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"order/customized/detail" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
 @end

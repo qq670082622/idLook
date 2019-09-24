@@ -81,9 +81,7 @@
     
     [self bottomV];
     [self backTopBtn];
-  
-
-}
+  }
 
 - (void)viewWillAppear:(BOOL)animated
 {

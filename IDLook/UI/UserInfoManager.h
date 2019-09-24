@@ -285,7 +285,9 @@ typedef NS_ENUM(NSInteger,UserSubType)
 //用户状态和vip状况   1开头表示用户状态;* 100正常，101注销，102待审核，104黑名单;2开头表示用户等级;* 200普通用户，201vip用户，202超级vip,
 + (void)setUserStatus:(NSInteger)status;
 + (NSInteger)getUserStatus;
-
+//用户状态和vip状况 网红电商vip 0=普通用户 301=电商vip
++ (void)setUserVip:(NSInteger)vipLevel;
++ (NSInteger)getUserVip;
 //折扣率
 + (void)setUserDiscount:(float)discount;
 + (float)getUserDiscount;

@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSDictionary *commentInfo;  //评分信息
 @property (nonatomic,strong) NSDictionary *lastComment;  //评论
 @property (nonatomic,strong) NSArray *worksList;  //作品信息
-
+@property (nonatomic,strong) NSArray *fansInfo;  //粉丝信息
 /***********************basicInfo***************************************/
 @property (nonatomic,copy) NSString *actorName;          //名字
 @property (nonatomic,copy) NSString *avatar;            //头像

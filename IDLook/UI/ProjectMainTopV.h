@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy)void(^switchProjectBlock)(void);  //切换项目
 @property(nonatomic,copy)void(^addNewProjectBlock)(void);  //新建项目
 @property(nonatomic,copy)void(^serviceExplainBlock)(void);  //服务费说明
-
+@property(nonatomic,copy)void(^canelBlcok)(void);  //服务费说明
 /**
  切换项目状态   0:询问档期。1:试镜。 2:锁定档期。3:定妆。4:拍摄。  5:授权书
  */

@@ -916,7 +916,18 @@
     if(obj==nil)return 100;
     return [obj integerValue];
 }
-
+//用户状态和vip状况 电商网红的vip
++ (void)setUserVip:(NSInteger)vipLevel//开头表示用户状态; 100正常，101注销，102待审核，104黑名单;2开头表示用户等级; 200普通用户，201VIP战略合作公司，202VIP制片
+{
+    [[NSUserDefaults standardUserDefaults] setInteger:vipLevel forKey:@"vipLevel"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++ (NSInteger)getUserVip
+{
+    id obj = [[NSUserDefaults standardUserDefaults] valueForKey:@"vipLevel"];
+    if(obj==nil)return 100;
+    return [obj integerValue];
+}
 //购买方折扣率
 + (void)setUserDiscount:(float)discount
 {

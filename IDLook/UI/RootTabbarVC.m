@@ -17,6 +17,7 @@
 #import "NetworkSettPopV.h"
 #import "AnnunciateVC.h"
 #import "QNTestVC.h"
+#import "BuyerHomeVC.h"
 #import <AVFoundation/AVFoundation.h>
 @interface RootTabbarVC ()<UITabBarControllerDelegate,MCTabBarControllerDelegate>
 @property(nonatomic,strong)UIButton *auditionBtn;
@@ -41,15 +42,32 @@
 //    for (UIView *view in self.tabBar.subviews) {
 //        [view removeFromSuperview];
 //    }
-    //首页
+    NSString *userType = [WriteFileManager userDefaultForKey:@"userType"];
+//    userType 户自定义类型 0=未选择 1=电商 2=制片 3=演员
+     //首页
     HomeMainVC *homeVC = [[HomeMainVC alloc] init];
-    homeVC.tabBarItem.tag=100;
-    [self addChildController:homeVC title:@"首页" imageName:@"menu_home_n" selectedImageName:@"menu_home_h"];
+        BuyerHomeVC *buy = [BuyerHomeVC new];
+    buy.tabBarItem.tag=100;
+    homeVC.tabBarItem.tag=101;
+    if ([userType isEqualToString:@"1"]) {
+//
+        [self addChildController:buy title:@"带货达人" imageName:@"common_tabbar_talent_icon_n" selectedImageName:@"common_tabbar_talent_icon_s"];
+        [self addChildController:homeVC title:@"广告演员" imageName:@"common_tabbar_acto_icon_n" selectedImageName:@"common_tabbar_acto_icon_s"];
+    }else if ([userType isEqualToString:@"2"]){
+        [self addChildController:homeVC title:@"广告演员" imageName:@"common_tabbar_acto_icon_n" selectedImageName:@"common_tabbar_acto_icon_s"];
+          [self addChildController:buy title:@"带货达人" imageName:@"common_tabbar_talent_icon_n" selectedImageName:@"common_tabbar_talent_icon_s"];
+    }else if ([userType isEqualToString:@"3"]){
+         [self addChildController:homeVC title:@"广告演员" imageName:@"common_tabbar_acto_icon_n" selectedImageName:@"common_tabbar_acto_icon_s"];
+         [self addChildController:buy title:@"带货达人" imageName:@"common_tabbar_talent_icon_n" selectedImageName:@"common_tabbar_talent_icon_s"];
+    }
+
+    
+ 
 
     //收藏
     CollectionMainVC *collectVC = [[CollectionMainVC alloc] init];
-    collectVC.tabBarItem.tag=101;
-    [self addChildController:collectVC title:@"收藏" imageName:@"menu_collection_n" selectedImageName:@"menu_collection_h"];
+    collectVC.tabBarItem.tag=102;
+    [self addChildController:collectVC title:@"收藏" imageName:@"common_tabbar_collect_icon_n" selectedImageName:@"common_tabbar_collect_icon_s"];
     
     if ( [UserInfoManager getUserType] == 2) {
         //    创建自定义TabBar
@@ -63,22 +81,22 @@
    
     
     //消息
-    MsgMainVC *msgVC = [[MsgMainVC alloc] init];
-    msgVC.tabBarItem.tag=102;
-    [self addChildController:msgVC title:@"消息" imageName:@"menu_message_n" selectedImageName:@"menu_message_h"];
+//    MsgMainVC *msgVC = [[MsgMainVC alloc] init];
+//    msgVC.tabBarItem.tag=103;
+//    [self addChildController:msgVC title:@"消息" imageName:@"menu_message_n" selectedImageName:@"menu_message_h"];
 
    
     if ([UserInfoManager getUserType]==UserTypePurchaser) {
         //项目
-        ProjectMainVC *projectVC = [[ProjectMainVC alloc] init];
-        projectVC.tabBarItem.tag=104;
-        [self addChildController:projectVC title:@"项目" imageName:@"menu_projected_n" selectedImageName:@"menu_projected_h"];
+//        ProjectMainVC *projectVC = [[ProjectMainVC alloc] init];
+//        projectVC.tabBarItem.tag=104;
+//        [self addChildController:projectVC title:@"项目" imageName:@"menu_projected_n" selectedImageName:@"menu_projected_h"];
     }
   
     //我的
     CenterMainVC *centerVC = [[CenterMainVC alloc] init];
-    centerVC.tabBarItem.tag=103;
-    [self addChildController:centerVC title:@"我的" imageName:@"menu_my_n" selectedImageName:@"menu_my_h"];
+    centerVC.tabBarItem.tag=105;
+    [self addChildController:centerVC title:@"我的" imageName:@"common_tabbar_me_icon_n" selectedImageName:@"common_tabbar_me_icon_s"];
     
     [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]];
 //    //  设置tabbar
@@ -130,7 +148,7 @@
 
 -(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
-    if ([UserInfoManager getUserLoginType]==UserLoginTypeTourist && viewController.tabBarItem.tag>100) {   //游客模式
+    if ([UserInfoManager getUserLoginType]==UserLoginTypeTourist && viewController.tabBarItem.tag>101) {   //游客模式
         LoginAndRegistVC *login=[[LoginAndRegistVC alloc]init];
         [self presentViewController:login animated:YES completion:nil];
         return NO;
