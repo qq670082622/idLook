@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) NSInteger sex;
 @property(nonatomic,strong)NSMutableArray *regions;
 @property(nonatomic,strong)NSMutableArray *tags;
-@property(nonatomic,copy)NSString *platType;
+@property(nonatomic,copy)NSString *platType;//1=抖音 2=微博 3=小红书 4=快手
 @end
 
 NS_ASSUME_NONNULL_END

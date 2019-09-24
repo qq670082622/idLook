@@ -53,7 +53,13 @@
     [self.darenIcon sd_setImageWithUrlStr:_userModel.avatar placeholderImage:[UIImage imageNamed:@"default_icon"]];
     self.darenName.text = _userModel.nickName;
     [self.darenName sizeToFit];
-    self.darenName2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",_userModel.academy];
+  
+    if (_userModel.academy.length>0) {
+         self.darenName2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",_userModel.academy];
+    }else{
+        self.darenName2.text = @"带货达人";
+    }
+    _darenName2.x = _darenName.right+10;
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
     [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"定制带货服务"]];
     [AFWebAPI_JAVA checkOrderTypeWithArg:[NSArray new] callBack:^(BOOL success, id  _Nonnull object) {
@@ -119,7 +125,12 @@
             name1.font = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
             
             UILabel *name2 = [UILabel new];
-            name2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",user.academy];
+           // name2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",user.academy];
+            if (user.academy.length>0) {
+                name2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",user.academy];
+            }else{
+               name2.text = @"带货达人";
+            }
             name2.textColor = [UIColor colorWithHexString:@"333333"];
             name2.font = [UIFont systemFontOfSize:13];
             

@@ -44,6 +44,19 @@
         _sortPage = 1;
         
     }
+    NSInteger platform = 0;
+    if ([_conditionModel.platType isEqualToString:@"抖音"]) {
+        platform = 1;
+    }
+    if ([_conditionModel.platType isEqualToString:@"微博"]) {
+        platform = 2;
+    }
+    if ([_conditionModel.platType isEqualToString:@"小红书"]) {
+        platform = 3;
+    }
+    if ([_conditionModel.platType isEqualToString:@"快手"]) {
+        platform = 4;
+    }
     NSDictionary *arg = @{
                           @"age":[NSString stringWithFormat:@"%ld-%ld",_conditionModel.age_min,_conditionModel.age_max],
                           @"height":[NSString stringWithFormat:@"%ld-%ld",_conditionModel.hei_min,_conditionModel.hei_max==0?200:_conditionModel.hei_max],
@@ -52,6 +65,7 @@
                          // @"price":[priceMuStr copy],
                           @"region":[_conditionModel.regions componentsJoinedByString:@","],
                           @"sex":@(sex),
+                          @"platform":@(platform),
                           @"weight":[NSString stringWithFormat:@"%ld-%ld",_conditionModel.wei_min,_conditionModel.wei_max==0?120:_conditionModel.wei_max],
                           @"pageCount":@(25),
                           @"pageNumber":@(_sortPage),

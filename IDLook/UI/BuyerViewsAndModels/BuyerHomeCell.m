@@ -257,15 +257,24 @@
 {
     UIButton *btn = (UIButton *)sender;
     if ([_model.platType isEqualToString:btn.titleLabel.text]) {//包含
-        _model.platType = @"";
-        btn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
-        [btn setTitleColor:Public_Text_Color forState:0];
+        return;
+//        [_model.platTypes removeObject:btn.titleLabel.text];
+//        btn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
+//        [btn setTitleColor:Public_Text_Color forState:0];
     }else{//不包含
+        for (id subview in self.platView.subviews) {
+            if ([subview isKindOfClass:[UIButton class]]) {
+                UIButton *platBtn = (UIButton *)subview;
+                platBtn.layer.borderColor = [UIColor colorWithHexString:@"cccccc"].CGColor;
+                        [platBtn setTitleColor:Public_Text_Color forState:0];
+            }
+        }
         _model.platType = btn.titleLabel.text;
         [btn setTitleColor:Public_Red_Color forState:0];
         btn.layer.borderColor = Public_Red_Color.CGColor;
+         self.platLabel.text = _model.platType;
     }
-     self.platLabel.text = _model.platType;
+    
 }
 -(void)regionBtnClick:(id)sender
 {

@@ -43,11 +43,16 @@
     self.icon.layer.cornerRadius = 27;
     self.icon.layer.masksToBounds = YES;
     self.name1.text = model.nikeName;
-    if (model.expert) {
+   // if (model.expert) {
+    if (model.academy.length>0) {
          self.name2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",model.academy];
     }else{
-        self.name2.text = model.academy;
+        self.name2.text = @"带货达人";
     }
+    
+//    }else{
+//        self.name2.text = model.academy;
+//    }
    
     [self.name1 sizeToFit];
     self.name2.x = _name1.right+10;

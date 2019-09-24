@@ -65,8 +65,12 @@
     }else{
         self.region_daren.text = @"• 带货达人";
 }
-    self.community.text = [NSString stringWithFormat:@"%@毕业生",model.academy];
-    
+    if (model.academy.length>0) {
+         self.community.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",model.academy];
+    }else{
+        self.community.text = @"带货达人";
+    }
+      self.collection.text=  [NSString stringWithFormat:@"%ld收藏  |  %ld点赞",model.collect,model.praise];
     CGFloat fanLbaelWid = UI_SCREEN_WIDTH/(model.fansInfo.count);
     for(int i =0;i<model.fansInfo.count;i++){
         NSString *plat = [model.fansInfo[i] objectForKey:@"name"];
@@ -108,7 +112,7 @@
         self.vipimg.x = _gradeName.right+10;
         self.gradeTime.text=commentDate;
         self.gradeStr.text = content.length>0?content:tags;
-          self.collection.text=  [NSString stringWithFormat:@"%ld收藏  |  %ld点赞",model.collect,model.praise];
+      
     }
 }
 - (IBAction)introAction:(id)sender {

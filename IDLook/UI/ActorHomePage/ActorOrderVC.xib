@@ -87,7 +87,7 @@
                                     <color key="textColor" red="0.27450980392156865" green="0.27450980392156865" blue="0.27450980392156865" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="U0S-u2-IgX">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_home.png" id="U0S-u2-IgX">
                                     <rect key="frame" x="12" y="44" width="42" height="42"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <userDefinedRuntimeAttributes>
@@ -327,6 +327,7 @@
     </objects>
     <resources>
         <image name="account_add" width="18" height="18"/>
+        <image name="default_home.png" width="73.5" height="61"/>
         <image name="insurance_tan" width="17" height="17"/>
     </resources>
 </document>
