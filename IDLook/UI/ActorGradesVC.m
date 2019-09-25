@@ -21,6 +21,7 @@
      [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"评价"]];
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
     self.table.tableFooterView = [UIView new];
+    _table.backgroundColor = [UIColor colorWithHexString:@"f2f2f2"];
     [self loadData];
 }
 -(void)loadData

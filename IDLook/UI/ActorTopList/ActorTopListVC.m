@@ -121,8 +121,9 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ActorTopCell *cell = [ActorTopCell cellWithTableView:tableView];
-   
-      cell.model = _data[indexPath.row];
+    ActorTopModel *model = _data[indexPath.row];
+    model.index = indexPath.row;
+      cell.model = model;
    
    return cell;
 }

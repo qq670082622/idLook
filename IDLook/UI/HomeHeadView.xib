@@ -45,22 +45,22 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <view contentMode="scaleToFill" id="9r6-w9-aUt">
-                            <rect key="frame" x="94" y="0.0" width="94" height="100"/>
+                            <rect key="frame" x="140" y="0.0" width="95" height="100"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_home_movie" id="NPf-3c-qm9">
-                                    <rect key="frame" x="22" y="11" width="50" height="50"/>
+                                    <rect key="frame" x="23" y="11" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="影视剧演员" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yrr-gO-TK6">
-                                    <rect key="frame" x="0.0" y="69" width="94" height="30"/>
+                                    <rect key="frame" x="0.0" y="69" width="95" height="30"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Fr2-2m-m3t">
-                                    <rect key="frame" x="0.0" y="0.0" width="94" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="95" height="100"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <connections>
                                         <action selector="movieAction:" destination="-1" eventType="touchUpInside" id="rp3-W0-T0A"/>
@@ -70,7 +70,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                         <view contentMode="scaleToFill" id="t8D-v4-GwQ">
-                            <rect key="frame" x="188" y="0.0" width="94" height="100"/>
+                            <rect key="frame" x="281" y="0.0" width="94" height="100"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_home_model" id="Ify-Dz-ty0">
@@ -94,7 +94,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
-                        <view contentMode="scaleToFill" id="AzL-Et-VWi">
+                        <view hidden="YES" contentMode="scaleToFill" id="AzL-Et-VWi">
                             <rect key="frame" x="281" y="0.0" width="94" height="100"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES"/>
                             <subviews>

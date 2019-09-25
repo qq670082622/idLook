@@ -65,9 +65,12 @@
  
 
     //收藏
-    CollectionMainVC *collectVC = [[CollectionMainVC alloc] init];
-    collectVC.tabBarItem.tag=102;
-    [self addChildController:collectVC title:@"收藏" imageName:@"common_tabbar_collect_icon_n" selectedImageName:@"common_tabbar_collect_icon_s"];
+    if (![userType isEqualToString:@"3"]) {
+        CollectionMainVC *collectVC = [[CollectionMainVC alloc] init];
+        collectVC.tabBarItem.tag=102;
+        [self addChildController:collectVC title:@"收藏" imageName:@"common_tabbar_collect_icon_n" selectedImageName:@"common_tabbar_collect_icon_s"];
+    }
+   
     
     if ( [UserInfoManager getUserType] == 2) {
         //    创建自定义TabBar

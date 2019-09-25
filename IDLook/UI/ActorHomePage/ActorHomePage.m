@@ -17,6 +17,8 @@
 #import "PublishGradeViewController.h"
 #import "ActorOrderVC.h"
 #import "NoDataFootV.h"
+#import "UserDetialInfoVC.h"
+#import "ActorGradesVC.h"
 @interface ActorHomePage ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     VideoPlayer *_player;
@@ -54,6 +56,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    WeakSelf(self);
 //    self.orderBtn.layer.cornerRadius = 6;
 //    self.orderBtn.layer.masksToBounds = YES;
     _videoDic = [NSDictionary new];
@@ -70,6 +73,16 @@
     self.topHeight=412;
    [self backTopBtn];
     self.topV = [[ActorHomePageTopV alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, _topHeight)];
+    _topV.introDetail = ^{
+        UserDetialInfoVC *infoVC=[[UserDetialInfoVC alloc]init];
+        infoVC.info=weakself.userModel;
+        [weakself.navigationController pushViewController:infoVC animated:YES];
+    };
+    _topV.checkGrade = ^{
+        ActorGradesVC *gradeVC = [[ActorGradesVC alloc]init];
+        gradeVC.actorId=weakself.userModel.actorId;
+        [weakself.navigationController pushViewController:gradeVC animated:YES];
+    };
     NSDictionary *arg = @{
                           @"actorId":@(_actorId),
                           @"userId":@([[UserInfoManager getUserUID] integerValue])

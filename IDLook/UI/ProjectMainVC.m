@@ -151,7 +151,7 @@
 {
     if (!_tableV) {
         _tableV = [[CustomTableV alloc] initWithFrame:CGRectMake(0,SafeAreaTopHeight,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-SafeAreaTopHeight) style:UITableViewStyleGrouped];
-        _tableV.delegate = self;
+       _tableV.delegate = self;
         _tableV.dataSource = self;
         _tableV.showsVerticalScrollIndicator=NO;
         _tableV.showsHorizontalScrollIndicator=NO;
@@ -175,7 +175,8 @@
     if (!_bgView) {
         _bgView=[[UIView alloc]init];
         _bgView.hidden=YES;
-        UIView *bg=[[UIView alloc]initWithFrame:CGRectMake(12, 0, UI_SCREEN_WIDTH-24, UI_SCREEN_HEIGHT-(120+SafeAreaTabBarHeight_IphoneX)-SafeAreaTopHeight-10)];
+//        UIView *bg=[[UIView alloc]initWithFrame:CGRectMake(12, 0, UI_SCREEN_WIDTH-24, UI_SCREEN_HEIGHT-(120+SafeAreaTabBarHeight_IphoneX)-SafeAreaTopHeight-10)];
+          UIView *bg=[[UIView alloc]initWithFrame:CGRectMake(12, 0, UI_SCREEN_WIDTH-24, UI_SCREEN_HEIGHT-SafeAreaTopHeight)];
         [_bgView addSubview:bg];
         bg.backgroundColor=[UIColor whiteColor];
         bg.layer.cornerRadius=6;
@@ -292,7 +293,8 @@
     {
         [self.topV reloadUIWithType:1 withProjectInfo:self.dsm.projectInfo withState:self.currIndexState];
         self.topV.frame=CGRectMake(0, 0, UI_SCREEN_WIDTH,190+SafeAreaTabBarHeight_IphoneX);
-        self.tableV.frame=CGRectMake(0,120+SafeAreaTabBarHeight_IphoneX,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-(120+SafeAreaTabBarHeight_IphoneX)-SafeAreaTopHeight);
+     //   self.tableV.frame=CGRectMake(0,120+SafeAreaTabBarHeight_IphoneX,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-(120+SafeAreaTabBarHeight_IphoneX)-SafeAreaTopHeight);  底部有tabbar
+           self.tableV.frame=CGRectMake(0,120+SafeAreaTabBarHeight_IphoneX,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-120-SafeAreaTabBarHeight_IphoneX);//底部无tabbar
         [self.tableV hideNoDataScene];
     }
 }

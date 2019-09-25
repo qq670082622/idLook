@@ -454,7 +454,8 @@
         }
         else if([info.subState isEqualToString:@"wait_actor_author"])
         {
-            array=@[@{@"title":@"催签字",@"width":@(56),@"type":@(ProjectBtnTypePortraitQuickly)},
+            array=@[@{@"title":@"预览",@"width":@(44),@"type":@(ProjectBtnTypePortraitLook)},
+                   @{@"title":@"催签字",@"width":@(56),@"type":@(ProjectBtnTypePortraitQuickly)},
                     @{@"title":@"联系脸探",@"width":@(68),@"type":@(ProjectBtnTypeContact)}];
         }
         else if([info.subState isEqualToString:@"finish"])
