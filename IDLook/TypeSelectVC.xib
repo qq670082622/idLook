@@ -28,6 +28,7 @@
                     <rect key="frame" x="40" y="348" width="290" height="90"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                    <inset key="titleEdgeInsets" minX="-85" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="我是演员" backgroundImage="identity_bg_unclick">
                         <color key="titleColor" red="0.99607843137254903" green="0.58823529411764708" blue="0.44313725490196076" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -39,6 +40,7 @@
                     <rect key="frame" x="40" y="240" width="290" height="90"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                    <inset key="titleEdgeInsets" minX="-85" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="我要买广告演员" backgroundImage="identity_bg_unclick">
                         <color key="titleColor" red="0.99607843139999996" green="0.58823529409999997" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -50,6 +52,7 @@
                     <rect key="frame" x="40" y="134" width="290" height="90"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                    <inset key="titleEdgeInsets" minX="-85" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="我要买带货达人" backgroundImage="identity_bg_unclick">
                         <color key="titleColor" red="0.99607843139999996" green="0.58823529409999997" blue="0.4431372549" alpha="1" colorSpace="calibratedRGB"/>
                     </state>

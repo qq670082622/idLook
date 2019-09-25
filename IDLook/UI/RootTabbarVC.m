@@ -44,6 +44,8 @@
 //    }
     NSString *userType = [WriteFileManager userDefaultForKey:@"userType"];
 //    userType 户自定义类型 0=未选择 1=电商 2=制片 3=演员
+//    买家是 达人。演员 收藏 我
+//    演员 是 演员 达人 通告 收藏 我
      //首页
     HomeMainVC *homeVC = [[HomeMainVC alloc] init];
         BuyerHomeVC *buy = [BuyerHomeVC new];
@@ -81,7 +83,11 @@
         AnnunciateVC *ann = [AnnunciateVC new];
          [self addChildController:ann title:@"通告" imageName:@"" selectedImageName:@""];
     }
-   
+    if ([userType isEqualToString:@"3"]) {
+        CollectionMainVC *collectVC = [[CollectionMainVC alloc] init];
+        collectVC.tabBarItem.tag=102;
+        [self addChildController:collectVC title:@"收藏" imageName:@"common_tabbar_collect_icon_n" selectedImageName:@"common_tabbar_collect_icon_s"];
+    }
     
     //消息
 //    MsgMainVC *msgVC = [[MsgMainVC alloc] init];

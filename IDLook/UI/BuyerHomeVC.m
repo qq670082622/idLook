@@ -41,7 +41,10 @@
     
     CGFloat y = [UIApplication sharedApplication].statusBarFrame.size.height==20?-20:-44;
     CGFloat hei = [UIApplication sharedApplication].statusBarFrame.size.height==20?-46:-103;
-    _tableV.frame = CGRectMake(0,y,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT+hei);
+    if (y==-20 && UI_SCREEN_WIDTH==375) {
+        hei+=60;
+    }
+   _tableV.frame = CGRectMake(0,y,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT+hei);
     _tableV.height = UI_SCREEN_HEIGHT+hei;
      _tableV.separatorStyle=UITableViewCellSeparatorStyleNone;
     _tableV.showsVerticalScrollIndicator=NO;
@@ -94,6 +97,7 @@
         if (success) {
             NSDictionary *body = object[@"body"];
             [WriteFileManager saveObject:body name:@"homeConfig"];
+            [self.tableV reloadData];
         }
     }];
 }
@@ -155,7 +159,7 @@ bannerView.clickBannerWithDictionary = ^(NSDictionary * _Nonnull dic) {
         ActorSearchListvc *searchList = [ActorSearchListvc new];
         searchList.conditionModel = weakself.conditionModel;
         searchList.hidesBottomBarWhenPushed = YES;
-        [weakself.navigationController pushViewController:searchList animated:YES];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+        [weakself.navigationController pushViewController:searchList animated:YES];
     };
     return cell;
 }

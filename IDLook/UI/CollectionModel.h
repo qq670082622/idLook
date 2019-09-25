@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy)NSString *headMini;
 @property(nonatomic,copy)NSString *nickName;
 @property(nonatomic,assign)NSInteger userId;
+@property(nonatomic,assign)NSInteger expert;
 @end
 
 NS_ASSUME_NONNULL_END

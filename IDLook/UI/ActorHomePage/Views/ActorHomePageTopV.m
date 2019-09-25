@@ -86,8 +86,13 @@
         fanLabel.attributedText=attStr;
         CGFloat fx = i*fanLbaelWid;
         fanLabel.frame = CGRectMake(fx, 0, fanLbaelWid, 43);
+        if (model.fansInfo.count==1) {
+            fanLabel.frame = CGRectMake(16, 0, UI_SCREEN_WIDTH/3, 43);
+            fanLabel.textAlignment = NSTextAlignmentLeft;
+        }
         [self.fansView addSubview:fanLabel];
     }
+    
     self.intro1.text=[NSString stringWithFormat:@"身高：%ldcm    体重：%ldkg",model.height,model.weight];
     self.intro2.text = [NSString stringWithFormat:@"代表作品:%@",model.representativeWork.length>0?model.representativeWork:@"暂无"];
     

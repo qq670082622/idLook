@@ -13,6 +13,8 @@
 #import "NoVipPopV.h"
 @interface ActorSearchListvc ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet CustomTableV *tableV;
+@property (weak, nonatomic) IBOutlet UILabel *searchResult;
+
 @property(nonatomic,strong)NSMutableArray *dataSource;
 @property(nonatomic,assign)NSInteger sortPage;//页码
 @end
@@ -71,6 +73,7 @@
                 [_dataSource addObject:asModel];
             }
             [self.tableV footerEndRefreshing];
+            self.searchResult.text = [NSString stringWithFormat:@"共%ld个搜索结果",_dataSource.count];
             [self.tableV reloadData];
         }
     } ];
@@ -96,6 +99,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    WeakSelf(self);
     NSInteger level = [UserInfoManager getUserVip];
     if (level != 301) {
         NoVipPopV *pop = [[NoVipPopV alloc] init];
@@ -117,6 +121,9 @@
     ActorHomePage *hmpg = [ActorHomePage new];
     ActorSearchModel *model = _dataSource[indexPath.row];
     hmpg.actorId = model.userId;
+    hmpg.reloadCell = ^(NSInteger index) {
+        [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    };
     hmpg.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:hmpg animated:YES];
 }

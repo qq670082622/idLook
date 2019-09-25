@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ActorHomePage : UIViewController
 @property(nonatomic,assign)NSInteger actorId;
 @property(nonatomic,strong)UserDetialInfoM *userModel;
+@property(nonatomic,copy)void(^reloadCell)(NSInteger index);
 @end
 
 NS_ASSUME_NONNULL_END

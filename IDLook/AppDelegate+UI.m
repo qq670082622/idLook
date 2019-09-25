@@ -129,6 +129,9 @@
                  [WriteFileManager userDefaultSetObj:[NSString stringWithFormat:@"%ld",userDefinedType] WithKey:@"userType"];
                 [self tabbarRoot];
             }
+        }else{//请求失败默认一个电商
+            [WriteFileManager userDefaultSetObj:@"1" WithKey:@"userType"];
+            [self tabbarRoot];
         }
     }];
    

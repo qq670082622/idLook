@@ -166,7 +166,7 @@
         NSDictionary *actorInfo = (NSDictionary*)safeObjectForKey(dic, @"actorInfo");   //艺人信心
         NSDictionary *buyerInfo = (NSDictionary*)safeObjectForKey(dic, @"buyerInfo");   //买家信息
         NSDictionary *userExtensionInfo = (NSDictionary*)safeObjectForKey(dic, @"userExtensionInfo");   //拓展信息
-
+    self.expert = (NSString *)safeObjectForKey(dic, @"expert");
 //        NSDictionary *tokenInfo = (NSDictionary*)safeObjectForKey(dic, @"tokenInfo");   //token信息
         
         //基本信息
@@ -176,7 +176,7 @@
         self.status=[(NSNumber *)safeObjectForKey(userBasicInfo, @"status") integerValue];
          self.vipLevel=[(NSNumber *)safeObjectForKey(userBasicInfo, @"vipLevel") integerValue];
         self.discount=[(NSNumber *)safeObjectForKey(userBasicInfo, @"discount") floatValue];
-        
+       
         if (self.type==1) {  //购买方
             self.address = (NSString *)safeObjectForKey(buyerInfo, @"address");
             self.head    = (NSString *)safeObjectForKey(buyerInfo, @"avatar");

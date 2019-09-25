@@ -10,6 +10,8 @@
 @interface ActorTopCell()
 @property (weak, nonatomic) IBOutlet UIImageView *pic;
 @property (weak, nonatomic) IBOutlet UIImageView *topIcon;
+@property (weak, nonatomic) IBOutlet UILabel *topLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UILabel *praise;
 @property (weak, nonatomic) IBOutlet UILabel *focus;
@@ -44,37 +46,48 @@
         self.topIcon.image = [UIImage imageNamed:@"leaderboard_level2"];
     }else if (model.index==2){
         self.topIcon.image = [UIImage imageNamed:@"leaderboard_level3"];
+    }else{
+        NSString *topStr = [NSString stringWithFormat:@"%ld",model.index+1];
+        self.topIcon.image = [UIImage imageNamed:@"leaderboard_level4"];
+        self.topLabel.text = topStr;
     }
     
     self.title.text = model.title;
     
     NSDictionary *dic1 = [model.tags objectAtIndex:0];
-    double count1 = [dic1[@"tagValue"] doubleValue];
+    NSString *count1 = dic1[@"tagValue"];
     NSString *units1 = dic1[@"tagUnits"];
      NSString *name1 = dic1[@"name"];
-    NSString *priseStr = [NSString stringWithFormat:@"%.1f%@%@",count1,units1,name1];
+    NSString *priseStr = [NSString stringWithFormat:@"%@%@%@",count1,units1,name1];
     NSMutableAttributedString * attpriseStr = [[NSMutableAttributedString alloc] initWithString:priseStr];
-    [attpriseStr addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#ff4a57"],NSFontAttributeName:[UIFont systemFontOfSize:14.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,5)];
+    [attpriseStr addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#ff4a57"],NSFontAttributeName:[UIFont systemFontOfSize:14.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,priseStr.length-2)];
     self.praise.attributedText=attpriseStr;
     
     NSDictionary *dic2 = [model.tags objectAtIndex:1];
-    double count2 = [dic2[@"tagValue"] doubleValue];
+    NSString *count2 = dic2[@"tagValue"];
     NSString *units2 = dic2[@"tagUnits"];
     NSString *name2 = dic2[@"name"];
-    NSString *focusStr = [NSString stringWithFormat:@"%.1f%@%@",count2,units2,name2];
+    NSString *focusStr = [NSString stringWithFormat:@"%@%@%@",count2,units2,name2];
   NSMutableAttributedString * attfocusStr = [[NSMutableAttributedString alloc] initWithString:focusStr];
-    [attfocusStr addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#ff4a57"],NSFontAttributeName:[UIFont systemFontOfSize:14.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,5)];
+    [attfocusStr addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#ff4a57"],NSFontAttributeName:[UIFont systemFontOfSize:14.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,focusStr.length-2)];
     self.focus.attributedText=attfocusStr;
     
     NSDictionary *dic3 = [model.tags objectAtIndex:2];
-    double count3 = [dic3[@"tagValue"] doubleValue];
+    NSString *count3 = dic3[@"tagValue"];
     NSString *units3 = dic3[@"tagUnits"];
     NSString *name3 = dic3[@"name"];
-    NSString *fansStr = [NSString stringWithFormat:@"%.1f%@%@",count3,units3,name3];
+    NSString *fansStr = [NSString stringWithFormat:@"%@%@%@",count3,units3,name3];
    NSMutableAttributedString * attfansStr = [[NSMutableAttributedString alloc] initWithString:fansStr];
-    [attfansStr addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#ff4a57"],NSFontAttributeName:[UIFont systemFontOfSize:14.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,5)];
+    [attfansStr addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#ff4a57"],NSFontAttributeName:[UIFont systemFontOfSize:14.0 weight:UIFontWeightMedium]} range:NSMakeRange(0,fansStr.length-2)];
     self.fans.attributedText=attfansStr;
     
+    [self.praise sizeToFit];
+    [self.focus sizeToFit];
+    [self.fans sizeToFit];
+    CGFloat mergin =  (UI_SCREEN_WIDTH-110-25-_praise.width-_focus.width-_fans.width)/2;//25是右间距 mergin是label之间的间距
+    _praise.x = 110;
+    _focus.x = _praise.right + mergin;
+    _fans.x = _focus.right + mergin;
     self.userAvatar.layer.cornerRadius = 8;
     self.userAvatar.layer.masksToBounds = YES;
     [self.userAvatar sd_setImageWithUrlStr:model.userHeadPortrait placeholderImage:[UIImage imageNamed:@"default_home"]];

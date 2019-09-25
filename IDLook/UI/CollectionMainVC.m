@@ -9,6 +9,7 @@
 #import "CollectionMainVC.h"
 #import "CollectionCustomCell.h"
 #import "CollectionModel.h"
+#import "ActorHomePage.h"
 static NSString *cellReuseIdentifer = @"cellReuseIdentifer";
 
 @interface CollectionMainVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,CustomCollectViewDelegate>
@@ -66,7 +67,8 @@ static NSString *cellReuseIdentifer = @"cellReuseIdentifer";
                 NSDictionary *modelDic = array[i];
                 NSDictionary *dic2 = @{@"nickname":modelDic[@"nickName"],
                                        @"headporurl":modelDic[@"headMini"],
-                                       @"id":[NSString stringWithFormat:@"%@",modelDic[@"userId"]]
+                                       @"id":[NSString stringWithFormat:@"%@",modelDic[@"userId"]],
+                                       @"expert":@([modelDic[@"expert"]integerValue])
                                        };
                 UserInfoM *info = [[UserInfoM alloc]initWithDic:dic2];
                 info.isCollection=YES;
@@ -104,7 +106,11 @@ static NSString *cellReuseIdentifer = @"cellReuseIdentifer";
         [flowLayout setSectionInset:UIEdgeInsetsMake(15, 15, 15,15)];
         
         [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-        _collectionView = [[CustomCollectV alloc] initWithFrame:CGRectMake(0,0,UI_SCREEN_WIDTH,UI_SCREEN_HEIGHT-SafeAreaTopHeight-UI_TAB_BAR_HEIGHT) collectionViewLayout:flowLayout];
+        CGFloat hei = UI_SCREEN_HEIGHT-SafeAreaTopHeight-UI_TAB_BAR_HEIGHT ;
+        if (public_isX) {
+             hei = UI_SCREEN_HEIGHT-SafeAreaTopHeight-UI_TAB_BAR_HEIGHT - 20;
+        }
+        _collectionView = [[CustomCollectV alloc] initWithFrame:CGRectMake(0,0,UI_SCREEN_WIDTH,hei) collectionViewLayout:flowLayout];
         _collectionView.dataSource=self;
         _collectionView.delegate=self;
         _collectionView.dele=self;
@@ -169,8 +175,20 @@ static NSString *cellReuseIdentifer = @"cellReuseIdentifer";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    UserInfoVC *infoVC = [[UserInfoVC alloc]init];
+    WeakSelf(self);
     UserInfoM *info = self.dataSource[indexPath.row];
+    if (info.expert==1) {
+        ActorHomePage *hmpg = [ActorHomePage new];
+      
+        hmpg.actorId = info.userId;
+        hmpg.reloadCell = ^(NSInteger index) {
+            [weakself refreshUI];
+        };
+        hmpg.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:hmpg animated:YES];
+        return;
+    }
+      UserInfoVC *infoVC = [[UserInfoVC alloc]init];
     UserDetialInfoM *uInfo = [[UserDetialInfoM alloc]init];
     uInfo.actorId =[info.UID integerValue ];
     infoVC.info =uInfo;

@@ -44,6 +44,9 @@
     [self.actorBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_click"] forState:0];//选中
     [self.zhizuoBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_unclick"] forState:0];
     [self.buyerBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_unclick"] forState:0];
+    [self setTextColorWhite:YES withBtn:_actorBtn];
+    [self setTextColorWhite:NO withBtn:_zhizuoBtn];
+    [self setTextColorWhite:NO withBtn:_buyerBtn];
 }
 
 - (IBAction)zhizuoAction:(id)sender {
@@ -51,6 +54,9 @@
     [self.actorBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_unclick"] forState:0];
     [self.zhizuoBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_click"] forState:0];//选中
     [self.buyerBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_unclick"] forState:0];
+    [self setTextColorWhite:NO withBtn:_actorBtn];
+    [self setTextColorWhite:YES withBtn:_zhizuoBtn];
+    [self setTextColorWhite:NO withBtn:_buyerBtn];
 }
 
 - (IBAction)buyerAction:(id)sender {
@@ -58,8 +64,20 @@
     [self.actorBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_unclick"] forState:0];
     [self.zhizuoBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_unclick"] forState:0];
     [self.buyerBtn setBackgroundImage:[UIImage imageNamed:@"identity_bg_click"] forState:0];//选中
+    [self setTextColorWhite:NO withBtn:_actorBtn];
+    [self setTextColorWhite:NO withBtn:_zhizuoBtn];
+    [self setTextColorWhite:YES withBtn:_buyerBtn];
 }
 
+-(void)setTextColorWhite:(BOOL)isWhite withBtn:(UIButton *)button
+{
+    if (isWhite) {
+         [button setTitleColor:[UIColor whiteColor] forState:0];
+    }else{
+         [button setTitleColor:[UIColor colorWithHexString:@"fe9671"] forState:0];
+    }
+   
+}
 - (IBAction)ensure:(id)sender {
     self.selectType(_type);
 }

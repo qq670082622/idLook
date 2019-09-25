@@ -16,7 +16,7 @@
 
 @property (nonatomic,assign) NSInteger type;           //身份
 @property (nonatomic,assign) NSInteger identity;           //身份
-
+@property (nonatomic,assign) NSInteger expert;        //是否是网红
 @property (nonatomic,copy) NSString *head;          //头像
 @property (nonatomic,copy) NSString *thumHead;      //缩略头像
 @property (nonatomic,copy) NSString *nick;          //昵称

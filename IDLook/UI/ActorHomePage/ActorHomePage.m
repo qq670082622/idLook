@@ -323,6 +323,75 @@
     }
     return .1f;
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableArray *listMu = [NSMutableArray new];
+    if (_selectIndex==0) {//视频
+        NSArray *videoList = _videoDic[@"videoList"];
+        for (NSDictionary *videoDic in videoList) {
+            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+            [listMu addObject:workModel];
+        }
+        UserWorkModel *selectModel = listMu[indexPath.row];
+          [self playWorkVideoWithModel:selectModel withIndex:indexPath.row];
+   
+    }else if (_selectIndex==1){//模特卡
+        NSArray *videoList = _modelCardDic[@"videoList"];
+        for (NSDictionary *videoDic in videoList) {
+            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+            [listMu addObject:workModel];
+        }
+          [self lookPhotoWithArray:listMu WithIndex:indexPath.row];
+    }
+  
+ 
+}
+//播放视频组
+-(void)playWorkVideoWithModel:(UserWorkModel*)model withIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    UserInfoCellC *cell = [self.tableV cellForRowAtIndexPath:indexPath];
+    
+    [_player destroyPlayer];
+    _player = nil;
+    
+    _player = [[VideoPlayer alloc] init];
+    _player.videoUrl =model.url;
+    
+    [_player playerBindTableView:self.tableV currentIndexPath:indexPath];
+    _player.frame = CGRectMake(15,15, cell.contentView.bounds.size.width-30, cell.contentView.bounds.size.height-15);
+    
+    [cell.contentView addSubview:_player];
+    
+    _player.completedPlayingBlock = ^(VideoPlayer *player) {
+        [player destroyPlayer];
+        player = nil;
+    };
+    WeakSelf(self);
+    _player.dowmLoadBlock = ^{
+      
+    };
+    
+  
+}
+//查看图片大图
+-(void)lookPhotoWithArray:(NSArray*)array WithIndex:(NSInteger)index
+{
+    NSMutableArray *dataS = [NSMutableArray new];
+    for (int i=0; i<array.count; i++) {
+        UserWorkModel *model = array[i];
+        [dataS addObject:model.coverUrl];
+       }
+    
+    LookBigImageVC *lookImage=[[LookBigImageVC alloc]init];
+    lookImage.isShowDown=YES;
+    [lookImage showWithImageArray:dataS curImgIndex:index AbsRect:CGRectMake(0, 0,0,0)];
+    [self.navigationController pushViewController:lookImage animated:YES];
+    lookImage.downPhotoBlock = ^(NSInteger index) {  //下载回掉
+       
+    };
+    
+}
 //table偏移
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -508,7 +577,8 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (IBAction)videoAction:(id)sender {
-  
+    [_player destroyPlayer];
+    _player=nil;
     [UIView animateWithDuration:0.3 animations:^{
         self.line.center = CGPointMake(_videoTitle.center.x,45);
     }];
@@ -520,7 +590,8 @@
 }
 
 - (IBAction)modelCardAction:(id)sender {
-   
+    [_player destroyPlayer];
+    _player=nil;
     [UIView animateWithDuration:0.3 animations:^{
         self.line.center = CGPointMake(_modelCardLabel.center.x,45);
     }];
@@ -624,7 +695,7 @@
             
             self.collectBtn.selected=self.userModel.isCollect;
            _topV.model = self.userModel;
-            
+            self.reloadCell(0);
         }else{
             AF_SHOW_JAVA_ERROR
         }
@@ -658,6 +729,7 @@
             self.userModel.praise+=1;
             
             self.praiseBtn.selected=self.userModel.isPraise;
+             self.reloadCell(0);
            }
         else
         {
