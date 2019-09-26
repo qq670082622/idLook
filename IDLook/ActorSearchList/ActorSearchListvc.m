@@ -121,8 +121,18 @@
     ActorHomePage *hmpg = [ActorHomePage new];
     ActorSearchModel *model = _dataSource[indexPath.row];
     hmpg.actorId = model.userId;
-    hmpg.reloadCell = ^(NSInteger index) {
-        [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+    hmpg.reModel = ^(NSString * _Nonnull type, BOOL isTure) {
+          ActorSearchModel *asModel = weakself.dataSource[indexPath.row];
+        if ([type isEqualToString:@"收藏"]) {
+            if (isTure) {
+              asModel.isCollect = YES;
+            }else{
+                asModel.isCollect = NO;
+            }
+        }else{//点赞
+            asModel.isPraise = YES;
+        }
     };
     hmpg.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:hmpg animated:YES];

@@ -57,7 +57,7 @@
 -(void)setNoSystem:(BOOL)noSystem
 {
     if (noSystem) {
-        _selectImg.image = [UIImage imageNamed:@"customized_pupup_default_unclick"];
+        _selectImg.image = [UIImage imageNamed:@"bunengxuan"];
     }
 }
 - (void)awakeFromNib {

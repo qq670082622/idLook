@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign)NSInteger userId;
 @property(nonatomic,assign)BOOL isSelected;
+
+@property(nonatomic,assign)BOOL isCollect;
+@property(nonatomic,assign)BOOL isPraise;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -136,10 +136,10 @@
 {
     CollectionActorCell *cell = [CollectionActorCell cellWithTableView:tableView];
     ActorSearchModel *model = _data[indexPath.row];
+   cell.model = _data[indexPath.row];
     if ( model.userId == _noSystemId) {
         cell.noSystem = YES;
     }
-   cell.model = _data[indexPath.row];
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

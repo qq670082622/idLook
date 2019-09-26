@@ -181,8 +181,10 @@ static NSString *cellReuseIdentifer = @"cellReuseIdentifer";
         ActorHomePage *hmpg = [ActorHomePage new];
       
         hmpg.actorId = info.userId;
-        hmpg.reloadCell = ^(NSInteger index) {
-            [weakself refreshUI];
+        hmpg.reModel = ^(NSString * _Nonnull type, BOOL isTure) {
+            if ([type isEqualToString:@"收藏"]) {
+                [weakself refreshUI];
+            }
         };
         hmpg.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:hmpg animated:YES];

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
+   uuid = "92F4F174-229F-4094-A437-C4D4DE4F557A"
    type = "1"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
+            uuid = "6116F205-D791-45AE-847E-3E48D253BD1F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -16,6 +18,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "4DA09559-A5C6-4AB2-BE60-717A08571D4F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -29,6 +32,7 @@
             landmarkType = "7">
             <Locations>
                <Location
+                  uuid = "4DA09559-A5C6-4AB2-BE60-717A08571D4F - c48e8957d930bfb5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -36,7 +40,6 @@
                   moduleName = "IDLook"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wuming/idLook/IDLook/UI/AFWebAPI.m"
-                  timestampString = "591096186.7450939"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "549"
@@ -44,6 +47,7 @@
                   offsetFromSymbolStart = "268">
                </Location>
                <Location
+                  uuid = "4DA09559-A5C6-4AB2-BE60-717A08571D4F - 44a82b1a46ef88c9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -51,7 +55,6 @@
                   moduleName = "IDLook"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wuming/idLook/IDLook/UI/AFWebAPI.m"
-                  timestampString = "591096186.74652"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "549"
@@ -59,6 +62,7 @@
                   offsetFromSymbolStart = "224">
                </Location>
                <Location
+                  uuid = "4DA09559-A5C6-4AB2-BE60-717A08571D4F - e8a224d91a3a6256"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -66,7 +70,6 @@
                   moduleName = "IDLook"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wuming/idLook/IDLook/UI/AFWebAPI.m"
-                  timestampString = "591096186.74783"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "549"
@@ -79,6 +82,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "E90D65F8-86E9-4AE7-8BAF-1F59AF8B6381"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -95,6 +99,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "1035A44D-DAE2-42FC-821B-317EA86B1299"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -111,6 +116,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "2164D896-303A-4562-A861-D486910C9691"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -127,6 +133,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "ADD3FC27-14BD-4D83-947D-674C6EAD9BCD"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -143,6 +150,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "90CAC057-F8DA-4769-9327-00E2E15628BA"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -159,6 +167,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "47C79D19-F83D-4EEA-813A-26B52BE16A0D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -175,6 +184,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "1287CAA6-735C-4287-8672-F340DFCAECB0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -191,6 +201,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "34CBE7EA-BA18-474D-A378-628764B059A4"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -207,6 +218,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "86825363-04A3-4D63-8C49-2D88913C58C1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -223,6 +235,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "8D57FD4A-5ECF-430C-9B8F-6B8190EDCD7B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -239,6 +252,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "8D36DBE4-3125-4D82-ACA6-B86EBB83F672"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -255,11 +269,12 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "C728F218-AC9A-4343-B1DC-09F12A0B730A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IDLook/AppDelegate+UI.m"
-            timestampString = "591096186.328184"
+            timestampString = "591098532.713421"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
@@ -271,11 +286,12 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "4AC85373-93E4-4D48-B64E-A04845FD4755"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IDLook/AppDelegate+UI.m"
-            timestampString = "591096186.328233"
+            timestampString = "591098532.713501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "221"
@@ -287,11 +303,12 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "3181023F-6F2F-4935-86F2-4FFAF2FAA173"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "IDLook/AppDelegate+UI.m"
-            timestampString = "591096186.328269"
+            timestampString = "591098532.713553"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "216"

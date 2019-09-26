@@ -93,6 +93,12 @@
             UserDetialInfoM *model = [[UserDetialInfoM alloc]initWithDic:body];;
             _userModel = model;
             _topV.model = _userModel;
+            if (model.isCollect) {
+                [_collectBtn setSelected:YES];
+            }
+            if (model.isPraise) {
+                [_praiseBtn setSelected:YES];
+            }
             self.tableV.tableHeaderView = _topV;
             NSArray *workList = body[@"worksList"];
             for (NSDictionary *workDic in workList) {
@@ -684,18 +690,20 @@
                 [SVProgressHUD showImage:[UIImage imageNamed:@"collect_pur_h"] status:@"收藏成功"];
                 self.userModel.isCollect=YES;
                 self.userModel.collect+=1;
+                self.reModel(@"收藏", YES);
             }
             else
             {
                 [SVProgressHUD showImage:nil status:@"取消收藏"];
                 self.userModel.isCollect=NO;
                 self.userModel.collect-=1;
+                 self.reModel(@"收藏", NO);
             }
             [[NSNotificationCenter defaultCenter]postNotificationName:@"collectArtist" object:nil];  //收藏/取消成功，通知刷新收藏页面
             
             self.collectBtn.selected=self.userModel.isCollect;
            _topV.model = self.userModel;
-            self.reloadCell(0);
+           
         }else{
             AF_SHOW_JAVA_ERROR
         }
@@ -729,7 +737,7 @@
             self.userModel.praise+=1;
             
             self.praiseBtn.selected=self.userModel.isPraise;
-             self.reloadCell(0);
+              self.reModel(@"点赞", YES);
            }
         else
         {
