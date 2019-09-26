@@ -7,6 +7,7 @@
 //
 
 #import "ActorHomePageTopV.h"
+#import "YLVerticalAlignmentLabel.h"
 @interface ActorHomePageTopV()
 @property (weak, nonatomic) IBOutlet UIImageView *backImg;
 @property (weak, nonatomic) IBOutlet UIView *bgView;
@@ -21,7 +22,9 @@
 
 @property (weak, nonatomic) IBOutlet UIView *introView;
 @property (weak, nonatomic) IBOutlet UILabel *intro1;
-@property (weak, nonatomic) IBOutlet UILabel *intro2;
+//@property (weak, nonatomic) IBOutlet YLVerticalAlignmentLabel *intro2;
+@property (weak, nonatomic) IBOutlet YLVerticalAlignmentLabel *intro2;
+
 - (IBAction)introAction:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *gradeView;
@@ -95,7 +98,7 @@
     
     self.intro1.text=[NSString stringWithFormat:@"身高：%ldcm    体重：%ldkg",model.height,model.weight];
     self.intro2.text = [NSString stringWithFormat:@"代表作品:%@",model.representativeWork.length>0?model.representativeWork:@"暂无"];
-    
+    [_intro2 sizeToFit];
     if (model.lastComment!=nil) {
         NSInteger count = [model.commentInfo[@"count"]integerValue];
         self.gradeCount.text = [NSString stringWithFormat:@"评价(%ld)",count];
@@ -119,6 +122,9 @@
         self.gradeStr.text = content.length>0?content:tags;
       
     }
+    _introView.height = _intro2.bottom+15;
+    _gradeView.y = _introView.bottom+10;
+    _topVHei = _gradeView.bottom+10;
 }
 - (IBAction)introAction:(id)sender {
     self.introDetail();

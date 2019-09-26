@@ -84,7 +84,7 @@
     [self.praise sizeToFit];
     [self.focus sizeToFit];
     [self.fans sizeToFit];
-    CGFloat mergin =  (UI_SCREEN_WIDTH-110-25-_praise.width-_focus.width-_fans.width)/2;//25是右间距 mergin是label之间的间距
+    CGFloat mergin =  30;//(UI_SCREEN_WIDTH-110-25-_praise.width-_focus.width-_fans.width)/2;//25是右间距 mergin是label之间的间距
     _praise.x = 110;
     _focus.x = _praise.right + mergin;
     _fans.x = _focus.right + mergin;

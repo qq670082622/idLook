@@ -564,6 +564,7 @@
 		7C73118D2264882400973A23 /* AskPriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C73118C2264882400973A23 /* AskPriceView.m */; };
 		7C737B6723166B11005FB26A /* HomeSearchViewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C737B6523166B11005FB26A /* HomeSearchViewVC.m */; };
 		7C737B6823166B11005FB26A /* HomeSearchViewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C737B6623166B11005FB26A /* HomeSearchViewVC.xib */; };
+		7C792642233C913100A52C31 /* YLVerticalAlignmentLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C792640233C913100A52C31 /* YLVerticalAlignmentLabel.m */; };
 		7C795C60232A356C00394CB2 /* BuyerHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C795C5E232A356C00394CB2 /* BuyerHomeVC.m */; };
 		7C795C61232A356C00394CB2 /* BuyerHomeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C795C5F232A356C00394CB2 /* BuyerHomeVC.xib */; };
 		7C795C66232A583000394CB2 /* ActorSearchListvc.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C795C64232A583000394CB2 /* ActorSearchListvc.m */; };
@@ -2352,6 +2353,8 @@
 		7C737B6423166B11005FB26A /* HomeSearchViewVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeSearchViewVC.h; sourceTree = "<group>"; };
 		7C737B6523166B11005FB26A /* HomeSearchViewVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeSearchViewVC.m; sourceTree = "<group>"; };
 		7C737B6623166B11005FB26A /* HomeSearchViewVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeSearchViewVC.xib; sourceTree = "<group>"; };
+		7C792640233C913100A52C31 /* YLVerticalAlignmentLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLVerticalAlignmentLabel.m; sourceTree = "<group>"; };
+		7C792641233C913100A52C31 /* YLVerticalAlignmentLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLVerticalAlignmentLabel.h; sourceTree = "<group>"; };
 		7C795C5D232A356C00394CB2 /* BuyerHomeVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuyerHomeVC.h; sourceTree = "<group>"; };
 		7C795C5E232A356C00394CB2 /* BuyerHomeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BuyerHomeVC.m; sourceTree = "<group>"; };
 		7C795C5F232A356C00394CB2 /* BuyerHomeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuyerHomeVC.xib; sourceTree = "<group>"; };
@@ -4829,6 +4832,15 @@
 			name = ReturnKeyShare;
 			sourceTree = "<group>";
 		};
+		7C79263F233C913100A52C31 /* YLLabel */ = {
+			isa = PBXGroup;
+			children = (
+				7C792640233C913100A52C31 /* YLVerticalAlignmentLabel.m */,
+				7C792641233C913100A52C31 /* YLVerticalAlignmentLabel.h */,
+			);
+			path = YLLabel;
+			sourceTree = "<group>";
+		};
 		7C795C62232A581900394CB2 /* ActorSearchList */ = {
 			isa = PBXGroup;
 			children = (
@@ -7134,6 +7146,7 @@
 			children = (
 				7CDF979A21F831A700E06E42 /* Reachability.h */,
 				7CDF979921F831A700E06E42 /* Reachability.m */,
+				7C79263F233C913100A52C31 /* YLLabel */,
 				7C0038F42241EFE300ECE8B4 /* Devicelib */,
 				7CDF956A21F82E0500E06E42 /* AFNetworking */,
 				7CDF956621F82E0500E06E42 /* Base64 */,
@@ -9974,6 +9987,7 @@
 				385C427A2232387D00577E1C /* UserWorkModel.m in Sources */,
 				385758F9226F370900D583A4 /* AnnunciateListVC.m in Sources */,
 				7CDF971821F82E0900E06E42 /* AFSecurityPolicy.m in Sources */,
+				7C792642233C913100A52C31 /* YLVerticalAlignmentLabel.m in Sources */,
 				7CDF97A321F8389400E06E42 /* OrderDetialScriptVC.m in Sources */,
 				99F8F34720C8DFF9000F01B2 /* UploadWorksCellC.m in Sources */,
 				9985AB7E20AB108700A55E0E /* EditMainCellA.m in Sources */,
@@ -10321,6 +10335,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0.1;
 				DEVELOPMENT_TEAM = JH8U66U63F;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -10378,6 +10393,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0.1;
 				DEVELOPMENT_TEAM = JH8U66U63F;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

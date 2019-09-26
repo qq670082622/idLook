@@ -187,6 +187,7 @@
      [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"accessToken"];
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"Userinfo_status"];
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"Userinfo_discount"];
+     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"vipLevel"];//vipLevel
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

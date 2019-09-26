@@ -58,8 +58,11 @@
                     icon.frame = CGRectMake(20+i*(mergin+44), 51, 44, 44);
                     name.frame = CGRectMake(20+i*(mergin+44)-(mergin/2), 99, 44+mergin, 24);
                 }else{
-                    icon.frame = CGRectMake(20+i*(mergin+44), 127, 44, 44);
-                    name.frame = CGRectMake(20+i*(mergin+44)-(mergin/2), 176, 44+mergin, 24);
+                    if (i==12) {
+                        break;
+                    }
+                    icon.frame = CGRectMake(20+(i-6)*(mergin+44), 127, 44, 44);
+                    name.frame = CGRectMake(20+(i-6)*(mergin+44)-(mergin/2), 176, 44+mergin, 24);
                 }
                 [self.darenView addSubview:icon];
                 [self.darenView addSubview:name];

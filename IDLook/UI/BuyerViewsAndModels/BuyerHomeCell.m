@@ -382,6 +382,8 @@
 }
 
 - (IBAction)searchAction:(id)sender {
+    _model.age_min = _rangeSlider.lowerValue;
+    _model.age_max = _rangeSlider.upperValue;
     self.cellSelectCondition(_model);
 }
 @end

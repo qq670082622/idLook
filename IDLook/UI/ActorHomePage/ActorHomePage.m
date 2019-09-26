@@ -70,8 +70,9 @@
     self.view.backgroundColor=Public_Background_Color;
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultWhiteButtonWithTarget:self action:@selector(onGoback)]]];
     self.selectIndex=0;
-    self.topHeight=412;
-   [self backTopBtn];
+     [self backTopBtn];
+    self.topHeight=359;//412
+  
     self.topV = [[ActorHomePageTopV alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, _topHeight)];
     _topV.introDetail = ^{
         UserDetialInfoVC *infoVC=[[UserDetialInfoVC alloc]init];
@@ -93,6 +94,7 @@
             UserDetialInfoM *model = [[UserDetialInfoM alloc]initWithDic:body];;
             _userModel = model;
             _topV.model = _userModel;
+              _topV.height =  _topV.topVHei;
             if (model.isCollect) {
                 [_collectBtn setSelected:YES];
             }
@@ -462,7 +464,7 @@
 {
     NSLog(@"%f",offY);//cell=208
     
-    NSInteger passCount = (offY-530)/208;
+    NSInteger passCount = (offY-467)/208;//(offY-530)/208
     passCount++;
     //快要显示哪个cell，对应的scroll里的小按钮就被选中
     for (UIButton *tyBtn in _typeScroll.subviews) {

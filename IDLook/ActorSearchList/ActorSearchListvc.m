@@ -67,6 +67,7 @@
             if (type==RefreshTypePullDown) {
                 [self.dataSource removeAllObjects];
             }
+            [_tableV hideNoDataScene];
             NSArray *list = object[@"body"];
             for (NSDictionary *actorDic in list) {
                 ActorSearchModel *asModel = [ActorSearchModel yy_modelWithDictionary:actorDic];
@@ -74,6 +75,9 @@
             }
             [self.tableV footerEndRefreshing];
             self.searchResult.text = [NSString stringWithFormat:@"共%ld个搜索结果",_dataSource.count];
+            if (_dataSource.count==0) {
+                [_tableV showWithNoDataType:NoDataTypeSearchResult];
+            }
             [self.tableV reloadData];
         }
     } ];

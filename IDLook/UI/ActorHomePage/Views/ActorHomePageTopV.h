@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)UserDetialInfoM *model;
 @property(nonatomic,copy)void(^introDetail)(void);
 @property(nonatomic,copy)void(^checkGrade)(void);
+@property(nonatomic,assign)NSInteger topVHei;
 @end
 
 NS_ASSUME_NONNULL_END
