@@ -61,8 +61,10 @@
     }else if ([userType isEqualToString:@"3"]){
          [self addChildController:homeVC title:@"广告演员" imageName:@"common_tabbar_acto_icon_n" selectedImageName:@"common_tabbar_acto_icon_s"];
          [self addChildController:buy title:@"带货达人" imageName:@"common_tabbar_talent_icon_n" selectedImageName:@"common_tabbar_talent_icon_s"];
+    }else if ([userType isEqualToString:@"0"]){
+          [self addChildController:buy title:@"带货达人" imageName:@"common_tabbar_talent_icon_n" selectedImageName:@"common_tabbar_talent_icon_s"];
+                [self addChildController:homeVC title:@"广告演员" imageName:@"common_tabbar_acto_icon_n" selectedImageName:@"common_tabbar_acto_icon_s"];
     }
-
     
  
 

@@ -119,10 +119,9 @@
                     NSDictionary * arg2 = @{@"userDefinedType":@(type)};
                     [AFWebAPI_JAVA setUserTypeWithArg:arg2 callBack:^(BOOL success, id  _Nonnull object) {
                         if (success) {
+                               [WriteFileManager userDefaultSetObj:[NSString stringWithFormat:@"%ld",type] WithKey:@"userType"];
                             [weakself tabbarRoot];
-                            [WriteFileManager userDefaultSetObj:[NSString stringWithFormat:@"%ld",type] WithKey:@"userType"];
-
-                        }
+                         }
                     }];
                 };
             }else{

@@ -315,6 +315,38 @@
             endingLineNumber = "216"
             landmarkName = "-processAutoLoginWithType:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3181023F-6F2F-4935-86F2-4FFAF2FAA173 - 144d232bd4cbf8fa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__44-[AppDelegate(UI) processAutoLoginWithType:]_block_invoke"
+                  moduleName = "IDLook"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wuming/idLook/IDLook/AppDelegate+UI.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "1320">
+               </Location>
+               <Location
+                  uuid = "3181023F-6F2F-4935-86F2-4FFAF2FAA173 - 144d232bd4cbf8fa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__44-[AppDelegate(UI) processAutoLoginWithType:]_block_invoke"
+                  moduleName = "IDLook"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wuming/idLook/IDLook/AppDelegate+UI.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "1340">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

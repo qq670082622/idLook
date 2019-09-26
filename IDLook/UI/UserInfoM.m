@@ -20,7 +20,7 @@
     
         self.identity  = [(NSNumber *)safeObjectForKey(dic, @"identity") integerValue];
         self.type = [(NSNumber *)safeObjectForKey(dic, @"type") integerValue];
-        
+         self.expert = [(NSNumber *)safeObjectForKey(dic, @"expert") integerValue];
 
         self.nick    = (NSString *)safeObjectForKey(dic, @"nickname");
         self.name    = (NSString *)safeObjectForKey(dic, @"name");
@@ -166,7 +166,7 @@
         NSDictionary *actorInfo = (NSDictionary*)safeObjectForKey(dic, @"actorInfo");   //艺人信心
         NSDictionary *buyerInfo = (NSDictionary*)safeObjectForKey(dic, @"buyerInfo");   //买家信息
         NSDictionary *userExtensionInfo = (NSDictionary*)safeObjectForKey(dic, @"userExtensionInfo");   //拓展信息
-    self.expert = (NSString *)safeObjectForKey(dic, @"expert");
+    self.expert = [(NSNumber *)safeObjectForKey(dic, @"expert") integerValue];
 //        NSDictionary *tokenInfo = (NSDictionary*)safeObjectForKey(dic, @"tokenInfo");   //token信息
         
         //基本信息

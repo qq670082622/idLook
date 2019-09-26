@@ -179,9 +179,12 @@ static NSString *cellReuseIdentifer = @"cellReuseIdentifer";
     UserInfoM *info = self.dataSource[indexPath.row];
     if (info.expert==1) {
         ActorHomePage *hmpg = [ActorHomePage new];
-      
-        hmpg.actorId = info.userId;
-        hmpg.reModel = ^(NSString * _Nonnull type, BOOL isTure) {
+        if (info.userId>0) {
+             hmpg.actorId = info.userId;
+        }else{
+            hmpg.actorId = [info.UID integerValue];
+        }
+       hmpg.reModel = ^(NSString * _Nonnull type, BOOL isTure) {
             if ([type isEqualToString:@"收藏"]) {
                 [weakself refreshUI];
             }
