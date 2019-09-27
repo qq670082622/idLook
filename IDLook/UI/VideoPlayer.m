@@ -66,7 +66,7 @@ static CGFloat const playBtnSideLength = 60.0f;
 - (instancetype)init {
     if (self = [super init]) {
         
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor blackColor];
         
         self.keyWindow = [UIApplication sharedApplication].keyWindow;
 
