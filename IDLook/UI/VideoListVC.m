@@ -660,7 +660,10 @@
         _tableV.backgroundColor=[UIColor clearColor];
         [_tableV addHeaderWithTarget:self action:@selector(pullDownToRefresh:)];
         [_tableV addFooterWithTarget:self action:@selector(pullUpToRefresh:)];
-        _tableV.tableHeaderView=[self tableVHead];
+         if ( [UserInfoManager getUserType] != 2) {//演员不需要搜索框
+               _tableV.tableHeaderView=[self tableVHead];
+                }
+       
         _tableV.animatedStyle = TABTableViewAnimationStart;
     
     }
@@ -742,6 +745,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+     if ( [UserInfoManager getUserType] == 2) {//演员不需要搜索框
+           
+              return .1f;
+            }
     return 48.f;
 }
 

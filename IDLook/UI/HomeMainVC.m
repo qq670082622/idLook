@@ -211,11 +211,15 @@
     CGFloat searchHeight = 280;
     CGFloat bgHeight = searchHeight+flowHeight*0.7;
     UIView *bg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, bgHeight+10)];//300是搜索框高度 72是重合高度
+    if ( [UserInfoManager getUserType] == 2) {//演员不需要搜索框
+         CGFloat flowHeight = UI_SCREEN_WIDTH*0.6;
+            bg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, flowHeight+10)];
+         }
     bg.backgroundColor=[UIColor whiteColor];
 //    AdvBannerView *bannerView = [[AdvBannerView alloc]initWithFrame:CGRectMake(0,0, UI_SCREEN_WIDTH, (260.0/750.0)*(UI_SCREEN_WIDTH))] ;
 //    bannerView.rollInterval=2.0;
 //    bannerView.animateInterval=0.5;
-    HomeBannerView *bannerView = [[HomeBannerView alloc] initWithFrame:CGRectMake(0,0, UI_SCREEN_WIDTH, bgHeight+10)];//banner是bg的子视图 bg这个view才是headerView
+    HomeBannerView *bannerView = [[HomeBannerView alloc] initWithFrame:CGRectMake(0,0, UI_SCREEN_WIDTH, bg.height)];//banner是bg的子视图 bg这个view才是headerView
     bannerView.delegate = self;
     bannerView.conditionModel = _conditionModel;
     [bg addSubview:bannerView];
@@ -922,6 +926,9 @@
     }
     return _backTopBtn;
 }
+/*
+
+ */
 //回到顶部
 -(void)backToTopAction
 {

@@ -30,12 +30,15 @@
    [self addSubview:self.pageFlowView];
     _images = [NSMutableArray new];
     [self.pageFlowView reloadData];//刷新轮播
+      if ( [UserInfoManager getUserType] == 2) {//演员不需要搜索框
+          return;
+      }
     for (UIView *suview in self.subviews) {
         if ([suview isKindOfClass:[HomeSearchView class]]) {
             [suview removeFromSuperview];
         }
     }
-  
+
 //添加搜索大框
     HomeSearchView *searchView = [[HomeSearchView alloc] initWithFrame:CGRectMake(15, _pageFlowView.bottom-_pageFlowView.height*0.3, UI_SCREEN_WIDTH-30, 280)];
     searchView.frame = CGRectMake(15, _pageFlowView.bottom-_pageFlowView.height*0.3, UI_SCREEN_WIDTH-30, 280);

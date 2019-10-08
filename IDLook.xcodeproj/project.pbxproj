@@ -2259,7 +2259,7 @@
 		7C4A728121F70B9600B9F30B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		7C4A728321F70B9C00B9F30B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7C538C882330BC0500A3EEBB /* ActorTopListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActorTopListVC.h; sourceTree = "<group>"; };
-		7C538C892330BC0500A3EEBB /* ActorTopListVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActorTopListVC.m; sourceTree = "<group>"; };
+		7C538C892330BC0500A3EEBB /* ActorTopListVC.m */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = ActorTopListVC.m; sourceTree = "<group>"; };
 		7C538C8A2330BC0500A3EEBB /* ActorTopListVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActorTopListVC.xib; sourceTree = "<group>"; };
 		7C538C8D2330BF7B00A3EEBB /* ActorTopCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActorTopCell.h; sourceTree = "<group>"; };
 		7C538C8E2330BF7B00A3EEBB /* ActorTopCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActorTopCell.m; sourceTree = "<group>"; };
