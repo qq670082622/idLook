@@ -420,6 +420,13 @@
 		7C12B2EA2237A69A007A1AC1 /* PriceModel_java.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C12B2E92237A69A007A1AC1 /* PriceModel_java.m */; };
 		7C14481A2313D00400047D55 /* HeiWeiPopV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1448192313D00400047D55 /* HeiWeiPopV.m */; };
 		7C1459CF23150FC100C7C1DA /* SexAgePopV.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1459CE23150FC100C7C1DA /* SexAgePopV.m */; };
+		7C167501234DD25C003CFB2D /* ChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1674FF234DD25C003CFB2D /* ChatVC.m */; };
+		7C167502234DD25C003CFB2D /* ChatVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C167500234DD25C003CFB2D /* ChatVC.xib */; };
+		7C16751A234DE5B6003CFB2D /* ChatUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C167511234DE5B5003CFB2D /* ChatUserCell.m */; };
+		7C16751B234DE5B6003CFB2D /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C167513234DE5B5003CFB2D /* ChatCell.m */; };
+		7C16751C234DE5B6003CFB2D /* ChatUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C167514234DE5B5003CFB2D /* ChatUserCell.xib */; };
+		7C16751D234DE5B6003CFB2D /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C167516234DE5B5003CFB2D /* ChatCell.xib */; };
+		7C16751E234DE5B6003CFB2D /* ChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C167519234DE5B5003CFB2D /* ChatModel.m */; };
 		7C181CB0226F2E98004A27EC /* AnnunciateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CAE226F2E98004A27EC /* AnnunciateVC.m */; };
 		7C181CB1226F2E98004A27EC /* AnnunciateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */; };
 		7C181CB7226F321E004A27EC /* AnnunciateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CB5226F321E004A27EC /* AnnunciateCell.m */; };
@@ -2124,6 +2131,17 @@
 		7C1448192313D00400047D55 /* HeiWeiPopV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeiWeiPopV.m; sourceTree = "<group>"; };
 		7C1459CD23150FC100C7C1DA /* SexAgePopV.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SexAgePopV.h; sourceTree = "<group>"; };
 		7C1459CE23150FC100C7C1DA /* SexAgePopV.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SexAgePopV.m; sourceTree = "<group>"; };
+		7C1674FE234DD25C003CFB2D /* ChatVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatVC.h; sourceTree = "<group>"; };
+		7C1674FF234DD25C003CFB2D /* ChatVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatVC.m; sourceTree = "<group>"; };
+		7C167500234DD25C003CFB2D /* ChatVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatVC.xib; sourceTree = "<group>"; };
+		7C167511234DE5B5003CFB2D /* ChatUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatUserCell.m; sourceTree = "<group>"; };
+		7C167512234DE5B5003CFB2D /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
+		7C167513234DE5B5003CFB2D /* ChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
+		7C167514234DE5B5003CFB2D /* ChatUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatUserCell.xib; sourceTree = "<group>"; };
+		7C167515234DE5B5003CFB2D /* ChatUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatUserCell.h; sourceTree = "<group>"; };
+		7C167516234DE5B5003CFB2D /* ChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatCell.xib; sourceTree = "<group>"; };
+		7C167518234DE5B5003CFB2D /* ChatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatModel.h; sourceTree = "<group>"; };
+		7C167519234DE5B5003CFB2D /* ChatModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatModel.m; sourceTree = "<group>"; };
 		7C181CAD226F2E98004A27EC /* AnnunciateVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnnunciateVC.h; sourceTree = "<group>"; };
 		7C181CAE226F2E98004A27EC /* AnnunciateVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnnunciateVC.m; sourceTree = "<group>"; };
 		7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnnunciateVC.xib; sourceTree = "<group>"; };
@@ -4587,6 +4605,28 @@
 			path = IDLook/Devicelib;
 			sourceTree = SOURCE_ROOT;
 		};
+		7C167510234DE5B5003CFB2D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7C167512234DE5B5003CFB2D /* ChatCell.h */,
+				7C167513234DE5B5003CFB2D /* ChatCell.m */,
+				7C167516234DE5B5003CFB2D /* ChatCell.xib */,
+				7C167515234DE5B5003CFB2D /* ChatUserCell.h */,
+				7C167511234DE5B5003CFB2D /* ChatUserCell.m */,
+				7C167514234DE5B5003CFB2D /* ChatUserCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7C167517234DE5B5003CFB2D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7C167518234DE5B5003CFB2D /* ChatModel.h */,
+				7C167519234DE5B5003CFB2D /* ChatModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		7C181CAC226F2E65004A27EC /* Annunciate */ = {
 			isa = PBXGroup;
 			children = (
@@ -4948,6 +4988,7 @@
 		7CA1B8CA23332C8900380C5C /* ActorHomePage */ = {
 			isa = PBXGroup;
 			children = (
+				7C538C872330BBD700A3EEBB /* ActorTopList */,
 				7CA1B8CB23332D3700380C5C /* ActorHomePage.h */,
 				7CA1B8CC23332D3700380C5C /* ActorHomePage.m */,
 				7CA1B8CD23332D3700380C5C /* ActorHomePage.xib */,
@@ -5128,6 +5169,19 @@
 			);
 			path = ProjectDetailViews;
 			sourceTree = "<group>";
+		};
+		7CDF2DE7234DD1E5003055BA /* ChatVC */ = {
+			isa = PBXGroup;
+			children = (
+				7C1674FE234DD25C003CFB2D /* ChatVC.h */,
+				7C1674FF234DD25C003CFB2D /* ChatVC.m */,
+				7C167500234DD25C003CFB2D /* ChatVC.xib */,
+				7C167517234DE5B5003CFB2D /* Models */,
+				7C167510234DE5B5003CFB2D /* Views */,
+			);
+			name = ChatVC;
+			path = IDLook/UI/ChatVC;
+			sourceTree = SOURCE_ROOT;
 		};
 		7CDF950C21F82E0400E06E42 /* TouchJSON */ = {
 			isa = PBXGroup;
@@ -6737,8 +6791,8 @@
 				388358D52187156600FC0A77 /* view */,
 				99429CFD204FC259009EC7D5 /* Home */,
 				7C795C62232A581900394CB2 /* ActorSearchList */,
+				7CDF2DE7234DD1E5003055BA /* ChatVC */,
 				7CA1B8CA23332C8900380C5C /* ActorHomePage */,
-				7C538C872330BBD700A3EEBB /* ActorTopList */,
 				389976AF216EF21A009623A4 /* Video */,
 				99429CFF204FC2E2009EC7D5 /* Collection */,
 				99429D00204FC2F2009EC7D5 /* Message */,
@@ -8814,6 +8868,7 @@
 				386838F22152305100DA2E50 /* center_close@3x.png in Resources */,
 				38B6305F2153963A00A9D562 /* auth_choose@3x.png in Resources */,
 				9969C35A209AFEA2009F2AE2 /* icon_up_arrow@2x.png in Resources */,
+				7C16751C234DE5B6003CFB2D /* ChatUserCell.xib in Resources */,
 				38E7A36621957FA400984B25 /* home_bottom.gif in Resources */,
 				998A6D7120A182DA00D0C27D /* center_order_finish@2x.png in Resources */,
 				9959BBD620ECE63D00E5F894 /* price_bg4@2x.png in Resources */,
@@ -9229,6 +9284,7 @@
 				99C7402521212E0A009AC651 /* home_02@3x.png in Resources */,
 				993B23FE20941DC5001FE3D1 /* icon_delect@2x.png in Resources */,
 				9986E4E020DA0D2E00FBEB7B /* order_artist_delect@2x.png in Resources */,
+				7C167502234DD25C003CFB2D /* ChatVC.xib in Resources */,
 				9969C35B209AFEA2009F2AE2 /* icon_up_arrow@3x.png in Resources */,
 				387C023F21D0C6EE00786293 /* btn_public_back_n@2x.png in Resources */,
 				389976B9216F237B009623A4 /* menu_video_n@3x.png in Resources */,
@@ -9322,6 +9378,7 @@
 				7C4011DF22928C6C00FD621C /* HistoryCell.xib in Resources */,
 				993D55EE20DBA8DA00F3EB5E /* price_detail_close@2x.png in Resources */,
 				3837C431215E036400FB240F /* order_policy@3x.png in Resources */,
+				7C16751D234DE5B6003CFB2D /* ChatCell.xib in Resources */,
 				99C7402D212131C9009AC651 /* banner@3x.png in Resources */,
 				7C5F81EB22522B8600AA944B /* MassesOrderViewController.xib in Resources */,
 				38323B4421AFE6850074FF89 /* works_photo_icon@2x.png in Resources */,
@@ -9638,6 +9695,7 @@
 				99CE15A420A1B37E007E10CE /* SelectConditionV.m in Sources */,
 				993E915A20AEC6D8005D5455 /* WorkCellB.m in Sources */,
 				7CDF979521F82E0900E06E42 /* UIImageView+HighlightedWebCache.m in Sources */,
+				7C16751A234DE5B6003CFB2D /* ChatUserCell.m in Sources */,
 				7C4011E322939A0900FD621C /* NoticeActorVC.m in Sources */,
 				99429CCB204FBE4A009EC7D5 /* main.m in Sources */,
 				387BE2BC21CA6D7C00E02C70 /* HomeTopV.m in Sources */,
@@ -9661,6 +9719,7 @@
 				7CDF973F21F82E0900E06E42 /* openssl_wrapper.m in Sources */,
 				7C181CBB226F322E004A27EC /* AnnunciateModel.m in Sources */,
 				38FDE74121776FDC003D83A4 /* DatePickPopV.m in Sources */,
+				7C167501234DD25C003CFB2D /* ChatVC.m in Sources */,
 				7CDF975021F82E0900E06E42 /* POPAnimation.mm in Sources */,
 				3805B88C21D614C500DCD0AA /* PlaceAuditionVCM.m in Sources */,
 				7C73118D2264882400973A23 /* AskPriceView.m in Sources */,
@@ -9817,6 +9876,7 @@
 				38700CB0225366FF007B8421 /* CalenderWeekView.m in Sources */,
 				993D3F2020B802BE00D10F6A /* AssetsMainHeadV.m in Sources */,
 				993ECA4420ABE0A900F62B14 /* FeedbackCellA.m in Sources */,
+				7C16751E234DE5B6003CFB2D /* ChatModel.m in Sources */,
 				7CDF977C21F82E0900E06E42 /* FMDatabaseQueue.m in Sources */,
 				997ED867209178ED0093F1DA /* LoginAndRegistVC.m in Sources */,
 				999818EF20E39DB500A1844E /* OrderProgressVC.m in Sources */,
@@ -10156,6 +10216,7 @@
 				387C2F9A218169D700DA6224 /* ShareManager.m in Sources */,
 				385302B52182FF570033E146 /* AdvBannerView.m in Sources */,
 				9959BBBC20ECC30D00E5F894 /* AddPriceSubA.m in Sources */,
+				7C16751B234DE5B6003CFB2D /* ChatCell.m in Sources */,
 				9959BB9620EC769E00E5F894 /* ForwardVC.m in Sources */,
 				993ECA4020ABDB0000F62B14 /* MsgSettingCell.m in Sources */,
 				7CC536FD232F7CB40061B5A3 /* SPCustomView.m in Sources */,

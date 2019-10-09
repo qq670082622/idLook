@@ -421,31 +421,25 @@
 - (IBAction)tagAction:(id)sender {
     if (_model.tagOpen) {//展开要关闭
         _model.tagOpen = NO;
-       // [self.tagBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
-    }else{//关闭要展开
+   }else{//关闭要展开
         _model.tagOpen = YES;
-         //      [self.tagBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
-    }
+        }
    self.reloadCell(_model);
 }
 - (IBAction)platAction:(id)sender {
     if (_model.platOpen) {//展开要关闭
            _model.platOpen = NO;
-//[self.platBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
-       }else{//关闭要展开
+}else{//关闭要展开
            _model.platOpen = YES;
-           //       [self.platBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
-       }
+      }
      self.reloadCell(_model);
 }
 - (IBAction)regionAction:(id)sender {
     if (_model.regionOpen) {//展开要关闭
            _model.regionOpen = NO;
-         //  [self.regionBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
-       }else{//关闭要展开
+      }else{//关闭要展开
            _model.regionOpen = YES;
-              //    [self.regionBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
-       }
+         }
      self.reloadCell(_model);
 }
 @end

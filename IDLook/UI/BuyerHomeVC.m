@@ -164,7 +164,7 @@ bannerView.clickBannerWithDictionary = ^(NSDictionary * _Nonnull dic) {
     };
     cell.reloadCell = ^(BuyerConditionModel * _Nonnull model) {
         weakself.conditionModel = model;
-        [UIView performWithoutAnimation:^{
+        [UIView performWithoutAnimation:^{//防止刷新cell是抖动
             CGPoint loc = weakself.tableV.contentOffset;
             [weakself.tableV reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             weakself.tableV.contentOffset = loc;
