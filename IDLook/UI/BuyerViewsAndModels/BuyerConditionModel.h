@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) NSInteger hei_min;
 @property(nonatomic,assign) NSInteger hei_max;
 @property(nonatomic,assign) NSInteger sex;
+@property(nonatomic,assign) BOOL tagOpen;
+@property(nonatomic,assign) BOOL platOpen;
+@property(nonatomic,assign) BOOL regionOpen;
 @property(nonatomic,strong)NSMutableArray *regions;
 @property(nonatomic,strong)NSMutableArray *tags;
 @property(nonatomic,strong)NSMutableArray *platTypes;

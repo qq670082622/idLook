@@ -153,6 +153,7 @@ bannerView.clickBannerWithDictionary = ^(NSDictionary * _Nonnull dic) {
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WeakSelf(self);
+//    StrongSelf(self);
     BuyerHomeCell *cell = [BuyerHomeCell cellWithTableView:tableView];
     cell.model = _conditionModel;
     cell.cellSelectCondition = ^(BuyerConditionModel * _Nonnull model) {
@@ -160,6 +161,15 @@ bannerView.clickBannerWithDictionary = ^(NSDictionary * _Nonnull dic) {
         searchList.conditionModel = weakself.conditionModel;
         searchList.hidesBottomBarWhenPushed = YES;
         [weakself.navigationController pushViewController:searchList animated:YES];
+    };
+    cell.reloadCell = ^(BuyerConditionModel * _Nonnull model) {
+        weakself.conditionModel = model;
+        [UIView performWithoutAnimation:^{
+            CGPoint loc = weakself.tableV.contentOffset;
+            [weakself.tableV reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            weakself.tableV.contentOffset = loc;
+        }];
+      //  [weakself.tableV reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:(UITableViewRowAnimationNone)];
     };
     return cell;
 }

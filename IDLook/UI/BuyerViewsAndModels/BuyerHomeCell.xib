@@ -34,6 +34,14 @@
                                 <color key="textColor" red="1" green="0.2901960784" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7u-yy-1eF">
+                                <rect key="frame" x="332" y="0.0" width="43" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="talent_search_arrow_n"/>
+                                <connections>
+                                    <action selector="tagAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="n6i-Y3-vFw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
@@ -55,6 +63,14 @@
                                 <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R0T-jP-ekm">
+                                <rect key="frame" x="332" y="0.0" width="43" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="talent_search_arrow_n"/>
+                                <connections>
+                                    <action selector="platAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="IdY-Ff-j6e"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
@@ -76,6 +92,14 @@
                                 <color key="textColor" red="1" green="0.2901960784" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cci-7M-NpG">
+                                <rect key="frame" x="332" y="0.0" width="43" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="talent_search_arrow_n"/>
+                                <connections>
+                                    <action selector="regionAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="M6u-aP-aMp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
@@ -131,13 +155,16 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="ageView" destination="yzO-wM-cUa" id="tpA-0a-4dC"/>
+                <outlet property="platBtn" destination="R0T-jP-ekm" id="Ra1-96-0YW"/>
                 <outlet property="platLabel" destination="KFg-pT-Cmq" id="DBY-bz-kFC"/>
                 <outlet property="platView" destination="sXO-L3-ve5" id="wtS-2g-RxA"/>
+                <outlet property="regionBtn" destination="Cci-7M-NpG" id="vKN-9n-udS"/>
                 <outlet property="regionLabel" destination="NCX-Cj-TQk" id="YgU-yT-1HO"/>
                 <outlet property="regionView" destination="4kf-Rm-60T" id="hQD-jY-yxe"/>
                 <outlet property="searchBtn" destination="zko-7N-2M7" id="tn0-Db-dbm"/>
                 <outlet property="sexLabel" destination="fwY-kv-78Y" id="5ex-gK-w2s"/>
                 <outlet property="sexView" destination="W6i-wo-KSd" id="Mz4-Sg-mUJ"/>
+                <outlet property="tagBtn" destination="a7u-yy-1eF" id="4bb-Ld-bpq"/>
                 <outlet property="tagLabel" destination="igv-BB-kAo" id="HZi-us-J6A"/>
                 <outlet property="tagView" destination="GjC-D3-YK2" id="3v8-Yh-7hT"/>
             </connections>
@@ -146,5 +173,6 @@
     </objects>
     <resources>
         <image name="searchbtnback" width="310" height="63.5"/>
+        <image name="talent_search_arrow_n" width="10" height="6.5"/>
     </resources>
 </document>

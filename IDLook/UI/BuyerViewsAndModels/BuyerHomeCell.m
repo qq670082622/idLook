@@ -16,10 +16,20 @@
 }
 @property (weak, nonatomic) IBOutlet UIView *tagView;
 @property (weak, nonatomic) IBOutlet UILabel *tagLabel;
+@property (weak, nonatomic) IBOutlet UIButton *tagBtn;
+- (IBAction)tagAction:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIView *platView;
 @property (weak, nonatomic) IBOutlet UILabel *platLabel;
+@property (weak, nonatomic) IBOutlet UIButton *platBtn;
+- (IBAction)platAction:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIView *regionView;
 @property (weak, nonatomic) IBOutlet UILabel *regionLabel;
+@property (weak, nonatomic) IBOutlet UIButton *regionBtn;
+- (IBAction)regionAction:(id)sender;
+
+
 @property (weak, nonatomic) IBOutlet UIView *sexView;
 @property (weak, nonatomic) IBOutlet UILabel *sexLabel;
 @property (weak, nonatomic) IBOutlet UIView *ageView;
@@ -78,6 +88,9 @@
         
         CGFloat x = yu*(tagWid+9)+15;//余出*(宽+间隔)+第一个按钮x
         CGFloat y = row*(32+9)+40;//行数*(高+间隔)+第一个按钮y
+        if (!_model.tagOpen && i==8) {
+            break;
+        }
         UIButton *btn = [UIButton buttonWithType:0];
         btn.frame = CGRectMake(x, y, tagWid, 32);
         NSString *title = tags[i][@"name"];
@@ -97,6 +110,11 @@
         [self.tagView addSubview:btn];
         tagHei = btn.bottom+30;
     }
+    if (_model.tagOpen) {//展开要关闭
+      [self.tagBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
+    }else{//关闭要展开
+      [self.tagBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
+    }
     self.tagLabel.text = [_model.tags componentsJoinedByString:@" "];
     self.tagView.frame = CGRectMake(0, 0, UI_SCREEN_WIDTH, tagHei);
     
@@ -104,7 +122,9 @@
     for(int i = 0;i<plats.count;i++){
         NSInteger row = i/3;
         NSInteger yu = i%3;
-        
+        if (!_model.platOpen && i==3) {
+                   break;
+               }
         CGFloat x = yu*(wid+9)+15;//余出*(宽+间隔)+第一个按钮x
         CGFloat y = row*(32+9)+40;//行数*(高+间隔)+第一个按钮y
         UIButton *btn = [UIButton buttonWithType:0];
@@ -126,6 +146,11 @@
         [self.platView addSubview:btn];
         platHei = btn.bottom+30;
     }
+    if (_model.platOpen) {//展开要关闭
+        [self.platBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
+      }else{//关闭要展开
+        [self.platBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
+      }
     self.platLabel.text = [_model.platTypes componentsJoinedByString:@" "];
      self.platView.frame = CGRectMake(0, tagHei, UI_SCREEN_WIDTH, platHei);
     
@@ -133,7 +158,9 @@
     for(int i = 0;i<regions.count;i++){
         NSInteger row = i/3;
         NSInteger yu = i%3;
-        
+        if (!_model.regionOpen && i==3) {
+                   break;
+               }
         CGFloat x = yu*(wid+9)+15;//余出*(宽+间隔)+第一个按钮x
         CGFloat y = row*(32+9)+40;//行数*(高+间隔)+第一个按钮y
         UIButton *btn = [UIButton buttonWithType:0];
@@ -155,6 +182,11 @@
         [self.regionView addSubview:btn];
         regionHei = btn.bottom+30;
     }
+    if (_model.regionOpen) {//展开要关闭
+        [self.regionBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
+      }else{//关闭要展开
+        [self.regionBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
+      }
     self.regionLabel.text = [_model.regions componentsJoinedByString:@" "];
      self.regionView.frame = CGRectMake(0, _platView.bottom, UI_SCREEN_WIDTH, regionHei);
     
@@ -385,5 +417,35 @@
     _model.age_min = _rangeSlider.lowerValue;
     _model.age_max = _rangeSlider.upperValue;
     self.cellSelectCondition(_model);
+}
+- (IBAction)tagAction:(id)sender {
+    if (_model.tagOpen) {//展开要关闭
+        _model.tagOpen = NO;
+       // [self.tagBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
+    }else{//关闭要展开
+        _model.tagOpen = YES;
+         //      [self.tagBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
+    }
+   self.reloadCell(_model);
+}
+- (IBAction)platAction:(id)sender {
+    if (_model.platOpen) {//展开要关闭
+           _model.platOpen = NO;
+//[self.platBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
+       }else{//关闭要展开
+           _model.platOpen = YES;
+           //       [self.platBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
+       }
+     self.reloadCell(_model);
+}
+- (IBAction)regionAction:(id)sender {
+    if (_model.regionOpen) {//展开要关闭
+           _model.regionOpen = NO;
+         //  [self.regionBtn setImage:[UIImage imageNamed:@"talent_search_arrow_n"] forState:0];
+       }else{//关闭要展开
+           _model.regionOpen = YES;
+              //    [self.regionBtn setImage:[UIImage imageNamed:@"talent_search_arrow_s"] forState:0];
+       }
+     self.reloadCell(_model);
 }
 @end

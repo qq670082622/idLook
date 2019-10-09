@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)BuyerConditionModel *model;
 @property(nonatomic,assign)CGFloat cellHei;
 @property(nonatomic,copy)void(^cellSelectCondition)(BuyerConditionModel *model);
+@property(nonatomic,copy)void(^reloadCell)(BuyerConditionModel *model);
 @end
 
 NS_ASSUME_NONNULL_END

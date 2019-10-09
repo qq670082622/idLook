@@ -58,6 +58,7 @@
  */
 //#define DEBUGLOG
 #define WeakSelf(type)  __weak __typeof(type) weak##type = type
+#define StrongSelf(type)  __strong __typeof(type) strong##type = type
 #ifdef DEBUGLOG
 #define DNSLog(...) NSLog(__VA_ARGS__)
 #else
