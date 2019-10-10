@@ -332,6 +332,14 @@ typedef void (^HttpCallBackWithObject)(BOOL success,id object);
 +(void)getCustomizedOrderListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 //查询网红定制订单详情
 +(void)checkDetailCustomOrderWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+/*******************************************客服聊天相关***************************************/
+//查询消息
++(void)chekMessageListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//发送消息
++(void)sendMessageWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//上传一个图片
++(void)fileUpLoadWithArg:(id)arg data:(NSData *)data callBack:(HttpCallBackWithObject)callBack;
+
 @end
 
 NS_ASSUME_NONNULL_END

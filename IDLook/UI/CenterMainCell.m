@@ -51,6 +51,7 @@
                   @{@"title":@"积分商城",@"image":@"icon_store",@"prompt":@"",@"type":@(CenterMainTypeStore)},
                  // @{@"title":@"返现码兑换",@"image":@"center_coupon",@"prompt":@"",@"type":@(CenterMainTypeCoupon)},
                    @{@"title":@"我的评价",@"image":@"me_evaluate_icon",@"prompt":@"",@"type":@(CenterMainTypeGrade)},
+                   @{@"title":@"脸探客服",@"image":@"me_service_icon",@"prompt":@"",@"type":@(CenterMainTypeService)},
                   @{@"title":@"联系脸探肖像",@"image":@"center_contact",@"prompt":@"",@"type":@(CenterMainTypeContact)},
                   @{@"title":@"分享脸探",@"image":@"center_share",@"prompt":@"",@"type":@(CenterMainTypeShare)},
                    @{@"title":@"项目管理",@"image":@"common_me_pm_icon",@"prompt":@"",@"type":@(CenterMainTypeProjectManage)},

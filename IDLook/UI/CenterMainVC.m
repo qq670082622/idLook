@@ -42,6 +42,7 @@
 #import "ReturnKeyShareVC.h"
 #import "ProjectMainVC.h"
 #import "CustomzOrderListVC.h"
+#import "ChatVC.h"
 @interface CenterMainVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UIImageView *bg;
 @property (nonatomic,strong)UIImageView *head;
@@ -722,12 +723,17 @@
         rv.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:rv animated:YES];
     }
-    else if (type==CenterMainTypeGrade){
+    else if (type==CenterMainTypeGrade){//我的评价
         CheckGradeViewController *check = [CheckGradeViewController new];
         check.hidesBottomBarWhenPushed = YES;
         check.isMy = YES;
         [self.navigationController pushViewController:check animated:YES];
     }
+    else if (type==CenterMainTypeService){//脸探客服
+        ChatVC *caht = [ChatVC new];
+           caht.hidesBottomBarWhenPushed = YES;
+           [self.navigationController pushViewController:caht animated:YES];
+       }
     //我的保险
     else if (type==CenterMainTypeInsurance)
     {

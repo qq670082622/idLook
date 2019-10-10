@@ -226,7 +226,9 @@
                             @"password":MD5Str(pwd)
                             };
     [AFWebAPI_JAVA getTokenFromJavaService:param callBack:^(BOOL success, id  _Nonnull object) {//无论是不是java都要登陆，这个是获取token的唯一方法，有了token才能使用询问是否用java后端
+        [SVProgressHUD dismiss];
         if (success) {
+            
             NSLog(@"obj is %@",object);
             NSDictionary *tokenInfo = (NSDictionary *)object[@"body"][@"tokenInfo"];
             NSString *token = tokenInfo[@"accessToken"];
@@ -238,9 +240,33 @@
             [UserInfoManager setUserStatus:uinfo.status];
             [UserInfoManager setUserVip:uinfo.vipLevel];
             [UserInfoManager setUserDiscount:uinfo.discount];
+            
+             [UserInfoManager setUserLoginfo:uinfo];
+            [UserInfoManager setUserMobile:acc];
+                        [UserInfoManager setUserPwd:pwd];
+                        [UserInfoManager setUserLoginType:UserLoginTypeMobile];
+            if ([UserInfoManager getUserType]==UserTypeResourcer) {
+                         if ([[UserInfoManager getUserRegion]length]==0 || [UserInfoManager getUserOccupation]==0 || [UserInfoManager getUserSex]<=0 ||[[UserInfoManager getUserNationality]length]==0 || [[UserInfoManager getUserRealName]length]==0 || [[UserInfoManager getUserBirth]length]==0) {
+                            CompleteInfoVC *step2 = [[CompleteInfoVC alloc]init];
+                            CustomNavVC *nav = [[CustomNavVC alloc]initWithRootViewController:step2];
+                            [self presentViewController:nav animated:NO completion:^{}];
+                        }
+                        else
+                        {
+                            AppDelegate *dele = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                            [dele showRootVC];
+                        }
+                    }
+                    else
+                    {
+                        AppDelegate *dele = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                        [dele showRootVC];
+                    }
+        }else{
+            [SVProgressHUD showErrorWithStatus:object];
         }
     }];
-    
+    return;
     NSDictionary *dicArg = @{@"mobile":acc,
                              @"password":MD5Str(pwd),
                              @"uuid":[OpenUDID value],

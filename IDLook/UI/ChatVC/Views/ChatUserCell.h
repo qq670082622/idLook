@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ChatUserCell : UITableViewCell
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 @property(nonatomic,strong)ChatModel *model;
+@property(nonatomic,assign)CGFloat cellHei;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -35,6 +35,7 @@
 #import "AskCalendarPriceModel.h"
 #import "UnAuthLookCountView.h"
 #import "AuthBuyerVC.h"
+#import "ChatVC.h"
 @interface UserInfoVC ()<UIScrollViewDelegate,UserServiceDelegate,UserHeaderVDelegate,ActorPriceListVCDelegate>
 {
     VideoPlayer *_player;
@@ -307,10 +308,14 @@
         }];
         WeakSelf(self);
         _bottomV.phoneActionBlock = ^{  //客服
-            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-            });
+//            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+//            });
+            ChatVC *caht = [ChatVC new];
+                      caht.hidesBottomBarWhenPushed = YES;
+                      [weakself.navigationController pushViewController:caht animated:YES];
+
         };
         _bottomV.evaluateActionBlock = ^{   //评价
             if ([UserInfoManager getUserLoginType]==UserLoginTypeTourist)

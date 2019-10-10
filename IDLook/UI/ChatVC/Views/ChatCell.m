@@ -8,6 +8,10 @@
 
 #import "ChatCell.h"
 @interface ChatCell()
+@property (weak, nonatomic) IBOutlet UIImageView *icon;
+@property (weak, nonatomic) IBOutlet UIImageView *bgImg;
+@property (weak, nonatomic) IBOutlet UILabel *mesage;
+@property (weak, nonatomic) IBOutlet UILabel *time;
 
 @end
 @implementation ChatCell
@@ -25,7 +29,19 @@
 }
 -(void)setModel:(ChatModel *)model
 {
-    
+    self.time.text = model.createTime;
+    if (model.type==1) {
+         self.mesage.text = model.message;
+        [self.mesage sizeToFit];
+          _mesage.y = 62;
+        self.bgImg.frame = CGRectMake(63,47,UI_SCREEN_WIDTH-103,_mesage.height+30);
+    }else if (model.type==2){
+        self.mesage.hidden = YES;
+        [self.bgImg sd_setImageWithUrlStr:model.message];
+        _bgImg.frame = CGRectMake(63, 47, 165, 98);
+    }
+   
+    _cellHei = _bgImg.bottom;
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

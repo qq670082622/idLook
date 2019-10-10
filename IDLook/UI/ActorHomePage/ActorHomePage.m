@@ -19,6 +19,7 @@
 #import "NoDataFootV.h"
 #import "UserDetialInfoVC.h"
 #import "ActorGradesVC.h"
+#import "ChatVC.h"
 @interface ActorHomePage ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     VideoPlayer *_player;
@@ -638,10 +639,13 @@
 }
 #pragma mark --Action
 - (IBAction)kefu:(id)sender {
-    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-    });
+//    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+//    });
+    ChatVC *caht = [ChatVC new];
+    caht.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:caht animated:YES];
 }
 
 - (IBAction)pingjia:(id)sender {

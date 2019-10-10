@@ -1527,4 +1527,33 @@ callBack(YES,contentDic);
         callBack(NO,errorStr);
     }];
 }
+/*******************************************客服聊天相关***************************************/
+//查询消息
++(void)chekMessageListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+   [AFWebAPI_JAVA postWithUrl:@"customer/support/list" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//发送消息
++(void)sendMessageWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"customer/support/send" params:arg success:^(NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+    } failure:^(NSString *errorStr) {
+        callBack(NO,errorStr);
+    }];
+}
+//上传一个图片
++(void)fileUpLoadWithArg:(id)arg data:(NSData *)data callBack:(HttpCallBackWithObject)callBack
+{
+[AFWebAPI_JAVA singleFileUploadWithParams:arg data:data url:@"upload/fileUploadCommon" success:^(AFHTTPRequestOperation *op, NSDictionary *contentDic) {
+        callBack(YES,contentDic);
+   } failure:^(AFHTTPRequestOperation *op, NSError *error) {
+        callBack(NO,nil);
+   }];
+  
+}
 @end

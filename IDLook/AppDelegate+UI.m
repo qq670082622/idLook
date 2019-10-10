@@ -58,7 +58,7 @@
                 [UserInfoManager setUserDiscount:uinfo.discount];
                 [UserInfoManager setUserVip:uinfo.vipLevel];
                 [self showRootVC];
-                [self processAutoLoginWithType:type];
+               // [self processAutoLoginWithType:type];
                 NSString *userId = [UserInfoManager getUserUID];
                 if (userId.length>0) {
                     [JPUSHService setAlias:userId completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
