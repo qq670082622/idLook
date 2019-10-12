@@ -701,7 +701,7 @@
     }];
 }
 //vip申请接口
-+(void)applyVIPWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
++(void)VIPWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
 {
     [AFWebAPI_JAVA postWithUrl:@"buyer/applyVip" params:arg success:^(NSDictionary *contentDic) {
         callBack(YES,contentDic);
@@ -1527,6 +1527,15 @@ callBack(YES,contentDic);
         callBack(NO,errorStr);
     }];
 }
+//申请电商vip
++(void)applyEBusinessVipWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
+{
+    [AFWebAPI_JAVA postWithUrl:@"user/vip/expert/apply" params:arg success:^(NSDictionary *contentDic) {
+           callBack(YES,contentDic);
+       } failure:^(NSString *errorStr) {
+           callBack(NO,errorStr);
+       }];
+}
 /*******************************************客服聊天相关***************************************/
 //查询消息
 +(void)chekMessageListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
@@ -1549,7 +1558,7 @@ callBack(YES,contentDic);
 //上传一个图片
 +(void)fileUpLoadWithArg:(id)arg data:(NSData *)data callBack:(HttpCallBackWithObject)callBack
 {
-[AFWebAPI_JAVA singleFileUploadWithParams:arg data:data url:@"upload/fileUploadCommon" success:^(AFHTTPRequestOperation *op, NSDictionary *contentDic) {
+[AFWebAPI_JAVA singleFileUploadWithParams:arg data:data url:@"upload/imageUpload" success:^(AFHTTPRequestOperation *op, NSDictionary *contentDic) {
         callBack(YES,contentDic);
    } failure:^(AFHTTPRequestOperation *op, NSError *error) {
         callBack(NO,nil);

@@ -43,7 +43,7 @@
         self.hips    = [(NSNumber *)safeObjectForKey(basicInfo, @"hips") integerValue];
         self.actorStudio    = [(NSNumber *)safeObjectForKey(basicInfo, @"actorStudio") integerValue];
         self.authentication    = [(NSNumber *)safeObjectForKey(basicInfo, @"authentication") integerValue];
-
+self.agencyOperation = [(NSNumber *)safeObjectForKey(basicInfo, @"agencyOperation") boolValue];
         //professionInfo
         self.occupation    = [(NSNumber *)safeObjectForKey(professionInfo, @"occupation") integerValue];
         self.mastery    = [(NSNumber *)safeObjectForKey(professionInfo, @"mastery") integerValue];

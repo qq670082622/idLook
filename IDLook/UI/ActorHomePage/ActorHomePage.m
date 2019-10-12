@@ -40,12 +40,16 @@
 @property(nonatomic,assign)NSInteger topHeight;  //顶部高度
 @property(nonatomic,strong)ActorHomePageTopV *topV;
 
+@property(nonatomic,strong)NSDictionary *typeVideoDic;
 @property(nonatomic,strong)NSDictionary *videoDic;
 @property(nonatomic,strong)NSDictionary *modelCardDic;
 
 @property (strong, nonatomic) IBOutlet UIView *sectionView;
+@property (weak, nonatomic) IBOutlet UILabel *typeVideoTitle;
 @property (weak, nonatomic) IBOutlet UILabel *videoTitle;
 @property (weak, nonatomic) IBOutlet UILabel *modelCardLabel;
+
+- (IBAction)typeVideoAction:(id)sender;
 - (IBAction)videoAction:(id)sender;
 - (IBAction)modelCardAction:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *line;
@@ -60,9 +64,11 @@
     WeakSelf(self);
 //    self.orderBtn.layer.cornerRadius = 6;
 //    self.orderBtn.layer.masksToBounds = YES;
+    self.typeVideoTitle.text = [NSString stringWithFormat:@"%@视频",_searchTag];
     _videoDic = [NSDictionary new];
     _modelCardDic = [NSDictionary new];
-    self.line.center = CGPointMake(_videoTitle.center.x, 45);
+    _typeVideoDic = [NSDictionary new];
+    self.line.center = CGPointMake(_typeVideoTitle.center.x, 45);
 
     if (public_isX) {
        _tableV.height-=15;
@@ -72,7 +78,7 @@
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultWhiteButtonWithTarget:self action:@selector(onGoback)]]];
     self.selectIndex=0;
      [self backTopBtn];
-    self.topHeight=359;//412
+    self.topHeight=418;//359
   
     self.topV = [[ActorHomePageTopV alloc] initWithFrame:CGRectMake(0, 0, UI_SCREEN_WIDTH, _topHeight)];
     _topV.introDetail = ^{
@@ -87,7 +93,8 @@
     };
     NSDictionary *arg = @{
                           @"actorId":@(_actorId),
-                          @"userId":@([[UserInfoManager getUserUID] integerValue])
+                          @"userId":@([[UserInfoManager getUserUID] integerValue]),
+                          @"tags":[NSArray arrayWithObject:_searchTag]
                           };
     [AFWebAPI_JAVA getActorInfoWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
         if (success) {
@@ -108,11 +115,13 @@
                 NSString *workType = workDic[@"workType"];
                 if ([workType isEqualToString:@"模特卡"]) {
                     self.modelCardDic = workDic;
-                }else if ([workType isEqualToString:@"视频"]){
+                }else if ([workType isEqualToString:@"其他视频"]){
                     self.videoDic = workDic;
+                }else if ([workType isEqualToString:_typeVideoTitle.text]){
+                    self.typeVideoDic = workDic;
                 }
             }
-            NSArray *taglist = _videoDic[@"tagList"];
+            NSArray *taglist = _typeVideoDic[@"tagList"];
             for(int i = 0;i<taglist.count;i++){
                 NSString *type = taglist[i];
                 UIButton *typebtn = [UIButton buttonWithType:0];
@@ -214,18 +223,25 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
      NSMutableArray *listMu = [NSMutableArray new];
-    if (_selectIndex==0) {//视频
-        NSArray *videoList = _videoDic[@"videoList"];
+    if (_selectIndex==0) {//分类视频
+        NSArray *videoList = _typeVideoDic[@"videoList"];
        for (NSDictionary *videoDic in videoList) {
             UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
             [listMu addObject:workModel];
         }
-    }else if (_selectIndex==1){//模特卡
+    }else if (_selectIndex==1){//其他视频
+       NSArray *videoList = _videoDic[@"videoList"];
+             for (NSDictionary *videoDic in videoList) {
+                  UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                  [listMu addObject:workModel];
+              }
+    }else if (_selectIndex==2)//摩卡
+    {
         NSArray *videoList = _modelCardDic[@"videoList"];
-        for (NSDictionary *videoDic in videoList) {
-            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
-            [listMu addObject:workModel];
-        }
+               for (NSDictionary *videoDic in videoList) {
+                   UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                   [listMu addObject:workModel];
+               }
     }
     UserInfoCellC *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier"];
     if (!cell) {
@@ -249,19 +265,26 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSMutableArray *listMu = [NSMutableArray new];
-    if (_selectIndex==0) {//视频
-        NSArray *videoList = _videoDic[@"videoList"];
-        for (NSDictionary *videoDic in videoList) {
-            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
-            [listMu addObject:workModel];
-        }
-    }else if (_selectIndex==1){//模特卡
-        NSArray *videoList = _modelCardDic[@"videoList"];
-        for (NSDictionary *videoDic in videoList) {
-            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
-            [listMu addObject:workModel];
-        }
-    }
+    if (_selectIndex==0) {//分类视频
+           NSArray *videoList = _typeVideoDic[@"videoList"];
+          for (NSDictionary *videoDic in videoList) {
+               UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+               [listMu addObject:workModel];
+           }
+       }else if (_selectIndex==1){//其他视频
+          NSArray *videoList = _videoDic[@"videoList"];
+                for (NSDictionary *videoDic in videoList) {
+                     UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                     [listMu addObject:workModel];
+                 }
+       }else if (_selectIndex==2)//摩卡
+       {
+           NSArray *videoList = _modelCardDic[@"videoList"];
+                  for (NSDictionary *videoDic in videoList) {
+                      UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                      [listMu addObject:workModel];
+                  }
+       }
     if (listMu.count) {
         return listMu.count;
     }
@@ -279,19 +302,26 @@
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     NSMutableArray *listMu = [NSMutableArray new];
-    if (_selectIndex==0) {//视频
-        NSArray *videoList = _videoDic[@"videoList"];
-        for (NSDictionary *videoDic in videoList) {
-            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
-            [listMu addObject:workModel];
-        }
-    }else if (_selectIndex==1){//模特卡
-        NSArray *videoList = _modelCardDic[@"videoList"];
-        for (NSDictionary *videoDic in videoList) {
-            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
-            [listMu addObject:workModel];
-        }
-    }
+    if (_selectIndex==0) {//分类视频
+           NSArray *videoList = _typeVideoDic[@"videoList"];
+          for (NSDictionary *videoDic in videoList) {
+               UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+               [listMu addObject:workModel];
+           }
+       }else if (_selectIndex==1){//其他视频
+          NSArray *videoList = _videoDic[@"videoList"];
+                for (NSDictionary *videoDic in videoList) {
+                     UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                     [listMu addObject:workModel];
+                 }
+       }else if (_selectIndex==2)//摩卡
+       {
+           NSArray *videoList = _modelCardDic[@"videoList"];
+                  for (NSDictionary *videoDic in videoList) {
+                      UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                      [listMu addObject:workModel];
+                  }
+       }
     if (listMu.count==0) {
         static NSString *identifer = @"UITableViewHeaderFooterView";
         NoDataFootV *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifer];
@@ -308,19 +338,26 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     NSMutableArray *listMu = [NSMutableArray new];
-    if (_selectIndex==0) {//视频
-        NSArray *videoList = _videoDic[@"videoList"];
-        for (NSDictionary *videoDic in videoList) {
-            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
-            [listMu addObject:workModel];
-        }
-    }else if (_selectIndex==1){//模特卡
-        NSArray *videoList = _modelCardDic[@"videoList"];
-        for (NSDictionary *videoDic in videoList) {
-            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
-            [listMu addObject:workModel];
-        }
-    }
+    if (_selectIndex==0) {//分类视频
+           NSArray *videoList = _typeVideoDic[@"videoList"];
+          for (NSDictionary *videoDic in videoList) {
+               UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+               [listMu addObject:workModel];
+           }
+       }else if (_selectIndex==1){//其他视频
+          NSArray *videoList = _videoDic[@"videoList"];
+                for (NSDictionary *videoDic in videoList) {
+                     UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                     [listMu addObject:workModel];
+                 }
+       }else if (_selectIndex==2)//摩卡
+       {
+           NSArray *videoList = _modelCardDic[@"videoList"];
+                  for (NSDictionary *videoDic in videoList) {
+                      UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                      [listMu addObject:workModel];
+                  }
+       }
    if(listMu.count==0) {
         if ([UserInfoManager getUserType]==UserTypePurchaser) {
             return (UI_SCREEN_HEIGHT-50-SafeAreaTopHeight-SafeAreaTabBarHeight_IphoneX-96);
@@ -335,16 +372,25 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray *listMu = [NSMutableArray new];
-    if (_selectIndex==0) {//视频
-        NSArray *videoList = _videoDic[@"videoList"];
-        for (NSDictionary *videoDic in videoList) {
-            UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
-            [listMu addObject:workModel];
-        }
-        UserWorkModel *selectModel = listMu[indexPath.row];
-          [self playWorkVideoWithModel:selectModel withIndex:indexPath.row];
+    if (_selectIndex==0) {//标签视频视频
+       NSArray *videoList = _typeVideoDic[@"videoList"];
+                    for (NSDictionary *videoDic in videoList) {
+                        UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                        [listMu addObject:workModel];
+                    }
+                    UserWorkModel *selectModel = listMu[indexPath.row];
+                      [self playWorkVideoWithModel:selectModel withIndex:indexPath.row];
    
-    }else if (_selectIndex==1){//模特卡
+    }else if (_selectIndex==1){//其他视频
+        NSArray *videoList = _videoDic[@"videoList"];
+               for (NSDictionary *videoDic in videoList) {
+                   UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
+                   [listMu addObject:workModel];
+               }
+               UserWorkModel *selectModel = listMu[indexPath.row];
+                 [self playWorkVideoWithModel:selectModel withIndex:indexPath.row];
+       
+    }else if (_selectIndex==2){//模特卡
         NSArray *videoList = _modelCardDic[@"videoList"];
         for (NSDictionary *videoDic in videoList) {
             UserWorkModel *workModel = [UserWorkModel yy_modelWithDictionary:videoDic];
@@ -465,7 +511,7 @@
 {
     NSLog(@"%f",offY);//cell=208
     
-    NSInteger passCount = (offY-467)/208;//(offY-530)/208
+    NSInteger passCount = (offY-514)/208;//(offY-530)/208
     passCount++;
     //快要显示哪个cell，对应的scroll里的小按钮就被选中
     for (UIButton *tyBtn in _typeScroll.subviews) {
@@ -585,14 +631,29 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+- (IBAction)typeVideoAction:(id)sender {
+    [_player destroyPlayer];
+       _player=nil;
+       [UIView animateWithDuration:0.3 animations:^{
+           self.line.center = CGPointMake(_typeVideoTitle.center.x,45);
+       }];
+       _selectIndex = 0;
+    _typeVideoTitle.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
+       self.videoTitle.font = [UIFont systemFontOfSize:15];
+       self.modelCardLabel.font = [UIFont systemFontOfSize:15];
+       [self changeScrollTags];
+       [self.tableV reloadData];
+}
+
 - (IBAction)videoAction:(id)sender {
     [_player destroyPlayer];
     _player=nil;
     [UIView animateWithDuration:0.3 animations:^{
         self.line.center = CGPointMake(_videoTitle.center.x,45);
     }];
-    _selectIndex = 0;
-    self.videoTitle.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
+    _selectIndex = 1;
+    self.typeVideoTitle.font = [UIFont systemFontOfSize:15];
+     self.videoTitle.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
     self.modelCardLabel.font = [UIFont systemFontOfSize:15];
     [self changeScrollTags];
     [self.tableV reloadData];
@@ -604,10 +665,11 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.line.center = CGPointMake(_modelCardLabel.center.x,45);
     }];
-    _selectIndex = 1;
+    _selectIndex = 2;
+      self.typeVideoTitle.font = [UIFont systemFontOfSize:15];
+     self.videoTitle.font = [UIFont systemFontOfSize:15];
     self.modelCardLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
-    self.videoTitle.font = [UIFont systemFontOfSize:15];
-    [self changeScrollTags];
+   [self changeScrollTags];
     [self.tableV reloadData];
 }
 -(void)changeScrollTags
@@ -615,7 +677,14 @@
     for (UIButton *typeBtn in _typeScroll.subviews) {
         [typeBtn removeFromSuperview];
     }
-    NSArray *taglist = _selectIndex==0?_videoDic[@"tagList"]:_modelCardDic[@"tagList"];
+    NSArray *taglist ;
+    if (_selectIndex==0) {
+        taglist = _typeVideoDic[@"tagList"];
+    }else if (_selectIndex==1){
+         taglist = _videoDic[@"tagList"];
+    }else if (_selectIndex==2){
+          taglist = _modelCardDic[@"tagList"];
+    }
     for(int i = 0;i<taglist.count;i++){
         NSString *type = taglist[i];
         UIButton *typebtn = [UIButton buttonWithType:0];

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 @property(nonatomic,strong)ChatModel *model;
 @property(nonatomic,assign)CGFloat cellHei;
+@property(nonatomic,copy)void(^tapImg)(NSString *url);
 @end
 
 NS_ASSUME_NONNULL_END

@@ -332,6 +332,8 @@ typedef void (^HttpCallBackWithObject)(BOOL success,id object);
 +(void)getCustomizedOrderListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 //查询网红定制订单详情
 +(void)checkDetailCustomOrderWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
+//申请电商vip
++(void)applyEBusinessVipWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;
 /*******************************************客服聊天相关***************************************/
 //查询消息
 +(void)chekMessageListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack;

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ActorHomePage : UIViewController
 @property(nonatomic,assign)NSInteger actorId;
+@property(nonatomic,copy)NSString *searchTag;
 @property(nonatomic,strong)UserDetialInfoM *userModel;
 @property(nonatomic,copy)void(^reModel)(NSString *type,BOOL isTure);
 @end

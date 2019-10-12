@@ -58,6 +58,7 @@
     };
     [AFWebAPI_JAVA chekMessageListWithArg:dic callBack:^(BOOL success, id  _Nonnull object) {
         if (success) {
+            NSInteger beforeCount = _data.count;
             NSArray *list = object[@"body"][@"messages"];
             for (NSDictionary *messageDic in list) {
                 ChatModel *msModel = [ChatModel yy_modelWithDictionary:messageDic];
@@ -68,19 +69,32 @@
                 _msId = lastModel.id;
             }
             [self.tableV reloadData];
-        }
+            
+            if (_data.count>beforeCount) {
+                  //自动滚动到底部
+                         [_tableV scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_data.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+            }
+          }
     }];
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    WeakSelf(self);
     ChatModel *model = _data[indexPath.row];
     if (model.state==1) {
         ChatUserCell *cell = [ChatUserCell cellWithTableView:tableView];
         cell.model = model;
+        cell.tapImg = ^(NSString * _Nonnull url) {
+            [weakself lookPhotoWithArray:[NSArray arrayWithObject:model.message] WithIndex:0];
+        };
         return cell;
     }else{
         ChatCell *cell = [ChatCell cellWithTableView:tableView];
         cell.model = model;
+        cell.tapImg = ^(NSString * _Nonnull url) {
+                [weakself lookPhotoWithArray:[NSArray arrayWithObject:model.message] WithIndex:0];
+               };
         return cell;
     }
 }
@@ -115,6 +129,8 @@
                if (success) {
                    textField.text = @"";
                    [self checkMessageList];
+               }else{
+                   [SVProgressHUD showErrorWithStatus:@"消息发送失败，请稍后重试"];
                }
            }];
     }
@@ -149,32 +165,29 @@
            self.bottomView.y = _bottomView.y+=70;//实际显示124。留一些做layer切圆
            self.tableV.height = _tableV.height+=70;
        }];
+    [SVProgressHUD showWithStatus:@"" maskType:SVProgressHUDMaskTypeClear];
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
     
     if ([type isEqualToString:@"public.image"])
     {
         UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
-                   NSDictionary *uploadDic = @{
-                                                 @"category":@(1),
-                                                 @"fileType":@(1),
-                                                 @"userId":@([[UserInfoManager getUserUID]integerValue])
-                                                 };
-                    
-                     NSData *data = UIImageJPEGRepresentation(image, 0.7);
-                     [AFWebAPI_JAVA uploadCommonWithArg:uploadDic data:data callBack:^(BOOL success, id  _Nonnull object) {
-                         if (success) {
-                             NSDictionary *response = object[@"body"];
-                             NSString *url = response[@"url"];
-                             NSDictionary *arg = @{
+                  NSData *data = UIImageJPEGRepresentation(image, 0.7);
+            [AFWebAPI_JAVA fileUpLoadWithArg:[NSDictionary new] data:data callBack:^(BOOL success, id  _Nonnull object) {
+                if (success) {
+                    NSDictionary *response = object[@"body"];
+                    NSString *url = response[@"url"];
+                        NSDictionary *arg = @{
                                            @"message" : url,
                                            @"state":@(1),
-                                           @"type":@(1),
+                                           @"type":@(2),
                                            @"userId":@([[UserInfoManager getUserUID] integerValue])
-                                     };
+                                       };
                                        [AFWebAPI_JAVA sendMessageWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
                                            if (success) {
-                                               
+                                               [SVProgressHUD dismiss];
                                                [self checkMessageList];
+                                           }else{
+                                                [SVProgressHUD showErrorWithStatus:@"图片发送失败，请稍后重试"];
                                            }
                                        }];
                          }
@@ -198,12 +211,28 @@
          CGRect keyboardRect = [aValue CGRectValue];
          int y = keyboardRect.origin.y;
   self.bottomView.y = y-125;
+    if (public_isX) {
+         self.bottomView.y = y-150;
+    }
 }
 
 ///键盘消失事件
 - (void) keyboardWillHide:(NSNotification *)notify {
   
     self.bottomView.y = self.view.height-65;
+    self.tableV.height = self.view.height-70;
+}
+//查看图片大图
+-(void)lookPhotoWithArray:(NSArray*)array WithIndex:(NSInteger)index
+{
+   LookBigImageVC *lookImage=[[LookBigImageVC alloc]init];
+    lookImage.isShowDown=YES;
+    [lookImage showWithImageArray:array curImgIndex:0 AbsRect:CGRectMake(0, 0,0,0)];
+    [self.navigationController pushViewController:lookImage animated:YES];
+    lookImage.downPhotoBlock = ^(NSInteger index) {  //下载回掉
+       
+    };
+    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {

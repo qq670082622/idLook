@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="VipApplyView">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="495"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="search_popup_vip_bg2" translatesAutoresizingMaskIntoConstraints="NO" id="KyZ-sg-Hq2">
+                    <rect key="frame" x="0.0" y="53" width="280" height="442"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="search_popup_vip_top" translatesAutoresizingMaskIntoConstraints="NO" id="5ga-LN-SvN">
+                    <rect key="frame" x="99" y="-6" width="83" height="95"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cGC-cZ-Avv">
+                    <rect key="frame" x="10" y="97" width="260" height="247"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="亲爱的用户，您要查看的内容为VIP 专享。您可直接免费申请VIP或联系 脸探客服了解具体明细。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KR-od-7fF">
+                            <rect key="frame" x="18" y="17" width="233" height="65"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.27450980392156865" green="0.27450980392156865" blue="0.27450980392156865" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TQe-2R-o1h">
+                            <rect key="frame" x="10" y="97" width="240" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写您的姓名" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l7K-9E-93g">
+                                    <rect key="frame" x="8" y="3" width="232" height="34"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="textColor" red="0.27450980392156865" green="0.27450980392156865" blue="0.27450980392156865" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="OMf-tO-Lm9"/>
+                                    </connections>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FG0-qW-bNm">
+                            <rect key="frame" x="10" y="147" width="240" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写您的手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EiY-qu-shs">
+                                    <rect key="frame" x="8" y="3" width="232" height="34"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="L2O-w0-TmW"/>
+                                    </connections>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2SN-Lf-NhE">
+                            <rect key="frame" x="10" y="197" width="240" height="40"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写备注（选填）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0P1-PI-Rv7">
+                                    <rect key="frame" x="8" y="3" width="232" height="34"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="6dv-J1-cbs"/>
+                                    </connections>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3I-MY-mIS">
+                    <rect key="frame" x="16" y="375" width="248" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                    <state key="normal" title="免费申请VIP" backgroundImage="search_popup_vip_btn">
+                        <color key="titleColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="repply:" destination="iN0-l3-epB" eventType="touchUpInside" id="DdF-y2-oDV"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kKo-97-G9n">
+                    <rect key="frame" x="25" y="443" width="231" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="联系脸探客服">
+                        <color key="titleColor" red="0.26666666666666666" green="0.25098039215686274" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="contact:" destination="iN0-l3-epB" eventType="touchUpInside" id="7aC-B0-4f0"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="bgImg" destination="KyZ-sg-Hq2" id="M0A-fj-cSb"/>
+                <outlet property="bgView" destination="cGC-cZ-Avv" id="Zq2-x3-Dmk"/>
+                <outlet property="nameBG" destination="TQe-2R-o1h" id="c4R-kZ-BxJ"/>
+                <outlet property="nameField" destination="l7K-9E-93g" id="ffn-jb-tw1"/>
+                <outlet property="phoneNumBG" destination="FG0-qW-bNm" id="Wea-dX-ydK"/>
+                <outlet property="phoneNumField" destination="EiY-qu-shs" id="JUB-3c-EdC"/>
+                <outlet property="remarkBG" destination="2SN-Lf-NhE" id="iDU-0G-lDO"/>
+                <outlet property="remarkField" destination="0P1-PI-Rv7" id="4Df-pR-9vk"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="250.11160714285714"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="search_popup_vip_bg2" width="280" height="427"/>
+        <image name="search_popup_vip_btn" width="240" height="45"/>
+        <image name="search_popup_vip_top" width="120" height="120"/>
+    </resources>
+</document>

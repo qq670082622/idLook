@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign)NSInteger works;//视频数量
 @property(nonatomic,copy)NSString *representativeWork;//代表作品
 @property(nonatomic,copy)NSString *comment;//底部标签
-
+@property(nonatomic,assign)BOOL agencyOperation;//是否代运营
 @property(nonatomic,assign)NSInteger userId;
 @property(nonatomic,assign)BOOL isSelected;
 

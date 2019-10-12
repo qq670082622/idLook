@@ -8,6 +8,7 @@
 
 #import "ActorHomePageTopV.h"
 #import "YLVerticalAlignmentLabel.h"
+#import "NoVipPopV2.h"
 @interface ActorHomePageTopV()
 @property (weak, nonatomic) IBOutlet UIImageView *backImg;
 @property (weak, nonatomic) IBOutlet UIView *bgView;
@@ -17,8 +18,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *community;
 @property (weak, nonatomic) IBOutlet UILabel *collection;
 @property (weak, nonatomic) IBOutlet UIImageView *userIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *agencyLogo;
 
 @property (weak, nonatomic) IBOutlet UIView *fansView;
+- (IBAction)fansAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *subFanView2;
+@property (weak, nonatomic) IBOutlet UILabel *fan1Account;
+@property (weak, nonatomic) IBOutlet UILabel *fan1Count;
+@property (weak, nonatomic) IBOutlet UILabel *fan2Account;
+@property (weak, nonatomic) IBOutlet UILabel *fan2Count;
 
 @property (weak, nonatomic) IBOutlet UIView *introView;
 @property (weak, nonatomic) IBOutlet UILabel *intro1;
@@ -74,28 +82,46 @@
         self.community.text = @"";
     }
       self.collection.text=  [NSString stringWithFormat:@"%ld收藏  |  %ld点赞",model.collect,model.praise];
-    CGFloat fanLbaelWid = UI_SCREEN_WIDTH/(model.fansInfo.count);
-    for(int i =0;i<model.fansInfo.count;i++){
-        NSString *plat = [model.fansInfo[i] objectForKey:@"name"];
-        float count = [[model.fansInfo[i] objectForKey:@"fansCount"] floatValue];
-        NSString *labelStr = [NSString stringWithFormat:@"%@粉丝%.1fW",plat,count];
-        UILabel *fanLabel = [UILabel new];
-        fanLabel.textColor = [UIColor colorWithHexString:@"ffb200"];
-        fanLabel.font = [UIFont systemFontOfSize:13];
-        fanLabel.textAlignment = NSTextAlignmentCenter;
-        fanLabel.backgroundColor = [UIColor whiteColor];
-        NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc] initWithString:labelStr];
-        [attStr addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#909090"]} range:NSMakeRange(0,plat.length+2)];
-        fanLabel.attributedText=attStr;
-        CGFloat fx = i*fanLbaelWid;
-        fanLabel.frame = CGRectMake(fx, 0, fanLbaelWid, 43);
-        if (model.fansInfo.count==1) {
-            fanLabel.frame = CGRectMake(16, 0, UI_SCREEN_WIDTH/3, 43);
-            fanLabel.textAlignment = NSTextAlignmentLeft;
-        }
-        [self.fansView addSubview:fanLabel];
+    if (!model.agencyOperation) {
+//        self.agencyLogo.hidden = YES;
     }
-    
+//    CGFloat fanLbaelWid = UI_SCREEN_WIDTH/(model.fansInfo.count);
+//    for(int i =0;i<model.fansInfo.count;i++){
+//        NSString *plat = [model.fansInfo[i] objectForKey:@"name"];
+//        float count = [[model.fansInfo[i] objectForKey:@"fansCount"] floatValue];
+//        NSString *labelStr = [NSString stringWithFormat:@"%@粉丝%.1fW",plat,count];
+//        UILabel *fanLabel = [UILabel new];
+//        fanLabel.textColor = [UIColor colorWithHexString:@"ffb200"];
+//        fanLabel.font = [UIFont systemFontOfSize:13];
+//        fanLabel.textAlignment = NSTextAlignmentCenter;
+//        fanLabel.backgroundColor = [UIColor whiteColor];
+//        NSMutableAttributedString * attStr = [[NSMutableAttributedString alloc] initWithString:labelStr];
+//        [attStr addAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"#909090"]} range:NSMakeRange(0,plat.length+2)];
+//        fanLabel.attributedText=attStr;
+//        CGFloat fx = i*fanLbaelWid;
+//        fanLabel.frame = CGRectMake(fx, 0, fanLbaelWid, 43);
+//        if (model.fansInfo.count==1) {
+//            fanLabel.frame = CGRectMake(16, 0, UI_SCREEN_WIDTH/3, 43);
+//            fanLabel.textAlignment = NSTextAlignmentLeft;
+//        }
+//        [self.fansView addSubview:fanLabel];
+//    }
+    if (model.fansInfo.count==1) {
+        self.subFanView2.hidden = YES;
+    }
+    for(int i =0;i<model.fansInfo.count;i++){
+        NSDictionary *fanDic = model.fansInfo[i];
+        NSString *name = fanDic[@"name"];
+        NSString *fansCount = fanDic[@"fansCount"];
+        NSString *account = fanDic[@"account"];
+        if (i==0) {
+            self.fan1Account.text = [NSString stringWithFormat:@"%@账号:%@",name,account];
+            self.fan1Count.text = fansCount;
+        }else if (i==1){
+            self.fan2Account.text = [NSString stringWithFormat:@"%@账号:%@",name,account];
+                       self.fan2Count.text = fansCount;
+        }
+    }
     self.intro1.text=[NSString stringWithFormat:@"身高：%ldcm    体重：%ldkg",model.height,model.weight];
     self.intro2.text = [NSString stringWithFormat:@"代表作品:%@",model.representativeWork.length>0?model.representativeWork:@"暂无"];
     [_intro2 sizeToFit];
@@ -131,5 +157,15 @@
 }
 - (IBAction)checkGrade:(id)sender {
     self.checkGrade();
+}
+- (IBAction)fansAction:(id)sender {
+        NSInteger level = [UserInfoManager getUserVip];
+      if (level != 301) {
+            NoVipPopV2 *pop = [[NoVipPopV2 alloc] init];
+            [pop show];
+//            pop.apply = ^(NSString * _Nonnull name, NSString * _Nonnull phoneNum, NSString * _Nonnull remrak) {
+//                NSInteger f = 6;
+//            };
+            }
 }
 @end

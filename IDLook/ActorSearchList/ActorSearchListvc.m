@@ -10,7 +10,7 @@
 #import "ActorSearchCell.h"
 #import "ActorSearchModel.h"
 #import "ActorHomePage.h"
-#import "NoVipPopV.h"
+#import "NoVipPopV2.h"
 @interface ActorSearchListvc ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet CustomTableV *tableV;
 @property (weak, nonatomic) IBOutlet UILabel *searchResult;
@@ -104,28 +104,34 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WeakSelf(self);
-    NSInteger level = [UserInfoManager getUserVip];
-    if (level != 301) {
-        NoVipPopV *pop = [[NoVipPopV alloc] init];
-        [pop show];
-        pop.selectType = ^(NSString * _Nonnull type) {
-            if ([type isEqualToString:@"contact"]) {//联系客服
-                NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-                });
-            }else{//继续逛逛
-                
-            }
-        };
-        return;
-    }
+//    NSInteger level = [UserInfoManager getUserVip];
+//    level=300;
+//    if (level != 301) {
+//        NoVipPopV2 *pop = [[NoVipPopV2 alloc] init];
+//        [pop show];
+//        pop.apply = ^(NSString * _Nonnull name, NSString * _Nonnull phoneNum, NSString * _Nonnull remrak) {
+//            NSInteger f = 6;
+//        };
+        
+        
+//        pop.selectType = ^(NSString * _Nonnull type) {
+//            if ([type isEqualToString:@"contact"]) {//联系客服
+//                NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+//                });
+//            }else{//继续逛逛
+//
+//            }
+//        };
+//        return;
+//    }
    
     
     ActorHomePage *hmpg = [ActorHomePage new];
     ActorSearchModel *model = _dataSource[indexPath.row];
     hmpg.actorId = model.userId;
-
+    hmpg.searchTag = [_conditionModel.tags firstObject];
     hmpg.reModel = ^(NSString * _Nonnull type, BOOL isTure) {
           ActorSearchModel *asModel = weakself.dataSource[indexPath.row];
         if ([type isEqualToString:@"收藏"]) {

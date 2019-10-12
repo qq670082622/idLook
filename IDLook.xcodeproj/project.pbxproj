@@ -427,6 +427,9 @@
 		7C16751C234DE5B6003CFB2D /* ChatUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C167514234DE5B5003CFB2D /* ChatUserCell.xib */; };
 		7C16751D234DE5B6003CFB2D /* ChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C167516234DE5B5003CFB2D /* ChatCell.xib */; };
 		7C16751E234DE5B6003CFB2D /* ChatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C167519234DE5B5003CFB2D /* ChatModel.m */; };
+		7C16752123505A80003CFB2D /* NoVipPopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C16752023505A80003CFB2D /* NoVipPopV2.m */; };
+		7C1675242350611F003CFB2D /* VipApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1675232350611F003CFB2D /* VipApplyView.m */; };
+		7C16752623506136003CFB2D /* VipApplyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C16752523506136003CFB2D /* VipApplyView.xib */; };
 		7C181CB0226F2E98004A27EC /* AnnunciateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CAE226F2E98004A27EC /* AnnunciateVC.m */; };
 		7C181CB1226F2E98004A27EC /* AnnunciateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */; };
 		7C181CB7226F321E004A27EC /* AnnunciateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CB5226F321E004A27EC /* AnnunciateCell.m */; };
@@ -2142,6 +2145,11 @@
 		7C167516234DE5B5003CFB2D /* ChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatCell.xib; sourceTree = "<group>"; };
 		7C167518234DE5B5003CFB2D /* ChatModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatModel.h; sourceTree = "<group>"; };
 		7C167519234DE5B5003CFB2D /* ChatModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatModel.m; sourceTree = "<group>"; };
+		7C16751F23505A80003CFB2D /* NoVipPopV2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoVipPopV2.h; sourceTree = "<group>"; };
+		7C16752023505A80003CFB2D /* NoVipPopV2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoVipPopV2.m; sourceTree = "<group>"; };
+		7C1675222350611F003CFB2D /* VipApplyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VipApplyView.h; sourceTree = "<group>"; };
+		7C1675232350611F003CFB2D /* VipApplyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VipApplyView.m; sourceTree = "<group>"; };
+		7C16752523506136003CFB2D /* VipApplyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VipApplyView.xib; sourceTree = "<group>"; };
 		7C181CAD226F2E98004A27EC /* AnnunciateVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnnunciateVC.h; sourceTree = "<group>"; };
 		7C181CAE226F2E98004A27EC /* AnnunciateVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnnunciateVC.m; sourceTree = "<group>"; };
 		7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnnunciateVC.xib; sourceTree = "<group>"; };
@@ -4902,6 +4910,11 @@
 				7C049D0A2330E1E1005DE4A0 /* ActorSearchCell.xib */,
 				7C049D102330E869005DE4A0 /* NoVipPopV.h */,
 				7C049D112330E869005DE4A0 /* NoVipPopV.m */,
+				7C16751F23505A80003CFB2D /* NoVipPopV2.h */,
+				7C16752023505A80003CFB2D /* NoVipPopV2.m */,
+				7C1675222350611F003CFB2D /* VipApplyView.h */,
+				7C1675232350611F003CFB2D /* VipApplyView.m */,
+				7C16752523506136003CFB2D /* VipApplyView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -9233,6 +9246,7 @@
 				3865FE54219536710017233A /* home_tab_switch_icon.gif in Resources */,
 				99C38F8820FCC43900540E23 /* payway_alipay@3x.png in Resources */,
 				9959BBCF20ECD07D00E5F894 /* price_bg1_click@2x.png in Resources */,
+				7C16752623506136003CFB2D /* VipApplyView.xib in Resources */,
 				3853C59121708E4400B5A27E /* btn_select_h2@3x.png in Resources */,
 				997517E920E9D63500952CB9 /* order_photo@3x.png in Resources */,
 				7C53B2B72260725A00D4D4B8 /* InsuranceOrderDetailVC.xib in Resources */,
@@ -9646,6 +9660,7 @@
 				7C26171E22FBD09400C92DBA /* ProjectCastingAddVC2.m in Sources */,
 				99B63B6F213672EF00AC5EB8 /* UploadPersonBGVC.m in Sources */,
 				99BC457820C798C2006D24FE /* AuthSuccCellB.m in Sources */,
+				7C1675242350611F003CFB2D /* VipApplyView.m in Sources */,
 				7C7C3229225AF192009E1864 /* AskDescCell.m in Sources */,
 				3852E4272270537900F3FE97 /* AnnunciateDetialCellC.m in Sources */,
 				99C38F9320FCC58F00540E23 /* PayWayCell.m in Sources */,
@@ -10088,6 +10103,7 @@
 				7CDF972121F82E0900E06E42 /* TZGifPhotoPreviewController.m in Sources */,
 				9986E4F020DA537C00FBEB7B /* PlaceOrderModel.m in Sources */,
 				999E4FEB2112E6F4007721EB /* DownLoadmanager.m in Sources */,
+				7C16752123505A80003CFB2D /* NoVipPopV2.m in Sources */,
 				7C181CC3226F3A11004A27EC /* AnnunHeader.m in Sources */,
 				38FDB87A2297DAA8003B38A7 /* ScheduleCellC.m in Sources */,
 				7CDA02C821DDC12A0005D6DA /* ProjectNumberCell.m in Sources */,

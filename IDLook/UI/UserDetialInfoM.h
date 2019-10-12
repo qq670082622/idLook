@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) NSInteger hips;      //臀围
 @property (nonatomic,assign) NSInteger actorStudio;  //是否工作室演员
 @property (nonatomic,assign) NSInteger authentication;//认证状态 默认为0未提交，1已审核，2审核失败，3.审核中
-
+@property (nonatomic,assign) BOOL agencyOperation;//是否带运营
 /***********************professionInfo***************************************/
 @property (nonatomic,assign)NSInteger occupation;             //职业
 @property (nonatomic,assign)NSInteger mastery;             //专精  //1广告演员；2影视演员；3外模  4.前景演员
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString *bankName;  //银行名
 
 @property(nonatomic,assign)BOOL unlockingPrice;//是否解锁 yes解锁 no未解锁
-
+//
 -(id)initWithDic:(NSDictionary *)dic;
 
 @end
