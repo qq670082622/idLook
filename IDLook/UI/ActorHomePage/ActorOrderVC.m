@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *darenTitle;
 @property (weak, nonatomic) IBOutlet UIView *darenView;
 @property (weak, nonatomic) IBOutlet UIImageView *darenIcon;
+@property (weak, nonatomic) IBOutlet UIImageView *darenAgencyImg;
 @property (weak, nonatomic) IBOutlet UILabel *darenName;
 @property (weak, nonatomic) IBOutlet UILabel *darenName2;
 @property (weak, nonatomic) IBOutlet UIButton *addBtn;
@@ -51,6 +52,9 @@
     _darenArr = [NSMutableArray new];
   
     [self.darenIcon sd_setImageWithUrlStr:_userModel.avatar placeholderImage:[UIImage imageNamed:@"default_icon"]];
+    if (!_userModel.agencyOperation) {
+        self.darenAgencyImg.hidden = YES;
+    }
     self.darenName.text = _userModel.nickName;
     [self.darenName sizeToFit];
   
@@ -96,7 +100,7 @@
     if (reNew) {
         //清除已经有的btn 重新添加
         for(id subViews in _darenView.subviews){
-            if ((UIImageView *)subViews == _darenIcon) {
+            if ((UIImageView *)subViews == _darenIcon){
                 continue;
             }else if ((UILabel *)subViews == _darenName){
                 continue;
@@ -105,6 +109,8 @@
             }else if ((UIButton *)subViews == _addBtn){
                 continue;
             }else if ((UILabel *)subViews == _darenTitle){
+                continue;
+            }else if ((UIImageView *)subViews == _darenAgencyImg){
                 continue;
             }
             [subViews removeFromSuperview];
@@ -119,6 +125,12 @@
             icon.layer.cornerRadius = 21;
             icon.layer.masksToBounds = YES;
             
+            //if (!model.agencyOperation) {
+//                self.agency.hidden = YES;
+//            }
+            UIImageView *agencyImg = [UIImageView new];
+            agencyImg.image = [UIImage imageNamed:@"homepage_daren_logo"];
+           
             UILabel *name1 = [UILabel new];
             name1.text = user.nikeName;
             name1.textColor = [UIColor colorWithHexString:@"333333"];
@@ -148,12 +160,14 @@
             CGFloat name2y = lineY + 24;
             CGFloat deleY = lineY + 24;
             icon.frame = CGRectMake(12, icony, 42, 42);
+            agencyImg.frame = CGRectMake(12,icony + 33, 42, 19);
             name1.frame = CGRectMake(64, name1Y, 19*user.nikeName.length, 23);
             
             name2.frame = CGRectMake(name1.right+10, name2y, 250, 19);
             dele.frame = CGRectMake(_darenView.width-18-12, deleY, 18, 18);
             line.frame = CGRectMake(12, lineY, UI_SCREEN_WIDTH-48, 0.5);
             [self.darenView addSubview:icon];
+            [self.darenView addSubview:agencyImg];
             [self.darenView addSubview:name1];
             [self.darenView addSubview:name2];
             [self.darenView addSubview:line];

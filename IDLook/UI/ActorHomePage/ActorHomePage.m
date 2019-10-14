@@ -333,6 +333,12 @@
         [footerView reloadUI];
         return footerView;
     }
+//    else{
+//        UIView *footer = [UIView new];
+//        footer.backgroundColor = [UIColor colorWithHexString:@"f2f2f2"];
+//        footer.frame = CGRectMake(0, 0, UI_SCREEN_WIDTH, 207);
+//        return footer;
+//    }
     return nil;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -366,7 +372,10 @@
         {
             return  (UI_SCREEN_HEIGHT-SafeAreaTopHeight-SafeAreaTabBarHeight_IphoneX-96);
         }
-    }
+   }
+//   else{
+//       return 207;
+//   }
     return .1f;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -511,7 +520,7 @@
 {
     NSLog(@"%f",offY);//cell=208
     
-    NSInteger passCount = (offY-514)/208;//(offY-530)/208
+    NSInteger passCount = (offY-481)/208;
     passCount++;
     //快要显示哪个cell，对应的scroll里的小按钮就被选中
     for (UIButton *tyBtn in _typeScroll.subviews) {

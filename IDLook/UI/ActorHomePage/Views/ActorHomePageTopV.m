@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *fan1Count;
 @property (weak, nonatomic) IBOutlet UILabel *fan2Account;
 @property (weak, nonatomic) IBOutlet UILabel *fan2Count;
+@property (weak, nonatomic) IBOutlet UIView *fanBtnCoverView;
 
 @property (weak, nonatomic) IBOutlet UIView *introView;
 @property (weak, nonatomic) IBOutlet UILabel *intro1;
@@ -83,7 +84,7 @@
     }
       self.collection.text=  [NSString stringWithFormat:@"%ld收藏  |  %ld点赞",model.collect,model.praise];
     if (!model.agencyOperation) {
-//        self.agencyLogo.hidden = YES;
+        self.agencyLogo.hidden = YES;
     }
 //    CGFloat fanLbaelWid = UI_SCREEN_WIDTH/(model.fansInfo.count);
 //    for(int i =0;i<model.fansInfo.count;i++){
@@ -109,6 +110,10 @@
     if (model.fansInfo.count==1) {
         self.subFanView2.hidden = YES;
     }
+    if (model.fansInfo.count==0) {
+        self.fansView.hidden = YES;
+        self.introView.y = self.fansView.y;
+    }
     for(int i =0;i<model.fansInfo.count;i++){
         NSDictionary *fanDic = model.fansInfo[i];
         NSString *name = fanDic[@"name"];
@@ -122,6 +127,10 @@
                        self.fan2Count.text = fansCount;
         }
     }
+          NSInteger level = [UserInfoManager getUserVip];
+          if (level != 301) {//说明非会员
+              self.fanBtnCoverView.hidden = YES;
+                }
     self.intro1.text=[NSString stringWithFormat:@"身高：%ldcm    体重：%ldkg",model.height,model.weight];
     self.intro2.text = [NSString stringWithFormat:@"代表作品:%@",model.representativeWork.length>0?model.representativeWork:@"暂无"];
     [_intro2 sizeToFit];

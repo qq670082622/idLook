@@ -414,6 +414,10 @@
 }
 
 - (IBAction)searchAction:(id)sender {
+    if (_model.tags.count==0) {
+        [SVProgressHUD showImage:nil status:@"请选择一个分类"];
+        return;
+    }
     _model.age_min = _rangeSlider.lowerValue;
     _model.age_max = _rangeSlider.upperValue;
     self.cellSelectCondition(_model);

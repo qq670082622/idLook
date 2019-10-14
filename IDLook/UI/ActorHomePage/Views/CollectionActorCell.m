@@ -9,12 +9,15 @@
 #import "CollectionActorCell.h"
 @interface CollectionActorCell()
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
+@property (weak, nonatomic) IBOutlet UIImageView *agency;
+
 @property (weak, nonatomic) IBOutlet UILabel *name1;
 @property (weak, nonatomic) IBOutlet UILabel *name2;
 @property (weak, nonatomic) IBOutlet UILabel *workCount;
 @property (weak, nonatomic) IBOutlet UILabel *workDesc;
 @property (weak, nonatomic) IBOutlet UILabel *gradeTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *selectImg;
+
 
 @end
 @implementation CollectionActorCell
@@ -33,7 +36,11 @@
 -(void)setModel:(ActorSearchModel *)model
 {
     _model = model;
-    [self.icon sd_setImageWithUrlStr:model.headPorUrl placeholderImage:[UIImage imageNamed:@"default_home"]];
+    [self.icon sd_setImageWithUrlStr:model.headPorUrl
+    placeholderImage:[UIImage imageNamed:@"default_home"]];
+    if (!model.agencyOperation) {
+        self.agency.hidden = YES;
+    }
     self.icon.layer.cornerRadius = 27;
     self.icon.layer.masksToBounds = YES;
     self.name1.text = model.nikeName;
