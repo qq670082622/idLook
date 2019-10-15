@@ -18,7 +18,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ypq-NS-AVP">
-                            <rect key="frame" x="15" y="115" width="335" height="0.5"/>
+                            <rect key="frame" x="15" y="115" width="335" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" red="0.98039215686274506" green="0.13725490196078433" blue="0.49803921568627452" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
@@ -45,6 +45,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="bgView" destination="WmW-FJ-kSm" id="kN8-bk-Sg1"/>
+                <outlet property="bottomLine" destination="ypq-NS-AVP" id="upj-Ib-jsg"/>
             </connections>
             <point key="canvasLocation" x="-183.19999999999999" y="119.1904047976012"/>
         </view>

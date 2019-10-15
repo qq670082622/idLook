@@ -10,6 +10,7 @@
 #import "HeaderSubCell.h"
 @interface SearchHeaderView()
 @property (weak, nonatomic) IBOutlet UIView *bgView;
+@property (weak, nonatomic) IBOutlet UIView *bottomLine;
 
 @end
 @implementation SearchHeaderView
@@ -28,13 +29,13 @@
     _list = list;
     self.bgView.layer.cornerRadius = 12;
     self.bgView.layer.masksToBounds = YES;
-   
+    self.bottomLine.height = 0.5;
     for (int i = 0;i<list.count;i++) {
         
         ActorSearchModel *model = list[i];
         HeaderSubCell *cell = [[HeaderSubCell alloc] init];
         cell.model = model;
-        cell.frame = CGRectMake(0, 50+93*i, self.width, 93);
+        cell.frame = CGRectMake(0, 40+93*i, self.width, 93);
         if (i>0) {
             UIView *line = [UIView new];
             line.backgroundColor = [UIColor colorWithHexString:@"f2f2f2"];

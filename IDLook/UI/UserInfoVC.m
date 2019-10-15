@@ -308,13 +308,13 @@
         }];
         WeakSelf(self);
         _bottomV.phoneActionBlock = ^{  //客服
-//            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-//            });
-            ChatVC *caht = [ChatVC new];
-                      caht.hidesBottomBarWhenPushed = YES;
-                      [weakself.navigationController pushViewController:caht animated:YES];
+            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+            });
+//            ChatVC *caht = [ChatVC new];
+//                      caht.hidesBottomBarWhenPushed = YES;
+//                      [weakself.navigationController pushViewController:caht animated:YES];
 
         };
         _bottomV.evaluateActionBlock = ^{   //评价
