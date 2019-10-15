@@ -65,6 +65,10 @@
 //    self.orderBtn.layer.cornerRadius = 6;
 //    self.orderBtn.layer.masksToBounds = YES;
     self.typeVideoTitle.text = [NSString stringWithFormat:@"%@视频",_searchTag];
+    if (!_searchTag) {
+        self.typeVideoTitle.text = @"全部视频";
+        _searchTag = @"";
+    }
     _videoDic = [NSDictionary new];
     _modelCardDic = [NSDictionary new];
     _typeVideoDic = [NSDictionary new];
@@ -117,6 +121,9 @@
                     self.modelCardDic = workDic;
                 }else if ([workType isEqualToString:@"其他视频"]){
                     self.videoDic = workDic;
+                    if ([_typeVideoTitle.text isEqualToString:@"全部视频"]) {
+                          self.typeVideoDic = workDic;
+                    }
                 }else if ([workType isEqualToString:_typeVideoTitle.text]){
                     self.typeVideoDic = workDic;
                 }

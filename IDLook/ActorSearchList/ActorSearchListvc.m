@@ -11,11 +11,13 @@
 #import "ActorSearchModel.h"
 #import "ActorHomePage.h"
 #import "NoVipPopV2.h"
+#import "SearchHeaderView.h"
 @interface ActorSearchListvc ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet CustomTableV *tableV;
 @property (weak, nonatomic) IBOutlet UILabel *searchResult;
 
 @property(nonatomic,strong)NSMutableArray *dataSource;
+@property(nonatomic,strong)NSMutableArray *agencyList;
 @property(nonatomic,assign)NSInteger sortPage;//页码
 @end
 
@@ -25,6 +27,7 @@
     [super viewDidLoad];
     _sortPage = 1;
       _dataSource = [NSMutableArray new];
+    _agencyList = [NSMutableArray new];
     _tableV.tableFooterView = [UIView new];
 
    [_tableV addFooterWithTarget:self action:@selector(footSearch)];
@@ -34,6 +37,7 @@
     }
 -(void)searchWithType:(RefreshType)type
 {
+    WeakSelf(self);
     NSInteger sex = 0;
     if (_conditionModel.sex==0) {
         sex = 1;
@@ -64,18 +68,51 @@
                           };
     [AFWebAPI_JAVA searchActorListWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
         if (success) {
+             [_agencyList removeAllObjects];
             if (type==RefreshTypePullDown) {
                 [self.dataSource removeAllObjects];
-            }
+               }
             [_tableV hideNoDataScene];
-            NSArray *list = object[@"body"];
-            for (NSDictionary *actorDic in list) {
+            NSDictionary *body = object[@"body"];
+            NSArray *infos = body[@"infos"];
+            NSArray *agencys = body[@"agencyInfos"];
+            for (NSDictionary *actorDic in infos) {
                 ActorSearchModel *asModel = [ActorSearchModel yy_modelWithDictionary:actorDic];
                 [_dataSource addObject:asModel];
             }
+            for (NSDictionary *actorDic in agencys) {
+                           ActorSearchModel *asModel = [ActorSearchModel yy_modelWithDictionary:actorDic];
+                           [_agencyList addObject:asModel];
+                       }
+            if (_agencyList.count>0) {
+                SearchHeaderView *head = [[SearchHeaderView alloc] init];
+                head.list = _agencyList;
+                head.frame = CGRectMake(0, 0, UI_SCREEN_WIDTH, head.headerHei);
+                self.tableV.tableHeaderView = head;
+                head.selectCell = ^(ActorSearchModel * _Nonnull model) {
+                   ActorHomePage *hmpg = [ActorHomePage new];
+                   
+                     hmpg.actorId = model.userId;
+                     hmpg.searchTag = [weakself.conditionModel.tags firstObject];
+                     hmpg.reModel = ^(NSString * _Nonnull type, BOOL isTure) {//主页的点赞收藏回调
+//                           ActorSearchModel *asModel = weakself.dataSource[indexPath.row];
+//                         if ([type isEqualToString:@"收藏"]) {
+//                             if (isTure) {
+//                               asModel.isCollect = YES;
+//                             }else{
+//                                 asModel.isCollect = NO;
+//                             }
+//                         }else{//点赞
+//                             asModel.isPraise = YES;
+//                         }
+                     };
+                     hmpg.hidesBottomBarWhenPushed = YES;
+                     [weakself.navigationController pushViewController:hmpg animated:YES];
+                };
+            }
             [self.tableV footerEndRefreshing];
-            self.searchResult.text = [NSString stringWithFormat:@"共%ld个搜索结果",_dataSource.count];
-            if (_dataSource.count==0) {
+            self.searchResult.text = [NSString stringWithFormat:@"共%ld个搜索结果",_dataSource.count+_agencyList.count];
+            if (_dataSource.count==0 && _agencyList.count==0) {
                 [_tableV showWithNoDataType:NoDataTypeSearchResult];
             }
             [self.tableV reloadData];

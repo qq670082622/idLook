@@ -430,6 +430,10 @@
 		7C16752123505A80003CFB2D /* NoVipPopV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C16752023505A80003CFB2D /* NoVipPopV2.m */; };
 		7C1675242350611F003CFB2D /* VipApplyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1675232350611F003CFB2D /* VipApplyView.m */; };
 		7C16752623506136003CFB2D /* VipApplyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C16752523506136003CFB2D /* VipApplyView.xib */; };
+		7C1675292355680D003CFB2D /* SearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C1675282355680D003CFB2D /* SearchHeaderView.m */; };
+		7C16752B2355682F003CFB2D /* SearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C16752A2355682F003CFB2D /* SearchHeaderView.xib */; };
+		7C16752E235568EB003CFB2D /* HeaderSubCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C16752D235568EB003CFB2D /* HeaderSubCell.m */; };
+		7C167530235568F6003CFB2D /* HeaderSubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C16752F235568F6003CFB2D /* HeaderSubCell.xib */; };
 		7C181CB0226F2E98004A27EC /* AnnunciateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CAE226F2E98004A27EC /* AnnunciateVC.m */; };
 		7C181CB1226F2E98004A27EC /* AnnunciateVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */; };
 		7C181CB7226F321E004A27EC /* AnnunciateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C181CB5226F321E004A27EC /* AnnunciateCell.m */; };
@@ -2150,6 +2154,12 @@
 		7C1675222350611F003CFB2D /* VipApplyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VipApplyView.h; sourceTree = "<group>"; };
 		7C1675232350611F003CFB2D /* VipApplyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VipApplyView.m; sourceTree = "<group>"; };
 		7C16752523506136003CFB2D /* VipApplyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VipApplyView.xib; sourceTree = "<group>"; };
+		7C1675272355680D003CFB2D /* SearchHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchHeaderView.h; sourceTree = "<group>"; };
+		7C1675282355680D003CFB2D /* SearchHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchHeaderView.m; sourceTree = "<group>"; };
+		7C16752A2355682F003CFB2D /* SearchHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchHeaderView.xib; sourceTree = "<group>"; };
+		7C16752C235568EB003CFB2D /* HeaderSubCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HeaderSubCell.h; sourceTree = "<group>"; };
+		7C16752D235568EB003CFB2D /* HeaderSubCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeaderSubCell.m; sourceTree = "<group>"; };
+		7C16752F235568F6003CFB2D /* HeaderSubCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderSubCell.xib; sourceTree = "<group>"; };
 		7C181CAD226F2E98004A27EC /* AnnunciateVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnnunciateVC.h; sourceTree = "<group>"; };
 		7C181CAE226F2E98004A27EC /* AnnunciateVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnnunciateVC.m; sourceTree = "<group>"; };
 		7C181CAF226F2E98004A27EC /* AnnunciateVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnnunciateVC.xib; sourceTree = "<group>"; };
@@ -4908,6 +4918,12 @@
 				7C049D082330E1E1005DE4A0 /* ActorSearchCell.h */,
 				7C049D092330E1E1005DE4A0 /* ActorSearchCell.m */,
 				7C049D0A2330E1E1005DE4A0 /* ActorSearchCell.xib */,
+				7C1675272355680D003CFB2D /* SearchHeaderView.h */,
+				7C1675282355680D003CFB2D /* SearchHeaderView.m */,
+				7C16752A2355682F003CFB2D /* SearchHeaderView.xib */,
+				7C16752C235568EB003CFB2D /* HeaderSubCell.h */,
+				7C16752D235568EB003CFB2D /* HeaderSubCell.m */,
+				7C16752F235568F6003CFB2D /* HeaderSubCell.xib */,
 				7C049D102330E869005DE4A0 /* NoVipPopV.h */,
 				7C049D112330E869005DE4A0 /* NoVipPopV.m */,
 				7C16751F23505A80003CFB2D /* NoVipPopV2.h */,
@@ -9171,8 +9187,10 @@
 				7C181CC0226F3949004A27EC /* AnnunDetailVC.xib in Resources */,
 				998237D9209C081800D79AE3 /* home_more@3x.png in Resources */,
 				99B63B64213655EF00AC5EB8 /* camera_small@2x.png in Resources */,
+				7C16752B2355682F003CFB2D /* SearchHeaderView.xib in Resources */,
 				99BDE8A620CE0D8300A81E9D /* center_message@2x.png in Resources */,
 				386838FB2152305100DA2E50 /* center_close@2x.png in Resources */,
+				7C167530235568F6003CFB2D /* HeaderSubCell.xib in Resources */,
 				99F0EB502141177C00650200 /* upgrade_bg@2x.png in Resources */,
 				9975182A20EA05CD00952CB9 /* home_sina@2x.png in Resources */,
 				995E259E211C4A7100B0D1CB /* home_talent_01@2x.png in Resources */,
@@ -10135,6 +10153,7 @@
 				998B8E0920A9B40400ED9EA5 /* AuthHeadV.m in Sources */,
 				7CDF96EF21F82E0800E06E42 /* MLExpressionManager.m in Sources */,
 				99A5915A20EDC69800C45A21 /* PricePreviewPopV.m in Sources */,
+				7C1675292355680D003CFB2D /* SearchHeaderView.m in Sources */,
 				7CDF96EE21F82E0800E06E42 /* NSDictionary_JSONExtensions.m in Sources */,
 				999A8A5820E5DBFD00689C19 /* OrderProgM.m in Sources */,
 				38B458E221E4906000ACBFE9 /* MyOrderCustomView.m in Sources */,
@@ -10147,6 +10166,7 @@
 				389976CD216F2C37009623A4 /* VideoMainCell.m in Sources */,
 				996D3B8720EB6257007A4794 /* CityCellA.m in Sources */,
 				7CDF973821F82E0900E06E42 /* VIMediaDownloader.m in Sources */,
+				7C16752E235568EB003CFB2D /* HeaderSubCell.m in Sources */,
 				998A6D7E20A18A8B00D0C27D /* CenterMainCell.m in Sources */,
 				7CDF96F221F82E0800E06E42 /* MLLabelTextStorage.m in Sources */,
 				7C5F81EC22522B8600AA944B /* MassesOrderViewController.m in Sources */,

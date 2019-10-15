@@ -1466,8 +1466,8 @@ callBack(YES,contentDic);
 }
 //搜索达人
 +(void)searchActorListWithArg:(id)arg callBack:(HttpCallBackWithObject)callBack
-{
-    [AFWebAPI_JAVA postWithUrl:@"actor/expert/search/list" params:arg success:^(NSDictionary *contentDic) {
+{//actor/expert/search/list
+    [AFWebAPI_JAVA postWithUrl:@"actor/expert/search/list/agency" params:arg success:^(NSDictionary *contentDic) {
         callBack(YES,contentDic);
     } failure:^(NSString *errorStr) {
         callBack(NO,errorStr);
