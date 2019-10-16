@@ -161,11 +161,11 @@
  */
 
 
-#define g_http_url @"http://api.test.idlook.com:8088/api.php"      //测试服务器
-#define java_url @"http://api.test.idlook.com:8000/api/" //@"http://47.101.191.92:8000/api/"  //java测试服务器
+//#define g_http_url @"http://api.test.idlook.com:8088/api.php"      //测试服务器
+//#define java_url @"http://api.test.idlook.com:8000/api/" //@"http://47.101.191.92:8000/api/"  //java测试服务器
 
-//#define java_url @"http://api.idlook.com:8000/api/"  //java正式服务器
-//#define g_http_url @"http://api.idlook.com:8088/api.php"       //线上服务器
+#define java_url @"http://api.idlook.com:8000/api/"  //java正式服务器
+#define g_http_url @"http://api.idlook.com:8088/api.php"       //线上服务器
 
 
 

@@ -168,6 +168,10 @@
     self.checkGrade();
 }
 - (IBAction)fansAction:(id)sender {
+    if ([UserInfoManager getUserLoginType]==UserLoginTypeTourist){
+        [SVProgressHUD showImage:nil status:@"请先登录"];
+            return;
+    }
         NSInteger level = [UserInfoManager getUserVip];
       if (level != 301) {
             NoVipPopV2 *pop = [[NoVipPopV2 alloc] init];

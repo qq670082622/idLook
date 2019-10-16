@@ -46,6 +46,7 @@
             <connections>
                 <outlet property="bgView" destination="WmW-FJ-kSm" id="kN8-bk-Sg1"/>
                 <outlet property="bottomLine" destination="ypq-NS-AVP" id="upj-Ib-jsg"/>
+                <outlet property="title" destination="BDB-Dm-KA9" id="Ywg-mU-LjS"/>
             </connections>
             <point key="canvasLocation" x="-183.19999999999999" y="119.1904047976012"/>
         </view>

@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SearchHeaderView : UIView
 @property(nonatomic,strong)NSArray *list;
+@property(nonatomic,copy)NSString *titleStr;
 @property(nonatomic,strong)ActorSearchModel *model;
 @property(nonatomic,copy)void(^selectCell)(ActorSearchModel *model);
 @property(nonatomic,assign)CGFloat headerHei;

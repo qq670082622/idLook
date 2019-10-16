@@ -87,6 +87,7 @@
             if (_agencyList.count>0) {
                 SearchHeaderView *head = [[SearchHeaderView alloc] init];
                 head.list = _agencyList;
+                head.titleStr = [_conditionModel.tags firstObject];
                 head.frame = CGRectMake(0, 0, UI_SCREEN_WIDTH, head.headerHei);
                 self.tableV.tableHeaderView = head;
                 head.selectCell = ^(ActorSearchModel * _Nonnull model) {

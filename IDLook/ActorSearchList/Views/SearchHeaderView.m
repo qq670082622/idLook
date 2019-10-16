@@ -11,6 +11,7 @@
 @interface SearchHeaderView()
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIView *bottomLine;
+@property (weak, nonatomic) IBOutlet UILabel *title;
 
 @end
 @implementation SearchHeaderView
@@ -22,6 +23,10 @@
     }
   
  return self;
+}
+-(void)setTitleStr:(NSString *)titleStr
+{
+    _title.text = [NSString stringWithFormat:@"脸探%@商户号",titleStr];
 }
 -(void)setList:(NSArray *)list
 {
