@@ -442,9 +442,8 @@
     _player.dowmLoadBlock = ^{
       
     };
-    
-  
 }
+
 //查看图片大图
 -(void)lookPhotoWithArray:(NSArray*)array WithIndex:(NSInteger)index
 {

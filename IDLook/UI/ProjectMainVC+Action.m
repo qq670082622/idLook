@@ -441,13 +441,16 @@
             NSDictionary *dig = @{
                                   @"email":email,
                                   @"userId":@([[UserInfoManager getUserUID] integerValue]),
-                                  @"orderId":info.authShotOrderId
+                                  @"orderId":info.orderId
                                   };
+            [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
             [AFWebAPI_JAVA portraitDownloadWithArg:dig callBack:^(BOOL success, id  _Nonnull object) {
+                [SVProgressHUD dismiss];
+                [pdv hide];
                 if (success) {
                     [SVProgressHUD showSuccessWithStatus:@"授权书将会以PDF形式发送至邮箱"];
                 }else{
-                    
+                    [SVProgressHUD showErrorWithStatus:object];
                 }
             }];
         };

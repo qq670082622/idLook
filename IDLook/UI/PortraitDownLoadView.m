@@ -64,23 +64,24 @@
     [showWindow addSubview:self];
     self.maskV=maskV;
     
-    
+   
+   
+      self.layer.cornerRadius = 8;
+      self.layer.masksToBounds = YES;
+   
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.25];
     [UIView setAnimationCurve:7];
     maskV.alpha = 1.f;
     self.alpha = 1.f;
-   
     self.frame = CGRectMake((UI_SCREEN_WIDTH-280)/2, 200, 280,250);
     UIButton *closeBtm = [UIButton buttonWithType:UIButtonTypeCustom];
-    [closeBtm addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
-    closeBtm.frame = CGRectMake((UI_SCREEN_WIDTH-34)/2, self.bottom+25, 34, 34);
-    [closeBtm setBackgroundImage:[UIImage imageNamed:@"order_close"] forState:UIControlStateNormal];
-    closeBtm.adjustsImageWhenHighlighted = NO;//去掉选中时的黑影
-    [showWindow addSubview:closeBtm];
-    self.closeBtn = closeBtm;
-    self.layer.cornerRadius = 8;
-    self.layer.masksToBounds = YES;
+         [closeBtm addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
+         closeBtm.frame = CGRectMake((UI_SCREEN_WIDTH-34)/2, self.bottom+25, 34, 34);
+         [closeBtm setBackgroundImage:[UIImage imageNamed:@"order_close"] forState:UIControlStateNormal];
+         closeBtm.adjustsImageWhenHighlighted = NO;//去掉选中时的黑影
+         [showWindow addSubview:closeBtm];
+         self.closeBtn = closeBtm;
     [UIView commitAnimations];
 }
 

@@ -108,6 +108,12 @@
                 [showWindow addSubview:closeBtm];
         self.closeBtn = closeBtm;
     }
+    /****/
+    self.contentView.height = update?tipsBottom+109:tipsBottom+20;
+    self.layer.cornerRadius = 9;
+    
+    /***/
+    
       [UIView commitAnimations];
   
 }

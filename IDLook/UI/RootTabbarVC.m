@@ -165,6 +165,7 @@
         return NO;
     }
     return YES;
+    
 }
 
 -(void)skipMineWithIndex:(NSInteger)index

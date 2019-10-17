@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PortraitDownLoadView : UIView
 -(void)show;
+-(void)hide;
 @property(nonatomic,copy)void(^download)(NSString *email);
 @end
 
