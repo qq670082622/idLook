@@ -308,13 +308,13 @@
         }];
         WeakSelf(self);
         _bottomV.phoneActionBlock = ^{  //客服
-            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-            });
-//            ChatVC *caht = [ChatVC new];
-//                      caht.hidesBottomBarWhenPushed = YES;
-//                      [weakself.navigationController pushViewController:caht animated:YES];
+//            NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt:%@",@"400-833-6969"];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+//            });
+            ChatVC *caht = [ChatVC new];
+                      caht.hidesBottomBarWhenPushed = YES;
+                      [weakself.navigationController pushViewController:caht animated:YES];
 
         };
         _bottomV.evaluateActionBlock = ^{   //评价
@@ -733,7 +733,7 @@
  
     [_player playerBindTableView:self.tableV currentIndexPath:indexPath];
     _player.frame = CGRectMake(15,15, cell.contentView.bounds.size.width-30, cell.contentView.bounds.size.height-15);
-    
+    _player.isMute=[UserInfoManager getListPlayIsMute];
     [cell.contentView addSubview:_player];
     
     _player.completedPlayingBlock = ^(VideoPlayer *player) {

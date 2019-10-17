@@ -30,7 +30,7 @@
     _agencyList = [NSMutableArray new];
     _tableV.tableFooterView = [UIView new];
 
-   [_tableV addFooterWithTarget:self action:@selector(footSearch)];
+  // [_tableV addFooterWithTarget:self action:@selector(footSearch)];
     [self searchWithType:RefreshTypePullDown];
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
     [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"搜索结果"]];
