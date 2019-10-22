@@ -321,8 +321,9 @@ static CGFloat const playBtnSideLength = 60.0f;
 #pragma mark - status hiden
 
 - (void)setStatusBarHidden:(BOOL)hidden {
-    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
-    statusBar.hidden = hidden;
+   // UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+    // statusBar.hidden = hidden;
+    [UIApplication sharedApplication].statusBarHidden = hidden;
 }
 
 #pragma mark - Screen Orientation

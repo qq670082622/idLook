@@ -99,8 +99,7 @@
     self.updateBtn.y = tipsBottom;
     self.frame = CGRectMake((UI_SCREEN_WIDTH-280)/2, self.height*0.35, 280,158+_contentView.height);
     if (!update) {
-    
-                UIButton *closeBtm = [UIButton buttonWithType:UIButtonTypeCustom];
+               UIButton *closeBtm = [UIButton buttonWithType:UIButtonTypeCustom];
                 [closeBtm addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
                 closeBtm.frame = CGRectMake((UI_SCREEN_WIDTH-34)/2, self.bottom+25, 34, 34);
                [closeBtm setBackgroundImage:[UIImage imageNamed:@"order_close"] forState:UIControlStateNormal];
@@ -109,9 +108,9 @@
         self.closeBtn = closeBtm;
     }
     /****/
-    self.contentView.height = update?tipsBottom+109:tipsBottom+20;
-    self.layer.cornerRadius = 9;
-    
+//    if (!update){
+//      
+//    }
     /***/
     
       [UIView commitAnimations];

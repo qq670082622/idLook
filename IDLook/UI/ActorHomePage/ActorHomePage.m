@@ -525,7 +525,24 @@
 -(void)scrollEndScrollWithOffY:(CGFloat)offY
 {
     NSLog(@"%f",offY);//cell=208
-    
+    if(offY<482){
+        for (UIButton *tyBtn in _typeScroll.subviews) {
+               if (![tyBtn isKindOfClass:[UIButton class]]) {
+                   continue;//scroll里可能不止button
+               }
+            if (tyBtn.tag == 100) {
+                [tyBtn setBackgroundColor:[UIColor colorWithHexString:@"f2f2f2"]];
+                [tyBtn setTitleColor:[UIColor colorWithHexString:@"464646"] forState:0];
+                tyBtn.layer.cornerRadius = 14;
+                tyBtn.layer.masksToBounds = YES;
+            }else{
+                tyBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+                           [tyBtn setTitleColor:[UIColor colorWithHexString:@"999999"] forState:0];
+                           [tyBtn setBackgroundColor:[UIColor whiteColor]];
+            }
+        }
+        return;
+    }
     NSInteger passCount = (offY-481)/208;
     passCount++;
     //快要显示哪个cell，对应的scroll里的小按钮就被选中

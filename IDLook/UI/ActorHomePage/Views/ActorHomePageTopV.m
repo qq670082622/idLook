@@ -124,7 +124,7 @@
             self.fan1Count.text = fansCount;
         }else if (i==1){
             self.fan2Account.text = [NSString stringWithFormat:@"%@账号:%@",name,account];
-                       self.fan2Count.text = fansCount;
+            self.fan2Count.text = fansCount;
         }
     }
           NSInteger level = [UserInfoManager getUserVip];
