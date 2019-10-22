@@ -20,6 +20,10 @@
                         <rect key="frame" x="63" y="47" width="284" height="63"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAW-Wg-gIS">
+                        <rect key="frame" x="63" y="47" width="284" height="63"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hi，脸探肖像用户您好，我是服务助手木木， 很乐意为您服务~" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Dz-8u-0eC">
                         <rect key="frame" x="78" y="62" width="254" height="42"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -45,6 +49,7 @@
                 <outlet property="bgImg" destination="XCE-ZW-LOX" id="9Ad-ba-rZx"/>
                 <outlet property="icon" destination="feo-LY-uvG" id="Ttc-Kj-IaP"/>
                 <outlet property="mesage" destination="9Dz-8u-0eC" id="cQG-iO-7Wq"/>
+                <outlet property="msBg" destination="WAW-Wg-gIS" id="t1l-Dx-2p4"/>
                 <outlet property="time" destination="j64-79-RAY" id="WUP-R4-9d5"/>
             </connections>
             <point key="canvasLocation" x="-143.19999999999999" y="28.785607196401802"/>

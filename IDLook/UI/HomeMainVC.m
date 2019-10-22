@@ -103,6 +103,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
+     
 //      [self.navigationItem setTitleView:[CustomNavVC getHomeSearchButtonWithTarget:self action:@selector(wordsearch)]];
 }
 - (void)viewWillDisappear:(BOOL)animated

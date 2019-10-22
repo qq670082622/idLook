@@ -112,8 +112,8 @@
     [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]];
 //    //  设置tabbar
     [[UITabBar appearance] setShadowImage:[[UIImage alloc] init]];
-    
-
+  
+       
 //  __block  BOOL notReachable = false;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         //网络监听
@@ -145,16 +145,27 @@
 //    [childController.tabBarItem setImageInsets:UIEdgeInsetsMake(3, 0, -3, 0)];
 
     // 设置一下选中tabbar文字颜色
-    [childController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:Public_Red_Color}forState:UIControlStateSelected];
-    
-    [childController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:Public_DetailTextLabelColor}forState:UIControlStateNormal];
-    if ([title isEqualToString:@"通告"]) {
-            childController.title = title;//多加这句话，不然通告title不显示
-       
-    }
+  
 
+    [childController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:Public_Red_Color}forState:UIControlStateSelected];
+
+    [childController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:Public_DetailTextLabelColor}forState:UIControlStateNormal];
+ 
+       if ([title isEqualToString:@"通告"]) {
+            childController.title = title;//多加这句话，不然通告title不显示
+       }
+   
     CustomNavVC* nav = [[CustomNavVC alloc] initWithRootViewController:childController];
+#warning 不加这句话,ios13,push一个页面后，非这个页面的tabbar颜色就都是系统蓝色
+    self.tabBar.tintColor = Public_Red_Color;
     [self addChildViewController:nav];
+}
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+   
+    [item setTitleTextAttributes:@{NSForegroundColorAttributeName:Public_Red_Color}forState:UIControlStateSelected];
+
+       [item setTitleTextAttributes:@{NSForegroundColorAttributeName:Public_DetailTextLabelColor}forState:UIControlStateNormal];
 }
 
 -(BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
@@ -164,6 +175,7 @@
         [self presentViewController:login animated:YES completion:nil];
         return NO;
     }
+    
     return YES;
     
 }

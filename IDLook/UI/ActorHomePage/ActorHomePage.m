@@ -744,6 +744,11 @@
 //    dispatch_async(dispatch_get_main_queue(), ^{
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 //    });
+    
+    if ([UserInfoManager getUserLoginType]==UserLoginTypeTourist){
+           [SVProgressHUD showImage:nil status:@"请先登录"];
+               return;
+       }
     ChatVC *caht = [ChatVC new];
     caht.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:caht animated:YES];

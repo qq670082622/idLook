@@ -108,9 +108,9 @@
         self.closeBtn = closeBtm;
     }
     /****/
-//    if (!update){
-//      
-//    }
+    if (!update){
+     
+    }
     /***/
     
       [UIView commitAnimations];
