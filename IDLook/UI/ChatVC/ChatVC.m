@@ -30,6 +30,8 @@
     [super viewDidLoad];
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[CustomNavVC getLeftDefaultButtonWithTarget:self action:@selector(onGoback)]]];
        [self.navigationItem setTitleView:[CustomNavVC setDefaultNavgationItemTitle:@"脸探客服"]];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDidScroll:)];
+    [self.tableV addGestureRecognizer:tap];
     _data = [NSMutableArray new];
     self.textBg.layer.cornerRadius = 13;
     self.textBg.layer.masksToBounds = YES;
@@ -110,10 +112,13 @@
     return _data.count;
 }
 - (IBAction)add:(id)sender {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.bottomView.y = _bottomView.y-=70;//实际显示124。留一些做layer切圆
-        self.tableV.height = _tableV.height-=70;
-    }];
+    if (_bottomView.bottom > self.view.height+20) {//不然会不停往上弹
+        [UIView animateWithDuration:0.3 animations:^{
+            self.bottomView.y = _bottomView.y-=70;//实际显示124。留一些做layer切圆
+            self.tableV.height = _tableV.height-=70;
+        }];
+    }
+    
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {

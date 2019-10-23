@@ -93,15 +93,12 @@
     if (_model.type==1) {
         if (_mesage.right>_msBg.right) {
                float line = _mesage.height/_mesage.font.lineHeight;
-                       
-                        CGFloat bgWid;
+                       CGFloat bgWid;
             bgWid = _mesage.width;
             if (line>1.5) {
                  bgWid = _mesage.width+23;
             }
-                      
-                        
-                        if (bgWid<41) {
+                      if (bgWid<41) {
                             bgWid = 41;
                         }
                         

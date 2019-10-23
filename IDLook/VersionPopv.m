@@ -109,7 +109,8 @@
     }
     /****/
     if (!update){
-     
+//        UIButton *close = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [close addTarget:<#(nullable id)#> action:<#(nonnull SEL)#> forControlEvents:<#(UIControlEvents)#>]
     }
     /***/
     

@@ -10471,7 +10471,7 @@
 					"$(PROJECT_DIR)/IDLook/Tools/OpenInstallSDK2.2.0",
 					"$(PROJECT_DIR)/IDLook/Devicelib",
 				);
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.idlook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -10530,7 +10530,7 @@
 					"$(PROJECT_DIR)/IDLook/Tools/OpenInstallSDK2.2.0",
 					"$(PROJECT_DIR)/IDLook/Devicelib",
 				);
-				MARKETING_VERSION = 1.4.7;
+				MARKETING_VERSION = 1.4.8;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.idlook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
