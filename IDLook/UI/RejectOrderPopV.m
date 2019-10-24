@@ -162,11 +162,12 @@
     textField.placeholder=@"其他原因请输入～";
     
     UIFont * font = [UIFont systemFontOfSize:14.0];
-    [textField setValue:font forKeyPath:@"_placeholderLabel.font"];
+   // [textField setValue:font forKeyPath:@"_placeholderLabel.font"];
     
     UIColor * color = [UIColor colorWithHexString:@"#ECA3A8"];
-    [textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
-    
+   // [textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
+    NSMutableAttributedString *fontString = [[NSMutableAttributedString alloc] initWithString:textField.text attributes:@{NSForegroundColorAttributeName:color,NSFontAttributeName:font}];
+    [textField setAttributedText:fontString];
     UIView *leftV=[[UIView alloc]initWithFrame:CGRectMake(0, 0,10, 0)];
     textField.leftView=leftV;
     textField.leftViewMode=UITextFieldViewModeAlways;

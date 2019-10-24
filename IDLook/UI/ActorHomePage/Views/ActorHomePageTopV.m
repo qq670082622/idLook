@@ -78,7 +78,7 @@
         self.region_daren.text = @"• 带货达人";
 }
     if (model.academy.length>0) {
-         self.community.text = [NSString stringWithFormat:@"%@毕业生",model.academy];
+         self.community.text = [NSString stringWithFormat:@"%@",model.academy];
     }else{
         self.community.text = @"";
     }

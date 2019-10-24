@@ -76,7 +76,7 @@
           [self.bgImg addGestureRecognizer:ges];
         _cellHei = _bgImg.bottom;
       }
-    [self.icon sd_setImageWithUrlStr:[UserInfoManager getUserHead]];
+    [self.icon sd_setImageWithUrlStr:[UserInfoManager getUserHead] placeholderImage:[UIImage imageNamed:@"message_default_icon"]];
    
     self.icon.layer.cornerRadius = 20;
     self.icon.layer.masksToBounds = YES;

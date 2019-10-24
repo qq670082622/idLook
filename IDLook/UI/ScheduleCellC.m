@@ -80,10 +80,12 @@
             make.height.mas_equalTo(48);
         }];
         UIFont * font = [UIFont systemFontOfSize:16];
-        [_minTextField setValue:font forKeyPath:@"_placeholderLabel.font"];
+      //  [_minTextField setValue:font forKeyPath:@"_placeholderLabel.font"];
         
         UIColor * color = [UIColor colorWithHexString:@"#BCBCBC"];
-        [_minTextField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
+       // [_minTextField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
+        NSMutableAttributedString *fontString = [[NSMutableAttributedString alloc] initWithString:_minTextField.text attributes:@{NSForegroundColorAttributeName:color,NSFontAttributeName:font}];
+        [_minTextField setAttributedText:fontString];
     }
     return _minTextField;
 }
@@ -104,11 +106,12 @@
             make.height.mas_equalTo(48);
         }];
         UIFont * font = [UIFont systemFontOfSize:16];
-        [_maxTextField setValue:font forKeyPath:@"_placeholderLabel.font"];
+      //  [_maxTextField setValue:font forKeyPath:@"_placeholderLabel.font"];
         
         UIColor * color = [UIColor colorWithHexString:@"#BCBCBC"];
-        [_maxTextField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
-        
+       // [_maxTextField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
+        NSMutableAttributedString *fontString = [[NSMutableAttributedString alloc] initWithString:_maxTextField.text attributes:@{NSForegroundColorAttributeName:color,NSFontAttributeName:font}];
+        [_maxTextField setAttributedText:fontString];
     }
     return _maxTextField;
 }

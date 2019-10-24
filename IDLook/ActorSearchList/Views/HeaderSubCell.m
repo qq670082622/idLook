@@ -42,7 +42,7 @@
     self.name1.text = model.nikeName;
     
  if (model.academy.length>0) {
-         self.name2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",model.academy];
+         self.name2.text = [NSString stringWithFormat:@"带货达人 • %@",model.academy];
     }else{
         self.name2.text = @"带货达人";
     }

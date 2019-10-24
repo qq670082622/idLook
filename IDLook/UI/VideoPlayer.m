@@ -671,8 +671,14 @@ static CGFloat const playBtnSideLength = 60.0f;
             self.totalDuration = CMTimeGetSeconds(playerItem.duration);
             self.totalDurationLabel.text = [self timeFormatted:self.totalDuration];
             self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
-
+           //  NSLog(@"%@,videoUrl is %@", self.player.error.description,_videoUrl);
 //            [self setvideoGravityiWithAsset:playerItem.asset];
+        }else if (status == AVPlayerStatusFailed){
+          NSLog(@"-------视频加载失败，错误原因：%@,videoUrl is %@---------", self.player.error.description,_videoUrl);
+#warning 很多视频连续切换播放的时候会导致播放失败 此处重新加载url
+            [self setVideoUrl:_videoUrl];
+            [self bringSubviewToFront:_playOrPauseBtn ];//重新加载UI会被遮挡s 所以往前带
+              [self bringSubviewToFront:_bottomBar];
         }
     }else if([keyPath isEqualToString:@"loadedTimeRanges"]){
         NSArray *array = playerItem.loadedTimeRanges;

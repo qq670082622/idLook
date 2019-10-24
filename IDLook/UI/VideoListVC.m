@@ -268,10 +268,11 @@
                               @"pageCount":@(25),
                               @"pageNumber":@(sortpage),
                               @"order":@(_topSelect), //_topSelect==0是综合 ==1是价格
-                              @"desc":@(_offerLowToHigh==YES?0:1)  //0降序 1升序
+                              @"desc":@(_offerLowToHigh==YES?1:0)  //0降序 1升序
                               };
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
         [AFWebAPI_JAVA searchActorWithArg:arg callBack:^(BOOL success, id  _Nonnull object) {
-            self.tableV.animatedStyle = TABTableViewAnimationEnd;
+            [SVProgressHUD dismiss];
             if (success) {
                 NSArray *array= [object objectForKey:@"body"];
                 if (type==RefreshTypePullDown) {
@@ -300,6 +301,7 @@
                     
                     [self.dataSource addObject:model];
                 }
+                  self.tableV.animatedStyle = TABTableViewAnimationEnd;
                 [self.tableV reloadData];
                 [self.tableV hideNoDataScene];
                 if (self.dataSource.count==0) {
@@ -518,8 +520,9 @@
                                   @"actorConditions":[self cleanNullDicWithArray:actorConditions],//演员筛选条件
                                   @"priceConditions":[self cleanNullDicWithArray:priceConditions]//价格筛选条件
                                    };
+          [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
           [AFWebAPI_JAVA getHomeRecommendWithArg:param callBack:^(BOOL success, id  _Nonnull object) {
-               self.tableV.animatedStyle = TABTableViewAnimationEnd;
+                [SVProgressHUD dismiss];
               if (success) {
                 NSArray *array= [object objectForKey:@"body"];
                   if (type==RefreshTypePullDown) {
@@ -548,6 +551,7 @@
                   
                       [self.dataSource addObject:model];
                       }
+                   self.tableV.animatedStyle = TABTableViewAnimationEnd;
                   [self.tableV reloadData];
                   [self.tableV hideNoDataScene];
                   if (self.dataSource.count==0) {
@@ -664,7 +668,7 @@
                _tableV.tableHeaderView=[self tableVHead];
                 }
        
-        _tableV.animatedStyle = TABTableViewAnimationStart;
+     //   _tableV.animatedStyle = TABTableViewAnimationStart;
     
     }
     return _tableV;

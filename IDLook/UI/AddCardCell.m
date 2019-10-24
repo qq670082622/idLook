@@ -93,12 +93,13 @@
     self.textField.placeholder=dic[@"placeholder"];
     
     UIFont * font = [UIFont systemFontOfSize:15.0];
-    [self.textField setValue:font forKeyPath:@"_placeholderLabel.font"];
+  //  [self.textField setValue:font forKeyPath:@"_placeholderLabel.font"];
     
     UIColor * color = [UIColor colorWithHexString:@"#BCBCBC"];
-    [self.textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
-    
-    self.textField.text=dic[@"content"];
+  //  [self.textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
+    NSMutableAttributedString *fontString = [[NSMutableAttributedString alloc] initWithString:dic[@"content"] attributes:@{NSForegroundColorAttributeName:color,NSFontAttributeName:font}];
+    [_textField setAttributedText:fontString];
+   // self.textField.text=dic[@"content"];
 }
 
 - (void)textFieldDidChange:(UITextField *)textField

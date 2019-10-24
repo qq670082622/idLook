@@ -97,13 +97,15 @@
         self.arrow.hidden=YES;
     }
     
+    // [self.textField setValue:font forKeyPath:@"_placeholderLabel.font"];
+       //  [self.textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
     UIFont * font = [UIFont systemFontOfSize:13.0];
-    [self.textField setValue:font forKeyPath:@"_placeholderLabel.font"];
+  UIColor * color = [UIColor colorWithHexString:@"#CCCCCC"];
+  NSMutableAttributedString *fontString = [[NSMutableAttributedString alloc] initWithString:model.content attributes:@{NSForegroundColorAttributeName:color,NSFontAttributeName:font}];
+    [_textField setAttributedText:fontString];
     
-    UIColor * color = [UIColor colorWithHexString:@"#CCCCCC"];
-    [self.textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
     
-    self.textField.text=model.content;
+   // self.textField.text=model.content;
 }
 
 - (void)textFieldDidChange:(UITextField *)textField

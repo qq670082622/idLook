@@ -43,10 +43,12 @@
             make.height.mas_equalTo(50);
         }];
         UIFont * font = [UIFont systemFontOfSize:13.0];
-        [self.textField setValue:font forKeyPath:@"_placeholderLabel.font"];
+       // [self.textField setValue:font forKeyPath:@"_placeholderLabel.font"];
         
         UIColor * color = [UIColor colorWithHexString:@"#BCBCBC"];
-        [self.textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
+       // [self.textField setValue:color forKeyPath:@"_placeholderLabel.textColor"];
+        NSMutableAttributedString *fontString = [[NSMutableAttributedString alloc] initWithString:_textField.text attributes:@{NSForegroundColorAttributeName:color,NSFontAttributeName:font}];
+        [_textField setAttributedText:fontString];
     }
     return _textField;
 }

@@ -59,7 +59,7 @@
     [self.darenName sizeToFit];
   
     if (_userModel.academy.length>0) {
-         self.darenName2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",_userModel.academy];
+         self.darenName2.text = [NSString stringWithFormat:@"带货达人 • %@",_userModel.academy];
     }else{
         self.darenName2.text = @"带货达人";
     }
@@ -139,7 +139,7 @@
             UILabel *name2 = [UILabel new];
            // name2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",user.academy];
             if (user.academy.length>0) {
-                name2.text = [NSString stringWithFormat:@"带货达人 • %@毕业生",user.academy];
+                name2.text = [NSString stringWithFormat:@"带货达人 • %@",user.academy];
             }else{
                name2.text = @"带货达人";
             }

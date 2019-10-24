@@ -59,8 +59,9 @@
 #import "ShotTypePopV.h"
 @interface HomeMainVC ()<HomeServiceDelegate,HomeBannerViewDelegate,UIScrollViewDelegate>
 {
-    VideoPlayer *_player;
+   
 }
+ @property(nonatomic,strong)VideoPlayer *player;
 @property(nonatomic,strong)CustomTableV *tableV;
 @property(nonatomic,strong)HomeService *service;
 @property(nonatomic,strong)HomeMainVCM *dsm;   //viewmodel处理数据
@@ -162,7 +163,7 @@
         WeakSelf(self);
         _dsm.newDataNeedRefreshed = ^(BOOL success) {
             if (success) {  //刷新ui
-                weakself.tableV.animatedStyle = TABTableViewAnimationEnd;
+//                weakself.tableV.animatedStyle = TABTableViewAnimationEnd;
                 [weakself.tableV reloadData];
             }
             [weakself.tableV headerEndRefreshing];
@@ -198,7 +199,7 @@
         _tableV.backgroundColor=[UIColor clearColor];
         _tableV.tableHeaderView=[self tableHeadV];
         
-         self.tableV.animatedStyle = TABTableViewAnimationStart;
+        // self.tableV.animatedStyle = TABTableViewAnimationStart;
 [_tableV addHeaderWithTarget:self action:@selector(pullDownToRefresh:)];
 //        [_tableV addFooterWithTarget:self action:@selector(pullUpToRefresh:)];
     }
@@ -602,6 +603,7 @@
 //        [weakself VideostatisticsWithWorkModel:model withType:2];
 //    };
 //    [self VideostatisticsWithWorkModel:model withType:1];
+
     self.currentIndexPath=indexPath;
          ActorCell *cell = [self.tableV cellForRowAtIndexPath:indexPath];
     if (page==100) {//说明是滑动table，
@@ -614,6 +616,7 @@
             }else if(page<100){//是当前cell横向画滚动
                  [self endDeceleratingPlay];;
             }
+    
     _player = [[VideoPlayer alloc] init];
         UIScrollView *scr = [cell.contentView viewWithTag:555];
     ActorVideoView *videoIcon = [scr viewWithTag:4000+page];
@@ -637,6 +640,7 @@
         _player.dowmLoadBlock = ^{
             [weakself VideostatisticsWithWorkModel:model withType:2];
         };
+   
         [self VideostatisticsWithWorkModel:model withType:1];
 }
 

@@ -112,6 +112,7 @@
     return _data.count;
 }
 - (IBAction)add:(id)sender {
+    [self.textField resignFirstResponder];
     if (_bottomView.bottom > self.view.height+20) {//不然会不停往上弹
         [UIView animateWithDuration:0.3 animations:^{
             self.bottomView.y = _bottomView.y-=70;//实际显示124。留一些做layer切圆
@@ -150,7 +151,7 @@
            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
            picker.delegate = self;
-           picker.allowsEditing = YES;
+           picker.allowsEditing = NO;
            [self presentViewController:picker animated:YES completion:^{}];
 }
 

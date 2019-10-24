@@ -140,7 +140,7 @@
     WeakSelf(self);
     WeakSelf(cell);
     
-    if (tableView.animatedStyle != TABTableViewAnimationStart) {
+  //  if (tableView.animatedStyle != TABTableViewAnimationStart) {
       __block  UserModel *userModel = self.dsm.ds[indexPath.row];
                 cell.model = userModel;
         cell.index_row = indexPath.row;
@@ -193,7 +193,7 @@
 //            }
             [weakself.delegate lookPictureWithModel:workModel withIndexPath:indexPath andPage:index];
         };
-    }
+    //}
     return cell;
 }
 
